@@ -14,7 +14,9 @@
  *   --stamp-blue  "Blue" stamp text/border
  *   --redact      The dark bars at top/bottom of the document
  *   --bar-text    Text color inside those dark bars
- *   --page-bg     Body background (the area outside the document)
+ *
+ * The page background (outside the document) is a shared dark-walnut
+ * wood texture defined on `body` below — pages don't customize it.
  *
  * Pages may add their own palette extras (--accent, --highlight, etc.)
  * for page-specific sections.
@@ -27,7 +29,43 @@
 }
 
 body {
-  background-color: var(--page-bg);
+  /* Dark walnut wood-grain background.
+     Layered gradients build up the wood look:
+       1. Horizontal grain highlights (light streaks running across)
+       2. Horizontal grain shadows (deeper darker streaks)
+       3. Long vertical bands (slight color variation, like wider planks)
+       4. Base radial gradient (lighter center, darker edges)
+     Pages no longer need to define --page-bg; this background is shared. */
+  background-color: #251509;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      rgba(255, 220, 180, 0.04) 1px,
+      transparent 2px,
+      transparent 11px,
+      rgba(255, 220, 180, 0.025) 12px,
+      transparent 13px,
+      transparent 28px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      rgba(0, 0, 0, 0.22) 4px,
+      transparent 7px,
+      transparent 35px,
+      rgba(0, 0, 0, 0.14) 36px,
+      transparent 38px,
+      transparent 80px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.15) 0px,
+      transparent 1px,
+      transparent 240px,
+      rgba(0, 0, 0, 0.15) 241px
+    ),
+    radial-gradient(ellipse at center, #311f0f 0%, #170a03 100%);
   font-family: 'Sorts Mill Goudy', Georgia, serif;
   min-height: 100vh;
   display: flex;
