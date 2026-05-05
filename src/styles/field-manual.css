@@ -1,0 +1,389 @@
+/* ============================================================================
+ * Field Manual — shared styles
+ * Used by every page via FieldManual.astro layout.
+ *
+ * Each page defines its own color palette in `:root { ... }`:
+ *   --paper       Document background (the "paper" color)
+ *   --aged        Slightly darker paper variant for inset cards
+ *   --ink         Primary text color
+ *   --faded       Secondary / muted text
+ *   --margin      Stamp/tag muted color
+ *   --rule        Ruled-line / divider color (rgba)
+ *   --warn        Accent (red-ish) used for arrows, danger callouts
+ *   --stamp-red   "Red" stamp text/border
+ *   --stamp-blue  "Blue" stamp text/border
+ *   --redact      The dark bars at top/bottom of the document
+ *   --bar-text    Text color inside those dark bars
+ *   --page-bg     Body background (the area outside the document)
+ *
+ * Pages may add their own palette extras (--accent, --highlight, etc.)
+ * for page-specific sections.
+ * ========================================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--page-bg);
+  font-family: 'Sorts Mill Goudy', Georgia, serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 16px 80px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Subtle noise texture over the whole page */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── DOCUMENT WRAPPER ─────────────────────────────────────────────────── */
+
+.document {
+  background-color: var(--paper);
+  max-width: 780px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.3),
+    4px 4px 0 rgba(0, 0, 0, 0.2),
+    8px 8px 0 rgba(0, 0, 0, 0.12),
+    0 30px 80px rgba(0, 0, 0, 0.6);
+  animation: docReveal 1.2s ease both;
+}
+
+/* Paper-grain texture */
+.document::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Horizontal ruled lines */
+.document::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 31px,
+    var(--rule) 31px,
+    var(--rule) 32px
+  );
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+/* ── DARK BARS AT TOP AND BOTTOM ──────────────────────────────────────── */
+
+.classification-bar,
+.bottom-bar {
+  background: var(--redact);
+  color: var(--bar-text);
+  font-family: 'Anonymous Pro', monospace;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 7px 0;
+}
+
+.classification-bar {
+  font-size: 0.62rem;
+  letter-spacing: 0.35em;
+  animation: fadeIn 0.8s ease both 0.3s;
+}
+
+.bottom-bar {
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+}
+
+/* ── DOC INNER (the padded body of the document) ──────────────────────── */
+
+.doc-inner {
+  padding: 52px 56px 72px 120px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Vertical red margin line */
+.doc-inner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 88px;
+  width: 1.5px;
+  background: rgba(180, 60, 40, 0.5);
+}
+
+/* ── STAMP ROW (the row of stamps near the top of each page) ──────────── */
+
+.stamp-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 10px;
+  animation: fadeIn 0.8s ease both 0.5s;
+}
+
+.stamp {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 2px solid;
+  padding: 4px 10px;
+  opacity: 0.7;
+}
+
+.stamp.red {
+  color: var(--stamp-red);
+  border-color: var(--stamp-red);
+  transform: rotate(-4deg);
+}
+
+.stamp.blue {
+  color: var(--stamp-blue);
+  border-color: var(--stamp-blue);
+  transform: rotate(2deg);
+}
+
+.stamp.faded {
+  color: var(--margin);
+  border-color: var(--margin);
+  transform: rotate(-1deg);
+  opacity: 0.45;
+  font-size: 0.6rem;
+}
+
+/* ── DOC META BLOCK (the small monospace info rows below the stamps) ──── */
+
+.doc-meta {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.65rem;
+  color: var(--faded);
+  line-height: 1.8;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 18px;
+  margin-bottom: 28px;
+  animation: fadeIn 0.8s ease both 0.6s;
+}
+
+.doc-meta span {
+  color: var(--ink);
+  font-weight: bold;
+}
+
+/* ── TITLES ────────────────────────────────────────────────────────────── */
+
+.doc-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.8rem, 8vw, 5rem);
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  animation: fadeIn 1s ease both 0.7s;
+}
+
+.doc-subtitle {
+  font-family: 'Sorts Mill Goudy', Georgia, serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--faded);
+  margin-bottom: 40px;
+  animation: fadeIn 1s ease both 0.8s;
+}
+
+/* ── SECTION HEADINGS ─────────────────────────────────────────────────── */
+
+.section-head {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  color: var(--faded);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-head::before {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: var(--warn);
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.section-head::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
+}
+
+/* ── DEFAULT PARAGRAPH ────────────────────────────────────────────────── */
+
+p {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--ink);
+  margin-bottom: 18px;
+}
+
+/* ── SHARED DIVIDER (horizontal line) ─────────────────────────────────── */
+
+.divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--rule),
+    transparent
+  );
+  margin: 32px 0;
+}
+
+/* ── SIGN-OFF BLOCK (footer signature row) ────────────────────────────── */
+
+.sign-off-block {
+  margin-top: 44px;
+  padding-top: 22px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.sig-left {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.62rem;
+  color: var(--faded);
+  line-height: 1.8;
+}
+
+.sig-name {
+  font-family: 'Sorts Mill Goudy', Georgia, serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--ink);
+  opacity: 0.5;
+  display: block;
+  margin-top: 4px;
+}
+
+.sig-right {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.58rem;
+  color: var(--margin);
+  text-align: right;
+  line-height: 1.8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ── SOCIAL ROW ───────────────────────────────────────────────────────── */
+
+.social-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--faded);
+  border: 1px solid var(--rule);
+  padding: 7px 9px;
+  background: rgba(0, 0, 0, 0.04);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.social-btn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.social-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--ink);
+  border-color: var(--rule);
+}
+
+/* ── ANIMATIONS ───────────────────────────────────────────────────────── */
+
+@keyframes docReveal {
+  from {
+    opacity: 0;
+    transform: translateY(30px) rotate(-0.5deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── MOBILE RESPONSIVE ────────────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .doc-inner {
+    padding: 36px 24px 52px 80px;
+  }
+  .doc-inner::before {
+    left: 56px;
+  }
+  .stamp-row {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
