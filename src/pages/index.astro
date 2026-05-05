@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Monster Survival Guide — Index</title>
+<title>Monster Survival Guide — Pilot: Welcome to the Guide</title>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Sorts+Mill+Goudy:ital@0;1&family=Anonymous+Pro:ital@0;1&display=swap" rel="stylesheet"/>
 <style>
   :root {
@@ -17,14 +17,14 @@
     --stamp-blue: #1a3a6a;
     --redact: #111108;
     --margin: #9a8a6a;
-    --rule: rgba(26,22,16,0.12);
-    --warn: #8b1a0a;
+    --highlight: #c8a020;
+    --rule: rgba(26,22,16,0.15);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background-color: #1e1a14;
+    background-color: #2a2420;
     font-family: 'Sorts Mill Goudy', Georgia, serif;
     min-height: 100vh;
     display: flex;
@@ -35,22 +35,28 @@
     overflow-x: hidden;
   }
 
+  /* Outer dark texture */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 0;
   }
 
+  /* Document / dossier wrapper */
   .document {
     background-color: var(--paper);
     max-width: 780px;
     width: 100%;
     position: relative;
     z-index: 1;
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 4px 4px 0 rgba(0,0,0,0.2), 8px 8px 0 rgba(0,0,0,0.12), 0 30px 80px rgba(0,0,0,0.6);
+    box-shadow:
+      0 0 0 1px rgba(0,0,0,0.3),
+      4px 4px 0 rgba(0,0,0,0.2),
+      8px 8px 0 rgba(0,0,0,0.12),
+      0 30px 80px rgba(0,0,0,0.6);
     animation: docReveal 1.2s ease both;
   }
 
@@ -59,6 +65,7 @@
     to { opacity: 1; transform: translateY(0) rotate(0deg); }
   }
 
+  /* Paper texture on document */
   .document::before {
     content: '';
     position: absolute;
@@ -68,17 +75,41 @@
     z-index: 0;
   }
 
+  /* Subtle horizontal rules like lined paper */
   .document::after {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: repeating-linear-gradient(to bottom, transparent 0px, transparent 31px, var(--rule) 31px, var(--rule) 32px);
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 31px,
+      var(--rule) 31px,
+      var(--rule) 32px
+    );
     pointer-events: none;
     z-index: 0;
     opacity: 0.5;
   }
 
-  /* Classification bar */
+  .doc-inner {
+    padding: 52px 56px 72px 120px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Red margin line on left */
+  .doc-inner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 88px;
+    width: 1.5px;
+    background: rgba(180,60,40,0.5);
+  }
+
+  /* ── CLASSIFICATION HEADER ── */
   .classification-bar {
     background: var(--redact);
     color: #d4c8a0;
@@ -88,34 +119,19 @@
     text-align: center;
     padding: 7px 0;
     text-transform: uppercase;
+    margin-bottom: 40px;
     animation: fadeIn 0.8s ease both 0.3s;
   }
 
-  .doc-inner {
-    padding: 52px 56px 72px 120px;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* Red margin line */
-  .doc-inner::before {
-    content: '';
-    position: absolute;
-    top: 0; bottom: 0; left: 88px;
-    width: 1.5px;
-    background: rgba(180,60,40,0.5);
-  }
-
-  /* Stamp row */
+  /* ── STAMPS ── */
   .stamp-row {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 32px;
-    flex-wrap: wrap;
-    gap: 10px;
     animation: fadeIn 0.8s ease both 0.5s;
   }
+
   .stamp {
     font-family: 'Rajdhani', sans-serif;
     font-weight: 700;
@@ -124,30 +140,31 @@
     text-transform: uppercase;
     border: 2px solid;
     padding: 4px 10px;
+    transform: rotate(-3deg);
     opacity: 0.7;
   }
   .stamp.red { color: var(--stamp-red); border-color: var(--stamp-red); transform: rotate(-4deg); }
   .stamp.blue { color: var(--stamp-blue); border-color: var(--stamp-blue); transform: rotate(2deg); }
   .stamp.faded { color: var(--margin); border-color: var(--margin); transform: rotate(-1deg); opacity: 0.45; font-size: 0.6rem; }
 
-  /* Doc meta */
+  /* ── DOC META ── */
   .doc-meta {
     font-family: 'Anonymous Pro', monospace;
     font-size: 0.65rem;
     color: var(--faded);
     line-height: 1.8;
-    border-bottom: 1px solid rgba(26,22,16,0.12);
-    padding-bottom: 18px;
-    margin-bottom: 28px;
+    border-bottom: 1px solid rgba(26,22,16,0.15);
+    padding-bottom: 20px;
+    margin-bottom: 32px;
     animation: fadeIn 0.8s ease both 0.6s;
   }
   .doc-meta span { color: var(--ink); font-weight: bold; }
 
-  /* Title */
+  /* ── TITLE ── */
   .doc-title {
     font-family: 'Rajdhani', sans-serif;
     font-weight: 700;
-    font-size: clamp(2.8rem, 8vw, 5rem);
+    font-size: clamp(2.4rem, 7vw, 4.2rem);
     line-height: 1.0;
     color: var(--ink);
     letter-spacing: 0.04em;
@@ -155,16 +172,19 @@
     margin-bottom: 6px;
     animation: fadeIn 1s ease both 0.7s;
   }
+
   .doc-subtitle {
     font-family: 'Sorts Mill Goudy', Georgia, serif;
     font-style: italic;
     font-size: 1.05rem;
     color: var(--faded);
-    margin-bottom: 40px;
+    margin-bottom: 36px;
     animation: fadeIn 1s ease both 0.8s;
   }
 
-  /* Section head */
+  /* ── SECTION HEADERS ── */
+  .section { margin-bottom: 44px; animation: fadeUp 0.7s ease both; }
+
   .section-head {
     font-family: 'Rajdhani', sans-serif;
     font-weight: 600;
@@ -172,185 +192,180 @@
     letter-spacing: 0.28em;
     color: var(--faded);
     text-transform: uppercase;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     display: flex;
     align-items: center;
     gap: 10px;
   }
-  .section-head::before { content: ''; width: 18px; height: 1px; background: var(--warn); opacity: 0.5; flex-shrink: 0; }
-  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
-
-  p { font-size: 1.05rem; line-height: 1.9; color: var(--ink); margin-bottom: 18px; }
-
-  /* ── ENTRY CARDS ── */
-  .entry-list { display: flex; flex-direction: column; gap: 0; margin: 8px 0 44px; }
-
-  .entry-card {
-    display: flex;
-    align-items: stretch;
-    border: 1px solid rgba(26,22,16,0.14);
-    border-bottom: none;
-    background: var(--aged);
-    text-decoration: none;
-    color: var(--ink);
-    transition: background 0.18s;
-    position: relative;
-    overflow: hidden;
-  }
-  .entry-card:last-child { border-bottom: 1px solid rgba(26,22,16,0.14); }
-  .entry-card:hover { background: #ddd5be; }
-  .entry-card:hover .entry-arrow { opacity: 1; transform: translateX(0); }
-
-  /* Left threat-level colour band */
-  .entry-band {
-    width: 5px;
+  .section-head::before {
+    content: '';
+    width: 18px;
+    height: 1px;
+    background: var(--faded);
+    opacity: 0.5;
     flex-shrink: 0;
   }
-
-  .entry-body {
+  .section-head::after {
+    content: '';
     flex: 1;
-    padding: 16px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    height: 1px;
+    background: var(--rule);
+    opacity: 2;
   }
 
-  .entry-label {
+  p {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
+
+  em { font-style: italic; color: #2a2010; }
+  strong { font-weight: 400; text-decoration: underline; text-decoration-color: rgba(26,22,16,0.3); }
+
+  /* ── PULL QUOTE ── */
+  .pull-quote {
+    border-left: 3px solid var(--highlight);
+    padding: 14px 22px;
+    margin: 28px 0;
+    background: rgba(200,160,32,0.06);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--ink);
+    line-height: 1.75;
+  }
+
+  /* ── REDACTED TEXT ── */
+  .redacted {
+    background: var(--redact);
+    color: var(--redact);
+    user-select: none;
+    padding: 0 4px;
+    letter-spacing: 0.02em;
+    border-radius: 1px;
+  }
+
+  /* ── FIELD NOTES BOX ── */
+  .field-note {
+    border: 1px solid rgba(26,22,16,0.2);
+    padding: 18px 22px;
+    margin: 28px 0;
+    background: var(--aged);
+    position: relative;
+  }
+  .field-note::before {
+    content: 'FIELD NOTE';
+    position: absolute;
+    top: -9px;
+    left: 16px;
+    background: var(--aged);
+    padding: 0 8px;
     font-family: 'Anonymous Pro', monospace;
-    font-size: 0.55rem;
-    letter-spacing: 0.26em;
-    color: var(--margin);
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    color: var(--faded);
+  }
+  .field-note p { font-size: 0.97rem; margin-bottom: 0; color: var(--faded); }
+
+  /* ── FORMAT TABLE ── */
+  .format-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0 28px;
+    font-size: 0.95rem;
+  }
+  .format-table th {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
+    color: var(--faded);
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(26,22,16,0.2);
+  }
+  .format-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(26,22,16,0.08);
+    color: var(--ink);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+  .format-table tr:last-child td { border-bottom: none; }
+  .format-table td:first-child {
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.72rem;
+    color: var(--faded);
+    white-space: nowrap;
+    width: 140px;
   }
 
-  .entry-title {
+  /* ── DANGER SCALE LEGEND ── */
+  .scale-row {
+    display: flex;
+    gap: 0;
+    margin: 16px 0 28px;
+    border: 1px solid rgba(26,22,16,0.15);
+    overflow: hidden;
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.62rem;
+  }
+  .scale-item {
+    flex: 1;
+    padding: 10px 8px;
+    text-align: center;
+    border-right: 1px solid rgba(26,22,16,0.1);
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .scale-item:last-child { border-right: none; }
+  .scale-num {
     font-family: 'Rajdhani', sans-serif;
     font-weight: 700;
-    font-size: 1.35rem;
-    letter-spacing: 0.03em;
-    color: var(--ink);
-    line-height: 1.15;
+    font-size: 1.4rem;
+    display: block;
+    margin-bottom: 4px;
   }
+  .scale-item.s1 { background: rgba(180,220,180,0.2); }
+  .scale-item.s2 { background: rgba(220,200,120,0.2); }
+  .scale-item.s3 { background: rgba(220,160,80,0.2); }
+  .scale-item.s4 { background: rgba(200,80,60,0.2); }
+  .scale-item.s5 { background: rgba(120,20,10,0.15); color: var(--stamp-red); }
 
-  .entry-desc {
-    font-family: 'Sorts Mill Goudy', Georgia, serif;
-    font-style: italic;
-    font-size: 0.88rem;
-    color: var(--faded);
-    line-height: 1.5;
-    margin-top: 2px;
-  }
-
-  .entry-meta {
-    display: flex;
-    gap: 12px;
-    margin-top: 6px;
-    flex-wrap: wrap;
-  }
-  .entry-tag {
-    font-family: 'Anonymous Pro', monospace;
-    font-size: 0.55rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--margin);
-    border: 1px solid rgba(26,22,16,0.15);
-    padding: 2px 7px;
-    background: rgba(26,22,16,0.03);
-  }
-
-  .entry-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: center;
-    padding: 16px 20px 16px 0;
-    gap: 8px;
-    flex-shrink: 0;
-  }
-
-  /* Danger index mini bar */
-  .mini-index {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-  }
-  .mini-label {
-    font-family: 'Anonymous Pro', monospace;
-    font-size: 0.5rem;
-    letter-spacing: 0.18em;
-    color: var(--margin);
-    text-transform: uppercase;
-  }
-  .mini-bars {
-    display: flex;
-    gap: 2px;
-  }
-  .mbar {
-    width: 8px;
-    height: 8px;
-    border: 1px solid rgba(26,22,16,0.14);
-    background: rgba(26,22,16,0.04);
-  }
-  .mbar.f { background: var(--warn); border-color: var(--warn); }
-
-  .entry-arrow {
-    font-family: 'Anonymous Pro', monospace;
-    font-size: 0.85rem;
-    color: var(--warn);
-    opacity: 0.4;
-    transform: translateX(-4px);
-    transition: opacity 0.18s, transform 0.18s;
-    margin-top: 4px;
-  }
-
-  /* Pilot / about card — special style */
-  .entry-card.about {
-    background: rgba(26,22,16,0.04);
-    border-color: rgba(26,22,16,0.18);
-  }
-  .entry-card.about:hover { background: rgba(26,22,16,0.08); }
-
-  /* Divider */
-  .divider {
-    border: none;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(26,22,16,0.15), transparent);
-    margin: 32px 0;
-  }
-
-  /* Sign-off */
-  .sign-off-block {
-    margin-top: 44px;
-    padding-top: 22px;
-    border-top: 1px solid rgba(26,22,16,0.1);
+  /* ── SIGN ── */
+  .signature-block {
+    margin-top: 52px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(26,22,16,0.15);
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: 20px;
+    animation: fadeIn 1s ease both 1.2s;
   }
   .sig-left { font-family: 'Anonymous Pro', monospace; font-size: 0.62rem; color: var(--faded); line-height: 1.8; }
-  .sig-name { font-family: 'Sorts Mill Goudy', Georgia, serif; font-style: italic; font-size: 1.5rem; color: var(--ink); opacity: 0.5; display: block; margin-top: 4px; }
-  .sig-right { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; color: rgba(26,22,16,0.3); text-align: right; line-height: 1.8; text-transform: uppercase; letter-spacing: 0.1em; }
-
-  /* Social */
-  .social-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
-  .social-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: var(--faded);
-    border: 1px solid rgba(26,22,16,0.15);
-    padding: 7px 9px;
-    background: rgba(26,22,16,0.04);
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  .sig-name {
+    font-family: 'Sorts Mill Goudy', Georgia, serif;
+    font-style: italic;
+    font-size: 1.6rem;
+    color: var(--ink);
+    opacity: 0.6;
+    display: block;
+    margin-top: 6px;
   }
-  .social-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
-  .social-btn:hover { background: rgba(26,22,16,0.08); color: var(--ink); border-color: rgba(26,22,16,0.25); }
+  .sig-right {
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.58rem;
+    color: rgba(26,22,16,0.3);
+    text-align: right;
+    line-height: 1.8;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
 
-  /* Bottom bar */
+  /* ── BOTTOM CLASSIFICATION ── */
   .bottom-bar {
     background: var(--redact);
     color: #d4c8a0;
@@ -360,240 +375,230 @@
     text-align: center;
     padding: 7px 0;
     text-transform: uppercase;
+    animation: fadeIn 0.8s ease both 1.4s;
   }
 
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
-  .entry-card { animation: fadeUp 0.6s ease both; }
-  .entry-card:nth-child(1) { animation-delay: 0.85s; }
-  .entry-card:nth-child(2) { animation-delay: 0.95s; }
-  .entry-card:nth-child(3) { animation-delay: 1.05s; }
-  .entry-card:nth-child(4) { animation-delay: 1.15s; }
-  .entry-card:nth-child(5) { animation-delay: 1.25s; }
-  .entry-card:nth-child(6) { animation-delay: 1.35s; }
+  .section:nth-child(1) { animation-delay: 0.8s; }
+  .section:nth-child(2) { animation-delay: 0.95s; }
+  .section:nth-child(3) { animation-delay: 1.1s; }
+  .section:nth-child(4) { animation-delay: 1.25s; }
+  .section:nth-child(5) { animation-delay: 1.4s; }
+  .section:nth-child(6) { animation-delay: 1.55s; }
+  .section:nth-child(7) { animation-delay: 1.7s; }
 
   @media (max-width: 600px) {
     .doc-inner { padding: 36px 24px 52px 80px; }
     .doc-inner::before { left: 56px; }
     .stamp-row { flex-wrap: wrap; gap: 10px; }
-    .entry-right { display: none; }
+    .scale-row { flex-wrap: wrap; }
+    .scale-item { min-width: 45%; }
   }
+
+  .social-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--faded);
+    border: 1px solid rgba(0,0,0,0.15);
+    padding: 7px 9px; justify-content: center;
+    background: rgba(0,0,0,0.04);
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .social-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .social-btn:hover { background: rgba(0,0,0,0.08); color: var(--ink); border-color: rgba(0,0,0,0.25); }
+
 </style>
 </head>
 <body>
 
 <div class="document">
-  <div class="classification-bar">◆ &nbsp; monster survival guide &nbsp;—&nbsp; menu &nbsp; ◆</div>
+
+  <div class="classification-bar">◆ &nbsp; monster survival guide &nbsp;—&nbsp; field manual series &nbsp; ◆</div>
 
   <div class="doc-inner">
 
+    <!-- STAMPS -->
     <div class="stamp-row">
-      <div class="stamp red">All Entries</div>
-      <div class="stamp faded">Season One</div>
-      <div class="stamp blue">Field Manual</div>
+      <div class="stamp red">Start Here</div>
+      <a href="/entries" class="stamp faded" style="text-decoration:none;cursor:pointer;">Menu</a>
+      <div class="stamp blue">Field Manual Vol. I</div>
     </div>
 
+    <!-- META -->
     <div class="doc-meta">
-      <div>DOCUMENT TYPE: &nbsp;<span>Index — All Survival Guide Entries</span></div>
-      <div>SEASON: &nbsp;<span>One — Currently Active</span></div>
-      <div>ENTRIES: &nbsp;<span>5 Filed — More Incoming</span></div>
-      <div>STATUS: &nbsp;<span>Open Distribution — Read Before You Need To</span></div>
+      <div>GUIDE TYPE: &nbsp;<span>Introduction — How to Use This Guide</span></div>
+      <div>AUDIENCE: &nbsp;<span>Anyone Who May Need This</span></div>
+      <div>CONTENT: &nbsp;<span>Format, Philosophy, Danger Index, Season One Overview</span></div>
+      <div>STATUS: &nbsp;<span>Active — Updated Continuously</span></div>
     </div>
 
-    <div class="doc-title">All<br/>Entries</div>
-    <p class="doc-subtitle"><em>Every survival guide filed so far. Start anywhere. Read everything.</em></p>
+    <!-- TITLE -->
+    <div class="doc-title">Monster<br/>Survival<br/>Guide</div>
+    <p class="doc-subtitle"><em>What this is, how it works, and why you should read it before you need it.</em></p>
 
-    <!-- START HERE -->
-    <div class="section-head">Start Here</div>
-    <div class="entry-list">
-      <a class="entry-card about" href="/pilot">
-        <div class="entry-band" style="background: rgba(26,22,16,0.25);"></div>
-        <div class="entry-body">
-          <div class="entry-label">Introduction · Field Manual</div>
-          <div class="entry-title">About This Guide</div>
-          <div class="entry-desc">What this is, how it works, and why you should read it before you need it.</div>
-          <div class="entry-meta">
-            <span class="entry-tag">How to use</span>
-            <span class="entry-tag">Danger index explained</span>
-            <span class="entry-tag">Season one overview</span>
-          </div>
-        </div>
-        <div class="entry-right">
-          <div class="mini-index">
-            <div class="mini-label">No threat entity</div>
-          </div>
-          <div class="entry-arrow">→</div>
-        </div>
-      </a>
+    <!-- COLD OPEN -->
+    <div class="section">
+      <div class="section-head">Where Most Guides Go Wrong</div>
+      <p>Let me tell you the thing that everyone who makes a show like this gets wrong.</p>
+      <p>They start with the monster. They open on the darkness, the scream, the moment of encounter. They give you the horror first and the context never. They assume that what you came for is the fear, and so they deliver the fear, efficiently, without any of the surrounding information that might actually help you.</p>
+      <p>This show is not that show.</p>
+      <p>My name is unimportant for now. What's important is what I do, which is this: I research things that should not exist, I verify everything I can verify, I am honest with you when I cannot verify something, and then I tell you what I found — not to frighten you, but to prepare you. Because the difference between a person who encounters something in the dark and survives, and a person who doesn't, is almost never bravery. It is almost always information.</p>
+      <p>Welcome to the Monster Survival Guide. This is the pilot. This is the episode where I explain the rules before the game begins. Stay with me.</p>
     </div>
 
-    <hr class="divider"/>
+    <!-- WHY THIS EXISTS -->
+    <div class="section">
+      <div class="section-head">Why This Guide Exists</div>
+      <p>Here is a fact that the mainstream is not entirely comfortable acknowledging: across every human culture, on every continent, in every era of recorded history, people have reported encounters with entities that do not fit the known biological or physical categories. Not all of them. Not most of them. But enough — consistently enough, across enough independent sources with enough overlapping detail — that dismissing the entire body of evidence requires its own kind of faith. The faith that all of these people, across all of these centuries, were simply wrong.</p>
+      <p>I am not asking you to believe everything. I am not asking you to believe anything, actually. What I am asking you to do is take the accounts seriously enough to study them. Because the alternative — ignoring them entirely until you need them — is the position of someone who has never needed them yet.</p>
 
-    <!-- SEASON ONE ENTRIES -->
-    <div class="section-head">Season One — Survival Entries</div>
-    <div class="entry-list">
+      <div class="pull-quote">
+        Every creature we cover on this show has been encountered by real people in real places. Some of those encounters have court records. Some have police reports. Some have only the testimony of one person sitting alone with what they saw. All of them are worth your attention. None of them are worth your panic. Information is the opposite of panic.
+      </div>
 
-      <!-- Wendigo -->
-      <a class="entry-card" href="/wendigo">
-        <div class="entry-band" style="background: #1a5080;"></div>
-        <div class="entry-body">
-          <div class="entry-label">Entry 01 · Ancient Threat · Boreal Forests</div>
-          <div class="entry-title">The Wendigo</div>
-          <div class="entry-desc">It was human once. That is the part that should terrify you.</div>
-          <div class="entry-meta">
-            <span class="entry-tag">Algonquian tradition</span>
-            <span class="entry-tag">Possession risk</span>
-            <span class="entry-tag">Winter threat</span>
-          </div>
-        </div>
-        <div class="entry-right">
-          <div class="mini-index">
-            <div class="mini-label">Danger · 9/10</div>
-            <div class="mini-bars">
-              <div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div>
-              <div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar"></div>
-            </div>
-          </div>
-          <div class="entry-arrow">→</div>
-        </div>
-      </a>
+      <p>The Monster Survival Guide exists because nobody gave these people a field manual before they needed one. We are the field manual. That is all this is.</p>
+    </div>
 
-      <!-- Slenderman -->
-      <a class="entry-card" href="/slenderman">
-        <div class="entry-band" style="background: #8b1a0a;"></div>
-        <div class="entry-body">
-          <div class="entry-label">Entry 02 · Absolute Threat · No Geography</div>
-          <div class="entry-title">Slenderman</div>
-          <div class="entry-desc">He is already watching. He has always been watching.</div>
-          <div class="entry-meta">
-            <span class="entry-tag">Digital origin</span>
-            <span class="entry-tag">Proxy syndrome</span>
-            <span class="entry-tag">No confirmed counters</span>
-          </div>
-        </div>
-        <div class="entry-right">
-          <div class="mini-index">
-            <div class="mini-label">Danger · 10/10</div>
-            <div class="mini-bars">
-              <div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div>
-              <div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div>
-            </div>
-          </div>
-          <div class="entry-arrow">→</div>
-        </div>
-      </a>
+    <!-- WHAT TO EXPECT -->
+    <div class="section">
+      <div class="section-head">How Every Entry Is Structured</div>
+      <p>Each episode of this show follows the same structure. Not because we lack imagination, but because the structure exists for a reason. In an emergency, you do not want to have to remember where the information you need is located. You want it in the same place every time. Here is where it is.</p>
 
-      <!-- Black-Eyed Children -->
-      <a class="entry-card" href="/black-eyed-children">
-        <div class="entry-band" style="background: #1a3050;"></div>
-        <div class="entry-body">
-          <div class="entry-label">Entry 03 · Threshold Threat · Coastal Pattern</div>
-          <div class="entry-title">Black-Eyed Children</div>
-          <div class="entry-desc">They only want to come inside. They will keep asking until you let them.</div>
-          <div class="entry-meta">
-            <span class="entry-tag">Invitation required</span>
-            <span class="entry-tag">Coastal reports</span>
-            <span class="entry-tag">Global sightings</span>
-          </div>
-        </div>
-        <div class="entry-right">
-          <div class="mini-index">
-            <div class="mini-label">Danger · 7/10</div>
-            <div class="mini-bars">
-              <div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div>
-              <div class="mbar f"></div><div class="mbar f"></div><div class="mbar"></div><div class="mbar"></div><div class="mbar"></div>
-            </div>
-          </div>
-          <div class="entry-arrow">→</div>
-        </div>
-      </a>
+      <table class="format-table">
+        <thead>
+          <tr>
+            <th>Segment</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cold Open</td>
+            <td>Places you in the encounter before you know you are in it. Establishes atmosphere. Earns your attention before it asks for your trust.</td>
+          </tr>
+          <tr>
+            <td>Origins</td>
+            <td>Where the entity comes from — culturally, historically, geographically. A monster without context is just a horror story. A monster with context is something you can understand, and things you can understand can sometimes be survived.</td>
+          </tr>
+          <tr>
+            <td>Physical Description</td>
+            <td>What it looks like. What witnesses agree on. What varies. What to look for before you know what you are looking at.</td>
+          </tr>
+          <tr>
+            <td>Behaviour</td>
+            <td>How it hunts, haunts, or operates. The pattern of the encounter. What comes first, what comes next, and what comes after that if you do nothing.</td>
+          </tr>
+          <tr>
+            <td>Known Weaknesses</td>
+            <td>What works. What the accumulated evidence suggests might slow it, stop it, or redirect it. We are honest when this section is thin. Some entities have no confirmed counters. That information is also useful.</td>
+          </tr>
+          <tr>
+            <td>Documented Encounters</td>
+            <td>Two real accounts per episode — verified where verification is possible, clearly labelled when it is not. We do not present folklore as fact. We present it as what it is: the record of what people reported, and what that record tells us.</td>
+          </tr>
+          <tr>
+            <td>The Six Rules</td>
+            <td>The survival protocol. Six specific, actionable rules derived from the encounter record. Not general advice. Not common sense. The specific things that the evidence says increase your chances of walking away.</td>
+          </tr>
+        </tbody>
+      </table>
 
-      <!-- Mothman -->
-      <a class="entry-card" href="/mothman">
-        <div class="entry-band" style="background: #804010;"></div>
-        <div class="entry-body">
-          <div class="entry-label">Entry 03 (Alt) · Harbinger Class · Point Pleasant WV</div>
-          <div class="entry-title">The Mothman</div>
-          <div class="entry-desc">It does not hunt you. It watches you. And where it watches, things collapse.</div>
-          <div class="entry-meta">
-            <span class="entry-tag">Prophetic appearance</span>
-            <span class="entry-tag">Bridge warning</span>
-            <span class="entry-tag">46 dead</span>
-          </div>
-        </div>
-        <div class="entry-right">
-          <div class="mini-index">
-            <div class="mini-label">Danger · 8/10</div>
-            <div class="mini-bars">
-              <div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div>
-              <div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar"></div><div class="mbar"></div>
-            </div>
-          </div>
-          <div class="entry-arrow">→</div>
-        </div>
-      </a>
+      <div class="field-note">
+        <p>The Six Rules close every episode because they are the reason the episode existed. Everything before them is the evidence. The rules are the conclusion. If you remember nothing else from an episode — remember the rules.</p>
+      </div>
+    </div>
 
-      <!-- Coming Soon -->
-      <div class="entry-card" style="opacity:0.4; cursor:default; pointer-events:none;">
-        <div class="entry-band" style="background: rgba(26,22,16,0.2);"></div>
-        <div class="entry-body">
-          <div class="entry-label">Entry 04 · Coming Soon</div>
-          <div class="entry-title">Unknown Entity</div>
-          <div class="entry-desc">The next entry is being prepared. Check back soon.</div>
-          <div class="entry-meta">
-            <span class="entry-tag">Pending</span>
-          </div>
+    <!-- DANGER INDEX -->
+    <div class="section">
+      <div class="section-head">Understanding the Danger Index</div>
+      <p>Every episode carries a Monster Danger Index score from 1 to 10. Here is what those numbers mean, so that you are never in any doubt.</p>
+
+      <div class="scale-row">
+        <div class="scale-item s1">
+          <span class="scale-num">1–2</span>
+          Documented but manageable. Clear counters exist. Survival is probable with correct information.
         </div>
-        <div class="entry-right">
-          <div class="mini-index">
-            <div class="mini-label">Classified</div>
-            <div class="mini-bars">
-              <div class="mbar"></div><div class="mbar"></div><div class="mbar"></div><div class="mbar"></div><div class="mbar"></div>
-              <div class="mbar"></div><div class="mbar"></div><div class="mbar"></div><div class="mbar"></div><div class="mbar"></div>
-            </div>
-          </div>
-          <div class="entry-arrow" style="opacity:0.2;">→</div>
+        <div class="scale-item s2">
+          <span class="scale-num">3–4</span>
+          Significant threat. Counters exist but require preparation. Survival is possible without prior knowledge, unlikely without it.
+        </div>
+        <div class="scale-item s3">
+          <span class="scale-num">5–6</span>
+          Serious threat. Partial counters. Survival rate in documented encounters is mixed. Knowledge materially improves outcomes.
+        </div>
+        <div class="scale-item s4">
+          <span class="scale-num">7–8</span>
+          Extreme threat. Limited or conditional counters. The margin between survival and non-survival is narrow and specific.
+        </div>
+        <div class="scale-item s5">
+          <span class="scale-num">9–10</span>
+          Critical or absolute threat. No confirmed counters, or counters so demanding as to be effectively unavailable. Avoidance is the only reliable strategy.
         </div>
       </div>
 
+      <p>The index is not a measure of how frightening an entity is. It is a measure of how much danger a typical, unprepared person faces upon encounter. An entity that scores 10 but can be avoided entirely by staying away from a specific type of location is not more dangerous in practical terms than a 7 that appears anywhere. Read the score alongside the behaviour section. The number alone tells you only part of the story.</p>
+    </div>
+
+    <!-- PHILOSOPHY -->
+    <div class="section">
+      <div class="section-head">The Philosophy Behind This Guide</div>
+      <p>We believe the following things, and we want to be transparent about them, because you deserve to know the position from which we approach this material.</p>
+      <p><strong>We believe that witness testimony deserves respect.</strong> Not credulity — respect. There is a difference. Respecting a witness means taking their account seriously enough to examine it carefully, to look for corroboration, to note where accounts align across independent sources, and to be honest about where they do not. It does not mean accepting every account uncritically. It means not dismissing people because what they reported was inconvenient.</p>
+      <p><strong>We believe that fear and information are opposites.</strong> The purpose of this show is not to frighten you. We understand that it will sometimes frighten you, because the material is frightening. But our intention — always — is to leave you more capable at the end of an episode than you were at the beginning. A frightened person without information is helpless. A frightened person with information is dangerous to whatever is frightening them.</p>
+      <p><strong>We believe in being honest about what we do not know.</strong> This show will tell you when evidence is thin, when accounts are disputed, when what we are presenting is documented lore rather than verified fact. We will not inflate the certainty of the record to make better radio. The record is strange enough without inflation.</p>
+
+      <div class="field-note">
+        <p>This show does not tell you that monsters are real. It tells you what people have reported, what those reports have in common, what researchers have found, and what the accumulated evidence suggests you should do if you ever find yourself in the position of needing to know. What you conclude from that is yours to decide.</p>
+      </div>
+    </div>
+
+    <!-- THE LINEUP -->
+    <div class="section">
+      <div class="section-head">What This Guide Covers — Season One</div>
+      <p>This is the pilot. The numbered episodes begin immediately after. Here, in the order they arrive, is what we are covering in Season One of the Monster Survival Guide. Consider this your briefing before the briefings begin.</p>
+      <p>We open in the frozen north — <em>the Wendigo</em>, ancient and hungry, born from the subarctic and the worst things people do to survive it. Then we move into the digital dark with <em>Slenderman</em>, a creature born from a Photoshop contest that somehow became real enough to put a knife in a child's hand in Wisconsin. We visit the Ohio River valley for the <em>Mothman</em> — thirteen months of sightings, a bridge collapse, forty-six dead, and a question no one has answered. And then we stand at the threshold with the <em>Black-Eyed Children</em>, who knock on doors at night and ask, politely, to be let in.</p>
+      <p>Every entity in Season One has been reported across multiple independent sources. Every episode contains two documented real-world encounters with sources you can verify for yourself. Every episode ends with six rules. The rules are the point.</p>
+      <p>We do this because someone has to. Because the people who encountered these things had no preparation, no framework, no field manual. Because information is the only weapon that works against all of them equally.</p>
+      <p>You have found the Guide. That is already the most important step.</p>
     </div>
 
     <!-- SIGN OFF -->
-    <div class="sign-off-block">
-      <div class="sig-left">
-        Monster Survival Guide<br/>
+    <div class="signature-block">
+      <div class="sig-left">Monster Survival Guide<br/>
         <span class="sig-name">Zazu</span>
-        <span style="font-family:'Anonymous Pro',monospace;font-size:0.58rem;color:var(--margin);">Identification · Survival · Documented Accounts</span>
-        <div class="social-row">
-          <a href="#" class="social-btn" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
-          </a>
-          <a href="#" class="social-btn" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.5h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
-          </a>
-          <a href="#" class="social-btn" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85 0 3.2-.01 3.58-.07 4.85-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07-3.2 0-3.58-.01-4.85-.07-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12c0-3.2.01-3.58.07-4.85C2.38 3.85 3.9 2.31 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.7.07 7.05.01 8.33 0 8.74 0 12c0 3.26.01 3.67.07 4.95.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24c3.26 0 3.67-.01 4.95-.07 4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95 0-3.26-.01-3.67-.07-4.95-.2-4.35-2.63-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32A6.16 6.16 0 0 0 12 5.84zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg>
-          </a>
-          <a href="#" class="social-btn" aria-label="X">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.24 2h3.28l-7.17 8.2L22.79 22h-6.6l-5.17-6.76L4.84 22H1.55l7.67-8.77L1.2 2h6.77l4.67 6.18zm-1.15 18h1.82L6.99 3.84H5.04z"/></svg>
-          </a>
-          <a href="#" class="social-btn" aria-label="TikTok">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
-          </a>
-        </div>
+        <span style="font-family:'Anonymous Pro',monospace;font-size:0.6rem;color:var(--margin);">Identification · Survival · Documented Accounts</span>
+      
+    <div class="social-row">
+      <a href="#" class="social-btn" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg></a>
+      <a href="#" class="social-btn" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.5h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg></a>
+      <a href="#" class="social-btn" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85 0 3.2-.01 3.58-.07 4.85-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07-3.2 0-3.58-.01-4.85-.07-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12c0-3.2.01-3.58.07-4.85C2.38 3.85 3.9 2.31 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.7.07 7.05.01 8.33 0 8.74 0 12c0 3.26.01 3.67.07 4.95.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24c3.26 0 3.67-.01 4.95-.07 4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95 0-3.26-.01-3.67-.07-4.95-.2-4.35-2.63-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32A6.16 6.16 0 0 0 12 5.84zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg></a>
+      <a href="#" class="social-btn" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.24 2h3.28l-7.17 8.2L22.79 22h-6.6l-5.17-6.76L4.84 22H1.55l7.67-8.77L1.2 2h6.77l4.67 6.18zm-1.15 18h1.82L6.99 3.84H5.04z"/></svg></a>
+      <a href="#" class="social-btn" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg></a>
+    </div>
       </div>
       <div class="sig-right">
         Classification: Open<br/>
         Distribution: Unrestricted<br/>
-        Status: <span style="color:var(--warn);">Active</span>
+        Status: <span style="color:var(--stamp-red);">Active</span>
       </div>
     </div>
 
   </div><!-- /doc-inner -->
 
-  <div class="bottom-bar">◆ &nbsp; monster survival guide &nbsp;·&nbsp; all entries &nbsp;·&nbsp; season one &nbsp; ◆</div>
-</div>
+  <div class="bottom-bar">
+    ◆ &nbsp; monster survival guide &nbsp;·&nbsp; field manual series &nbsp;·&nbsp; season one &nbsp; ◆
+  </div>
+
+</div><!-- /document -->
 
 </body>
 </html>
