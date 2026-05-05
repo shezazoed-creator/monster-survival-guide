@@ -1,0 +1,264 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Monster Survival Guide — Episode 3: The Mothman</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Sorts+Mill+Goudy:ital@0;1&family=Anonymous+Pro:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --paper: #f2ede4;
+    --aged: #e8e0d4;
+    --ink: #161210;
+    --faded: #5a4a38;
+    --stamp-red: #8b1a0a;
+    --stamp-blue: #3a2010;
+    --accent: #804010;
+    --redact: #100c08;
+    --margin-col: #9a8060;
+    --rule: rgba(22,18,16,0.1);
+    --warn: #8b1a0a;
+    --eye: #c03010;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background-color: #140e08; font-family: 'Sorts Mill Goudy', Georgia, serif; min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; padding: 40px 16px 80px; position: relative; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; }
+  .document { background-color: var(--paper); max-width: 780px; width: 100%; position: relative; z-index: 1; box-shadow: 0 0 0 1px rgba(0,0,0,0.35), 4px 4px 0 rgba(0,0,0,0.22), 8px 8px 0 rgba(0,0,0,0.12), 0 30px 80px rgba(0,0,0,0.65); animation: docReveal 1.2s ease both; }
+  @keyframes docReveal { from{opacity:0;transform:translateY(30px) rotate(-0.5deg)} to{opacity:1;transform:translateY(0) rotate(0deg)} }
+  .document::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; }
+  .document::after { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(to bottom, transparent 0px, transparent 31px, var(--rule) 31px, var(--rule) 32px); pointer-events: none; z-index: 0; opacity: 0.55; }
+  .doc-inner { padding: 52px 56px 72px 120px; position: relative; z-index: 1; }
+  .doc-inner::before { content: ''; position: absolute; top: 0; bottom: 0; left: 88px; width: 1.5px; background: rgba(128,64,16,0.4); }
+  .classification-bar { background: var(--redact); color: #c8b898; font-family: 'Anonymous Pro', monospace; font-size: 0.62rem; letter-spacing: 0.35em; text-align: center; padding: 7px 0; text-transform: uppercase; margin-bottom: 40px; animation: fadeIn 0.8s ease both 0.3s; }
+  .stamp-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; flex-wrap: wrap; gap: 10px; animation: fadeIn 0.8s ease both 0.5s; }
+  .stamp { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; border: 2px solid; padding: 4px 10px; opacity: 0.7; }
+  .stamp.red { color: var(--stamp-red); border-color: var(--stamp-red); transform: rotate(-4deg); }
+  .stamp.blue { color: var(--stamp-blue); border-color: var(--stamp-blue); transform: rotate(2deg); }
+  .stamp.faded { color: var(--margin-col); border-color: var(--margin-col); transform: rotate(-1deg); opacity: 0.45; font-size: 0.6rem; }
+  .doc-meta { font-family: 'Anonymous Pro', monospace; font-size: 0.65rem; color: var(--faded); line-height: 1.8; border-bottom: 1px solid rgba(22,18,16,0.12); padding-bottom: 20px; margin-bottom: 32px; animation: fadeIn 0.8s ease both 0.6s; }
+  .doc-meta span { color: var(--ink); font-weight: bold; }
+  .doc-title { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: clamp(2.4rem, 7vw, 4.2rem); line-height: 1.0; color: var(--ink); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 6px; animation: fadeIn 1s ease both 0.7s; }
+  .doc-subtitle { font-family: 'Sorts Mill Goudy', Georgia, serif; font-style: italic; font-size: 1.05rem; color: var(--faded); margin-bottom: 36px; animation: fadeIn 1s ease both 0.8s; }
+  .danger-meter { display: flex; align-items: center; gap: 18px; padding: 14px 0 18px; border-bottom: 1px solid rgba(22,18,16,0.1); margin-bottom: 36px; flex-wrap: wrap; }
+  .danger-label-col { flex-shrink: 0; }
+  .danger-title { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; letter-spacing: 0.25em; color: var(--faded); text-transform: uppercase; margin-bottom: 4px; }
+  .danger-name { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.6rem; color: var(--eye); letter-spacing: 0.06em; line-height: 1; }
+  .danger-bars { display: flex; gap: 3px; flex: 1; min-width: 140px; }
+  .bar { height: 14px; flex: 1; border: 1px solid rgba(22,18,16,0.1); background: rgba(22,18,16,0.03); }
+  .bar.filled { background: var(--eye); border-color: var(--eye); }
+  .danger-desc { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; color: var(--faded); letter-spacing: 0.06em; max-width: 160px; line-height: 1.5; text-transform: uppercase; flex-shrink: 0; }
+  .section { margin-bottom: 40px; animation: fadeUp 0.7s ease both; }
+  .section-head { font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 0.72rem; letter-spacing: 0.28em; color: var(--faded); text-transform: uppercase; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .section-head::before { content: ''; width: 18px; height: 1px; background: var(--accent); opacity: 0.5; flex-shrink: 0; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  p { font-size: 1.05rem; line-height: 1.9; color: var(--ink); margin-bottom: 18px; }
+  em { font-style: italic; }
+  strong { font-weight: 600; }
+  .pull-quote { border-left: 3px solid var(--accent); padding: 14px 22px; margin: 24px 0; background: rgba(128,64,16,0.05); font-style: italic; font-size: 1.08rem; color: var(--ink); line-height: 1.75; }
+  .warning-box { border: 1px solid rgba(139,26,10,0.3); padding: 16px 20px; margin: 24px 0; background: rgba(139,26,10,0.03); }
+  .warning-box .warn-label { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; letter-spacing: 0.25em; color: var(--warn); text-transform: uppercase; margin-bottom: 10px; }
+  .warning-box p { margin-bottom: 0; font-size: 0.97rem; }
+  .stat-row { display: flex; border: 1px solid rgba(22,18,16,0.12); margin: 16px 0 24px; overflow: hidden; }
+  .stat { flex: 1; padding: 14px 16px; border-right: 1px solid rgba(22,18,16,0.1); background: var(--aged); }
+  .stat:last-child { border-right: none; }
+  .stat-num { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 2.2rem; color: var(--eye); line-height: 1; letter-spacing: 0.04em; display: block; }
+  .stat-label { font-family: 'Anonymous Pro', monospace; font-size: 0.6rem; color: var(--faded); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px; line-height: 1.4; }
+  .rules-list { list-style: none; padding: 0; margin: 16px 0; }
+  .rules-list li { display: flex; gap: 16px; padding: 13px 0; border-bottom: 1px solid rgba(22,18,16,0.08); font-size: 1.02rem; line-height: 1.75; color: var(--ink); }
+  .rules-list li:last-child { border-bottom: none; }
+  .rule-num { font-family: 'Rajdhani', sans-serif; font-weight: 700; color: var(--accent); font-size: 1.3rem; min-width: 32px; line-height: 1.2; }
+  .encounter-card { border: 1px solid rgba(22,18,16,0.14); background: var(--aged); margin: 0 0 32px; overflow: hidden; }
+  .encounter-header { background: rgba(22,18,16,0.04); border-bottom: 1px solid rgba(22,18,16,0.1); padding: 18px 22px; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+  .encounter-id { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; letter-spacing: 0.24em; color: var(--eye); text-transform: uppercase; margin-bottom: 5px; }
+  .encounter-title { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.45rem; color: var(--ink); letter-spacing: 0.03em; line-height: 1.15; }
+  .encounter-meta { font-family: 'Anonymous Pro', monospace; font-size: 0.6rem; color: var(--faded); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+  .encounter-verdict { flex-shrink: 0; text-align: right; }
+  .verdict-label { font-family: 'Anonymous Pro', monospace; font-size: 0.52rem; letter-spacing: 0.2em; color: var(--margin-col); text-transform: uppercase; margin-bottom: 4px; }
+  .verdict-badge { font-family: 'Anonymous Pro', monospace; font-size: 0.6rem; letter-spacing: 0.1em; padding: 4px 9px; border: 1px solid; display: inline-block; text-transform: uppercase; }
+  .verdict-badge.verified { color: #3a6a3a; border-color: #3a6a3a; background: rgba(58,106,58,0.07); }
+  .verdict-badge.documented { color: #6a5020; border-color: #6a5020; background: rgba(106,80,32,0.07); }
+  .encounter-body { padding: 22px; }
+  .encounter-body p { font-size: 1.0rem; line-height: 1.86; margin-bottom: 16px; }
+  .encounter-body p:last-of-type { margin-bottom: 0; }
+  .references { border-top: 1px solid rgba(22,18,16,0.1); padding: 14px 22px; background: rgba(22,18,16,0.02); }
+  .ref-label { font-family: 'Anonymous Pro', monospace; font-size: 0.54rem; letter-spacing: 0.24em; color: var(--margin-col); text-transform: uppercase; margin-bottom: 10px; }
+  .ref-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+  .ref-list li { font-family: 'Anonymous Pro', monospace; font-size: 0.62rem; color: var(--faded); line-height: 1.5; display: flex; gap: 8px; align-items: baseline; }
+  .ref-list li::before { content: '→'; color: var(--eye); flex-shrink: 0; opacity: 0.6; }
+  .ref-list a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(128,64,16,0.2); transition: border-color 0.2s; word-break: break-all; }
+  .ref-list a:hover { border-color: var(--accent); }
+  .outro { font-size: 1.1rem; color: var(--ink); line-height: 1.85; margin-top: 44px; padding-top: 28px; border-top: 1px solid rgba(22,18,16,0.12); font-style: italic; }
+  .sign-off-block { margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(22,18,16,0.1); display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; }
+  .sig-left { font-family: 'Anonymous Pro', monospace; font-size: 0.62rem; color: var(--faded); line-height: 1.8; }
+  .sig-name { font-family: 'Sorts Mill Goudy', Georgia, serif; font-style: italic; font-size: 1.5rem; color: var(--ink); opacity: 0.5; display: block; margin-top: 4px; }
+  .sig-right { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; color: rgba(22,18,16,0.3); text-align: right; line-height: 1.8; text-transform: uppercase; letter-spacing: 0.1em; }
+  .bottom-bar { background: var(--redact); color: #c8b898; font-family: 'Anonymous Pro', monospace; font-size: 0.6rem; letter-spacing: 0.3em; text-align: center; padding: 7px 0; text-transform: uppercase; }
+  .section:nth-child(1){animation-delay:0.8s}.section:nth-child(2){animation-delay:0.95s}.section:nth-child(3){animation-delay:1.1s}.section:nth-child(4){animation-delay:1.25s}.section:nth-child(5){animation-delay:1.4s}.section:nth-child(6){animation-delay:1.55s}.section:nth-child(7){animation-delay:1.7s}.section:nth-child(8){animation-delay:1.85s}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  @media(max-width:600px){.doc-inner{padding:36px 24px 52px 80px}.doc-inner::before{left:56px}.encounter-header{flex-direction:column}.encounter-verdict{text-align:left}.stat-row{flex-direction:column}.danger-desc{max-width:100%}}
+
+  .social-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--faded);
+    border: 1px solid rgba(0,0,0,0.15);
+    padding: 7px 9px; justify-content: center;
+    background: rgba(0,0,0,0.04);
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .social-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .social-btn:hover { background: rgba(0,0,0,0.08); color: var(--ink); border-color: rgba(0,0,0,0.25); }
+
+</style>
+</head>
+<body>
+<div class="document">
+  <div class="classification-bar">◆ &nbsp; monster survival guide &nbsp;—&nbsp; the mothman &nbsp; ◆</div>
+  <div class="doc-inner">
+    <a href="/" style="display:inline-block; margin-bottom:18px; font-family:'Anonymous Pro',monospace; font-size:0.62rem; letter-spacing:0.2em; color:var(--faded); text-decoration:none; text-transform:uppercase; opacity:0.7;">&larr; Back to all entries</a>
+    <div class="stamp-row">
+      <div class="stamp red">Harbinger Class</div>
+      <div class="stamp faded">Point Pleasant WV</div>
+      <div class="stamp blue">Bridge Warning</div>
+    </div>
+    <div class="doc-meta">
+      <div>ENTITY: &nbsp;<span>The Mothman</span></div>
+      <div>ORIGIN: &nbsp;<span>Point Pleasant, West Virginia — November 1966</span></div>
+      <div>THREAT GUIDE TYPE: &nbsp;<span>Identification · Behaviour · Survival Protocol</span></div>
+      <div>STATUS: &nbsp;<span>Dormant at Origin — Active Reports Globally Ongoing</span></div>
+    </div>
+    <div class="doc-title">The Mothman</div>
+    <p class="doc-subtitle"><em>It does not hunt you. It watches you. And where it watches, things collapse.</em></p>
+    <div class="danger-meter">
+      <div class="danger-label-col"><div class="danger-title">Monster Danger Index</div><div class="danger-name">HARBINGER</div></div>
+      <div class="danger-bars"><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar"></div><div class="bar"></div></div>
+      <div class="danger-desc">8/10 — Physical threat unclear. Prophetic appearance. Disaster follows within days.</div>
+    </div>
+    <div class="section">
+      <div class="section-head">Before We Begin</div>
+      <p>You are driving. It is late — later than you meant it to be — on a back road you know well enough that you stopped paying attention to it years ago. The dashboard lights are low. The radio cuts in and out. And then your headlights catch something at the side of the road that your brain refuses to process for a full two seconds.</p>
+      <p>It is standing. It is too tall. It has wings folded against its back like a coat. And its eyes — two points of red light, not reflecting your headlights, not catching them. Generating their own light. Looking directly at you.</p>
+      <p>You floor it. It follows. One hundred miles per hour on a back road, and it keeps pace above you without effort, without sound. You make it to the city limits. It stops. It watches you go.</p>
+      <p>Welcome back to the Monster Survival Guide. Tonight we talk about the Mothman of Point Pleasant, West Virginia. And we talk about the bridge.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">Where It Comes From</div>
+      <p>The Mothman story begins on November 12, 1966, in a cemetery in Clendenin, West Virginia — which is, if you think about it, exactly the right place for something like this to start. Five gravediggers were working when something massive rose up from the trees above them. Not a bird. Not anything they had a word for. A brown, man-shaped thing with wings.</p>
+      <p>Three days later, the legend was born in full. Two young couples — Roger and Linda Scarberry, and Steve and Mary Mallette — were driving near the old TNT plant on the outskirts of Point Pleasant. The plant was a World War II munitions facility, long decommissioned, sprawling across eight thousand acres of contaminated land, forest, and earth-covered bunkers. They saw it standing near the plant entrance. Seven feet tall. Wings folded against its back. And those eyes — red, luminous, impossible. When they fled, it followed. Their car hit one hundred miles per hour. The creature flew above them without apparent effort, until they crossed into the Point Pleasant city limits. Then it stopped.</p>
+      <div class="pull-quote">The next morning, the Point Pleasant Register ran a headline that has never been bettered for sheer journalistic bafflement: "Couples See Man-Sized Bird… Creature… Something." Within weeks, over a hundred people in the surrounding area had reported the same thing. A 13-month visitation had begun.</div>
+      <p>What followed was one of the strangest documented periods in American paranormal history. The Mothman was not the only thing appearing over Point Pleasant. There were UFO sightings. There were encounters with mysterious men in dark suits. A researcher named John Keel descended on the town and spent months cataloguing what he concluded was not random and was not over. He was right. It was building to something.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">What You Are Looking At</div>
+      <div class="stat-row">
+        <div class="stat"><span class="stat-num">7FT</span><span class="stat-label">Reported standing height</span></div>
+        <div class="stat"><span class="stat-num">10FT</span><span class="stat-label">Wingspan across reported sightings</span></div>
+        <div class="stat"><span class="stat-num">100+</span><span class="stat-label">Witnesses in 13 months</span></div>
+      </div>
+      <p>The Mothman is broadly man-shaped — bipedal, upright, with the general proportions of a very large human being. Its wingspan, when extended, reaches ten feet or more. The body is described variously as grey, dark brown, or black. It has no discernible neck. The head sits directly on the shoulders, which several witnesses described as making it look less like a bird and more like something wearing a bird as a costume.</p>
+      <p>The eyes are the thing everyone agrees on. They glow red. Not reflectively — not the passive shine of animal eyes caught in headlights. They generate their own light, steady and intense. Witnesses consistently report that looking into them produces a specific physical sensation: a kind of paralysis, a hypnotic effect that makes it difficult to look away even as every instinct screams that you should.</p>
+      <div class="warning-box"><div class="warn-label">⚠ Critical Distinction</div><p>Unlike every other creature on this show, the Mothman does not appear to hunt. No witness has reported a direct physical attack. What witnesses report instead is observation — the sensation of being watched by something that is assessing them for reasons they do not understand. This is not reassuring. The things it watches tend not to survive the week.</p></div>
+    </div>
+    <div class="section">
+      <div class="section-head">The Pattern You Need to Understand</div>
+      <p>Here is what makes the Mothman categorically different from the Wendigo and from Slenderman. The Wendigo wants to consume you. Slenderman wants to possess you. The Mothman, as near as anyone can determine, wants to <em>warn</em> you. Or it simply appears near catastrophes as a symptom of something larger, the way smoke appears near fire — not causing it, but inseparable from it.</p>
+      <p>During the thirteen months of Point Pleasant sightings, the Mothman appeared consistently near the TNT plant and along the rural roads and bridges of the Ohio River valley. It appeared near power lines, near water, near structures. In at least one account, it rose slowly from the ground beside a woman getting out of her car — seemingly having been lying flat in the darkness, waiting — and simply regarded her before she fled.</p>
+      <p>What John Keel documented with absolute certainty was this: on December 15, 1967, multiple witnesses reported seeing the Mothman perched on the Silver Bridge — the suspension bridge connecting Point Pleasant to Gallipolis, Ohio. That evening, the bridge collapsed during rush hour traffic. Forty-six people died. The Mothman was never reported in Point Pleasant again.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">An Honest Assessment of Its Weaknesses</div>
+      <p>The Mothman is not something you fight. There is no record of anyone attempting to confront it and succeeding. Every encounter in the historical record ends with the witness fleeing, and the Mothman watching them go.</p>
+      <p>What we can say is that it appears to operate within a specific geography and context. It has never been reliably reported far from bodies of water or large structural installations — bridges, power plants, industrial facilities. If you are nowhere near any of those things, your risk profile drops considerably.</p>
+      <p>There is a secondary theory, taken seriously by some researchers, that the Mothman appears as a warning rather than a threat — attempting to communicate something, and failing only because we have not learned its language. Under this theory, the correct response to a Mothman sighting is not to flee but to pay attention to your environment. What structure are you near? What is about to fail? Whether this is comforting or more terrifying than the alternative, we leave to you.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">Six Rules That May Save Your Life</div>
+      <p>The rules for this one are different. You are not trying to survive an attack. You are trying to survive what comes after.</p>
+      <ul class="rules-list">
+        <li><span class="rule-num">01</span><span><strong>Do not stop on bridges at night.</strong> If you see red eyes above a bridge, do not investigate. Do not take a photograph. Get off the bridge and keep driving until you are somewhere with solid ground beneath you and no water below.</span></li>
+        <li><span class="rule-num">02</span><span><strong>Do not look into the eyes.</strong> Every account of direct eye contact describes a hypnotic effect — a paralysis, a compulsion to stay, to not move. Look away immediately. Move first, process the experience later, somewhere safe.</span></li>
+        <li><span class="rule-num">03</span><span><strong>If it follows your car, do not stop.</strong> The Mothman matched speed with vehicles at over 100 miles per hour. Maintain speed, get to populated areas, and stay there. It has not been documented following into cities.</span></li>
+        <li><span class="rule-num">04</span><span><strong>Pay attention to what it is near.</strong> If the Mothman is a warning, it is warning you about a specific location. Note where you saw it. Note what structures, what bridges, what facilities are nearby. That information may matter to someone.</span></li>
+        <li><span class="rule-num">05</span><span><strong>Report it.</strong> Point Pleasant had a year of warnings before the Silver Bridge collapsed. More people reported seeing it than reported it publicly. If you see something you cannot explain near infrastructure — tell someone. Even if they do not believe you.</span></li>
+        <li><span class="rule-num">06</span><span><strong>Trust the dread.</strong> Every witness in Point Pleasant described a feeling of deep wrongness in the areas where the Mothman appeared — a heaviness, an oppressive atmosphere. That feeling is information. If a place feels wrong, leave the place.</span></li>
+      </ul>
+    </div>
+    <div class="section">
+      <div class="section-head">Two Cases on the Record</div>
+      <p>The Mothman case is one of the best-documented paranormal events in American history. Police reports were filed. Press conferences were held. Witness statements were taken by law enforcement, journalists, and independent researchers. We have chosen two encounters that represent the full range of what Point Pleasant experienced.</p>
+      <div class="encounter-card">
+        <div class="encounter-header">
+          <div><div class="encounter-id">Encounter 01 · Point Pleasant, WV · November 15, 1966</div><div class="encounter-title">The Scarberry-Mallette Encounter</div><div class="encounter-meta">Roger &amp; Linda Scarberry · Steve &amp; Mary Mallette · Filed with Mason County Sheriff</div></div>
+          <div class="encounter-verdict"><div class="verdict-label">Classification</div><div class="verdict-badge verified">Police Reported</div></div>
+        </div>
+        <div class="encounter-body">
+          <p>It was 11:30 at night on November 15, 1966. Two young married couples were driving together on State Route 62 north of Point Pleasant, along the Ohio River. They passed the entrance to the old TNT plant, and their headlights landed on something standing near the plant's main building that none of them had words for.</p>
+          <p>Linda Scarberry later described it to police as being shaped like a man, but bigger — six and a half, maybe seven feet tall. It had large wings folded against its back. But it was the eyes that she kept coming back to in her statement. Two large circles of red light, self-luminous, fixed on the car. Roger floored the accelerator.</p>
+          <p>The creature pursued them — in the air, above the car — along Route 62 as they drove toward Point Pleasant at speeds exceeding 100 miles per hour. Scarberry later told the Register that it made a sound he described as a high-pitched squeal. The pursuit continued until they crossed into the Point Pleasant city limits, at which point the creature broke off and disappeared.</p>
+          <p>They drove directly to the Mason County Sheriff's office. Deputy Millard Halstead, who had known all four witnesses for years, told investigators: <em>"They've never been in any trouble. I have no reason to doubt them at all."</em> A press conference was held the following morning. Roger Scarberry, decades later, maintained his account completely: <em>"If I had seen it while by myself, I wouldn't have said anything. But there were four of us who saw it."</em></p>
+        </div>
+        <div class="references">
+          <div class="ref-label">// Sources &amp; References</div>
+          <ul class="ref-list">
+            <li>Wikipedia — "Mothman": <a href="https://en.wikipedia.org/wiki/Mothman" target="_blank">en.wikipedia.org/wiki/Mothman</a></li>
+            <li>Smithsonian Center for Folklife — "An Ode to a Hometown Creature": <a href="https://folklife.si.edu/magazine/mothman-point-pleasant-west-virginia" target="_blank">folklife.si.edu</a></li>
+            <li>All That's Interesting — "The Legend of the Mothman": <a href="https://allthatsinteresting.com/mothman" target="_blank">allthatsinteresting.com</a></li>
+            <li>John A. Keel — The Mothman Prophecies (1975), Saturday Review Press</li>
+          </ul>
+        </div>
+      </div>
+      <div class="encounter-card">
+        <div class="encounter-header">
+          <div><div class="encounter-id">Encounter 02 · Point Pleasant, WV · Nov 16, 1966 — Dec 15, 1967</div><div class="encounter-title">Marcella Bennett &amp; The Silver Bridge</div><div class="encounter-meta">Marcella Bennett · 46 Dead · Bridge Collapse · Sightings Cease</div></div>
+          <div class="encounter-verdict"><div class="verdict-label">Classification</div><div class="verdict-badge documented">Historically Documented</div></div>
+        </div>
+        <div class="encounter-body">
+          <p>The night after the Scarberry-Mallette encounter, a woman named Marcella Bennett was visiting friends near the TNT plant with her young daughter in her arms when a large grey shape she had not noticed rose from the ground beside her vehicle. It had been lying flat in the darkness. It unfurled to its full height. Spread wings. The red eyes focused on her.</p>
+          <p>Bennett froze — unable to move for several seconds, unable to look away from the eyes — before something broke the paralysis and she ran for the house. She sought medical attention in the aftermath of the encounter and reportedly suffered from recurring nightmares and a belief that the creature had visited her home again, on other nights, watching through windows.</p>
+          <p>Her account introduced two details that would recur across the next thirteen months of Point Pleasant sightings: the lying-flat posture — the creature resting on the ground in darkness before rising — and the paralytic effect of direct eye contact. These details were not public when Bennett reported them. They appeared again and again in independent witness statements from people who had never read her account.</p>
+          <p>Then came December 15, 1967. The Silver Bridge — a 1928 suspension bridge spanning the Ohio River — collapsed during rush hour. Forty-six people died. Multiple witnesses, separately, reported seeing the Mothman on or near the Silver Bridge in the hours before the collapse. The sightings stopped after that night. Whatever the creature was — omen, symptom, or something else entirely — it did not return to Point Pleasant.</p>
+        </div>
+        <div class="references">
+          <div class="ref-label">// Sources &amp; References</div>
+          <ul class="ref-list">
+            <li>Wikipedia — "Mothman" (Silver Bridge section): <a href="https://en.wikipedia.org/wiki/Mothman" target="_blank">en.wikipedia.org/wiki/Mothman</a></li>
+            <li>Historic Mysteries — "The Mothman Mystery": <a href="https://www.historicmysteries.net/p/the-mothman-mystery-west-virginias" target="_blank">historicmysteries.net</a></li>
+            <li>West Virginia Tourism — "Who Is the Mysterious Mothman?": <a href="https://wvtourism.com/who-is-the-mysterious-mothman/" target="_blank">wvtourism.com</a></li>
+            <li>The Mothman Museum, Point Pleasant WV: <a href="https://www.mothmanmuseum.com" target="_blank">mothmanmuseum.com</a></li>
+            <li>NTSB — Silver Bridge Collapse Investigation Report (1968): <a href="https://www.ntsb.gov" target="_blank">ntsb.gov</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head">Before You Go</div>
+      <div class="outro">
+        <p>The Wendigo is hunger. Slenderman is dread. The Mothman is something harder to name — a presence at the threshold of catastrophe, neither cause nor cure, watching with those red eyes from the place where things are about to go wrong.</p>
+        <p style="margin-top:18px;">Point Pleasant had thirteen months of warnings. A hundred witnesses. A researcher who filled notebooks. And forty-six people still drove onto the Silver Bridge on the evening of December 15th, 1967, because the warnings were in a language nobody had learned to read yet.</p>
+        <p style="margin-top:18px;">So the next time you are on a bridge at night and you see something in the dark that your brain refuses to process for two full seconds — <em>get off the bridge.</em></p>
+        <p style="margin-top:18px;">This has been the Monster Survival Guide. Stay alert. Stay sceptical. And remember — sometimes the monster is not the danger. Sometimes the monster is the only thing trying to save you.</p>
+      </div>
+    </div>
+    <div class="sign-off-block"><div class="sig-left">Monster Survival Guide<br/><span class="sig-name">Zazu</span><span style="font-family:'Anonymous Pro',monospace;font-size:0.58rem;color:var(--margin-col);">Identification · Survival · Documented Accounts</span>
+    <div class="social-row">
+      <a href="#" class="social-btn" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg></a>
+      <a href="#" class="social-btn" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.5h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg></a>
+      <a href="#" class="social-btn" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85 0 3.2-.01 3.58-.07 4.85-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07-3.2 0-3.58-.01-4.85-.07-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12c0-3.2.01-3.58.07-4.85C2.38 3.85 3.9 2.31 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.7.07 7.05.01 8.33 0 8.74 0 12c0 3.26.01 3.67.07 4.95.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24c3.26 0 3.67-.01 4.95-.07 4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95 0-3.26-.01-3.67-.07-4.95-.2-4.35-2.63-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32A6.16 6.16 0 0 0 12 5.84zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg></a>
+      <a href="#" class="social-btn" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.24 2h3.28l-7.17 8.2L22.79 22h-6.6l-5.17-6.76L4.84 22H1.55l7.67-8.77L1.2 2h6.77l4.67 6.18zm-1.15 18h1.82L6.99 3.84H5.04z"/></svg></a>
+      <a href="#" class="social-btn" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg></a>
+    </div></div><div class="sig-right">Classification: Open<br/>Distribution: Unrestricted<br/>Status: <span style="color:var(--warn);">Active Entry</span></div></div>
+  </div>
+  <div class="bottom-bar">◆ &nbsp; monster survival guide &nbsp;—&nbsp; the mothman &nbsp; ◆</div>
+</div>
+</body>
+</html>

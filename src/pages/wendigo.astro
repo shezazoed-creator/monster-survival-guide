@@ -1,0 +1,324 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Monster Survival Guide — Episode 1: The Wendigo</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Sorts+Mill+Goudy:ital@0;1&family=Anonymous+Pro:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --paper: #eef0f4;
+    --aged: #e0e4ea;
+    --ink: #0e1218;
+    --faded: #445060;
+    --stamp-red: #8b1a0a;
+    --stamp-blue: #1a4060;
+    --accent: #1a5080;
+    --redact: #0a0e14;
+    --margin-col: #8a9aaa;
+    --highlight: #2060a0;
+    --rule: rgba(14,18,24,0.1);
+    --warn: #7a1a10;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background-color: #141820;
+    font-family: 'Sorts Mill Goudy', Georgia, serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 16px 80px;
+    position: relative;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+  .document {
+    background-color: var(--paper);
+    max-width: 780px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.3), 4px 4px 0 rgba(0,0,0,0.2), 8px 8px 0 rgba(0,0,0,0.12), 0 30px 80px rgba(0,0,0,0.6);
+    animation: docReveal 1.2s ease both;
+  }
+  @keyframes docReveal { from { opacity:0; transform:translateY(30px) rotate(-0.5deg); } to { opacity:1; transform:translateY(0) rotate(0deg); } }
+  .document::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+  .document::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(to bottom, transparent 0px, transparent 31px, var(--rule) 31px, var(--rule) 32px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+  .doc-inner { padding: 52px 56px 72px 120px; position: relative; z-index: 1; }
+  .doc-inner::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; left: 88px;
+    width: 1.5px;
+    background: rgba(26,80,128,0.4);
+  }
+  .classification-bar {
+    background: var(--redact);
+    color: #b0c0d0;
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.35em;
+    text-align: center;
+    padding: 7px 0;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    animation: fadeIn 0.8s ease both 0.3s;
+  }
+  .stamp-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; flex-wrap: wrap; gap: 10px; animation: fadeIn 0.8s ease both 0.5s; }
+  .stamp { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; border: 2px solid; padding: 4px 10px; opacity: 0.7; }
+  .stamp.red { color: var(--stamp-red); border-color: var(--stamp-red); transform: rotate(-4deg); }
+  .stamp.blue { color: var(--stamp-blue); border-color: var(--stamp-blue); transform: rotate(2deg); }
+  .stamp.faded { color: var(--margin-col); border-color: var(--margin-col); transform: rotate(-1deg); opacity: 0.45; font-size: 0.6rem; }
+  .doc-meta { font-family: 'Anonymous Pro', monospace; font-size: 0.65rem; color: var(--faded); line-height: 1.8; border-bottom: 1px solid rgba(14,18,24,0.12); padding-bottom: 20px; margin-bottom: 32px; animation: fadeIn 0.8s ease both 0.6s; }
+  .doc-meta span { color: var(--ink); font-weight: bold; }
+  .doc-title { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: clamp(2.4rem, 7vw, 4.2rem); line-height: 1.0; color: var(--ink); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 6px; animation: fadeIn 1s ease both 0.7s; }
+  .doc-subtitle { font-family: 'Sorts Mill Goudy', Georgia, serif; font-style: italic; font-size: 1.05rem; color: var(--faded); margin-bottom: 36px; animation: fadeIn 1s ease both 0.8s; }
+  .danger-meter { display: flex; align-items: center; gap: 18px; padding: 14px 0 18px; border-bottom: 1px solid rgba(14,18,24,0.1); margin-bottom: 36px; flex-wrap: wrap; }
+  .danger-label-col { flex-shrink: 0; }
+  .danger-title { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; letter-spacing: 0.25em; color: var(--faded); text-transform: uppercase; margin-bottom: 4px; }
+  .danger-name { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.6rem; color: var(--warn); letter-spacing: 0.06em; line-height: 1; }
+  .danger-bars { display: flex; gap: 3px; flex: 1; min-width: 140px; }
+  .bar { height: 14px; flex: 1; border: 1px solid rgba(14,18,24,0.12); background: rgba(14,18,24,0.04); }
+  .bar.filled { background: var(--warn); border-color: var(--warn); }
+  .danger-desc { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; color: var(--faded); letter-spacing: 0.06em; max-width: 160px; line-height: 1.5; text-transform: uppercase; flex-shrink: 0; }
+  .section { margin-bottom: 40px; animation: fadeUp 0.7s ease both; }
+  .section-head { font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 0.72rem; letter-spacing: 0.28em; color: var(--faded); text-transform: uppercase; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+  .section-head::before { content: ''; width: 18px; height: 1px; background: var(--accent); opacity: 0.5; flex-shrink: 0; }
+  .section-head::after { content: ''; flex: 1; height: 1px; background: var(--rule); opacity: 2; }
+  p { font-size: 1.05rem; line-height: 1.9; color: var(--ink); margin-bottom: 18px; }
+  em { font-style: italic; }
+  strong { font-weight: 600; }
+  .pull-quote { border-left: 3px solid var(--accent); padding: 14px 22px; margin: 24px 0; background: rgba(26,80,128,0.05); font-style: italic; font-size: 1.08rem; color: var(--ink); line-height: 1.75; }
+  .warning-box { border: 1px solid rgba(122,26,16,0.3); padding: 16px 20px; margin: 24px 0; background: rgba(122,26,16,0.03); }
+  .warning-box .warn-label { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; letter-spacing: 0.25em; color: var(--warn); text-transform: uppercase; margin-bottom: 10px; }
+  .warning-box p { margin-bottom: 0; font-size: 0.97rem; }
+  .lore-box { background: var(--aged); border-top: 2px solid var(--accent); padding: 18px 22px; margin: 24px 0; position: relative; }
+  .lore-box::before { content: 'FIELD NOTE'; position: absolute; top: -9px; left: 14px; background: var(--aged); padding: 0 8px; font-family: 'Anonymous Pro', monospace; font-size: 0.56rem; letter-spacing: 0.18em; color: var(--faded); }
+  .lore-box p { font-size: 0.96rem; margin-bottom: 0; color: var(--faded); }
+  .stat-row { display: flex; border: 1px solid rgba(14,18,24,0.12); margin: 16px 0 24px; overflow: hidden; }
+  .stat { flex: 1; padding: 14px 16px; border-right: 1px solid rgba(14,18,24,0.1); background: var(--aged); }
+  .stat:last-child { border-right: none; }
+  .stat-num { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 2.2rem; color: var(--accent); line-height: 1; letter-spacing: 0.04em; display: block; }
+  .stat-label { font-family: 'Anonymous Pro', monospace; font-size: 0.6rem; color: var(--faded); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px; line-height: 1.4; }
+  .rules-list { list-style: none; padding: 0; margin: 16px 0; }
+  .rules-list li { display: flex; gap: 16px; padding: 13px 0; border-bottom: 1px solid rgba(14,18,24,0.08); font-size: 1.02rem; line-height: 1.75; color: var(--ink); }
+  .rules-list li:last-child { border-bottom: none; }
+  .rule-num { font-family: 'Rajdhani', sans-serif; font-weight: 700; color: var(--accent); font-size: 1.3rem; min-width: 32px; line-height: 1.2; }
+  .encounter-card { border: 1px solid rgba(14,18,24,0.14); background: var(--aged); margin: 0 0 32px; overflow: hidden; }
+  .encounter-header { background: rgba(14,18,24,0.04); border-bottom: 1px solid rgba(14,18,24,0.1); padding: 18px 22px; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+  .encounter-id { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; letter-spacing: 0.24em; color: var(--warn); text-transform: uppercase; margin-bottom: 5px; }
+  .encounter-title { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.45rem; color: var(--ink); letter-spacing: 0.03em; line-height: 1.15; }
+  .encounter-meta { font-family: 'Anonymous Pro', monospace; font-size: 0.6rem; color: var(--faded); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+  .encounter-verdict { flex-shrink: 0; text-align: right; }
+  .verdict-label { font-family: 'Anonymous Pro', monospace; font-size: 0.52rem; letter-spacing: 0.2em; color: var(--margin-col); text-transform: uppercase; margin-bottom: 4px; }
+  .verdict-badge { font-family: 'Anonymous Pro', monospace; font-size: 0.6rem; letter-spacing: 0.1em; padding: 4px 9px; border: 1px solid; display: inline-block; text-transform: uppercase; }
+  .verdict-badge.verified { color: #3a6a3a; border-color: #3a6a3a; background: rgba(58,106,58,0.07); }
+  .verdict-badge.documented { color: #6a5020; border-color: #6a5020; background: rgba(106,80,32,0.07); }
+  .encounter-body { padding: 22px; }
+  .encounter-body p { font-size: 1.0rem; line-height: 1.86; margin-bottom: 16px; }
+  .encounter-body p:last-of-type { margin-bottom: 0; }
+  .references { border-top: 1px solid rgba(14,18,24,0.1); padding: 14px 22px; background: rgba(14,18,24,0.02); }
+  .ref-label { font-family: 'Anonymous Pro', monospace; font-size: 0.54rem; letter-spacing: 0.24em; color: var(--margin-col); text-transform: uppercase; margin-bottom: 10px; }
+  .ref-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+  .ref-list li { font-family: 'Anonymous Pro', monospace; font-size: 0.62rem; color: var(--faded); line-height: 1.5; display: flex; gap: 8px; align-items: baseline; }
+  .ref-list li::before { content: '→'; color: var(--warn); flex-shrink: 0; opacity: 0.6; }
+  .ref-list a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(26,80,128,0.2); transition: border-color 0.2s; word-break: break-all; }
+  .ref-list a:hover { border-color: var(--accent); }
+  .outro { font-size: 1.1rem; color: var(--ink); line-height: 1.85; margin-top: 44px; padding-top: 28px; border-top: 1px solid rgba(14,18,24,0.12); font-style: italic; }
+  .sign-off-block { margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(14,18,24,0.1); display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; }
+  .sig-left { font-family: 'Anonymous Pro', monospace; font-size: 0.62rem; color: var(--faded); line-height: 1.8; }
+  .sig-name { font-family: 'Sorts Mill Goudy', Georgia, serif; font-style: italic; font-size: 1.5rem; color: var(--ink); opacity: 0.5; display: block; margin-top: 4px; }
+  .sig-right { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; color: rgba(14,18,24,0.3); text-align: right; line-height: 1.8; text-transform: uppercase; letter-spacing: 0.1em; }
+  .bottom-bar { background: var(--redact); color: #b0c0d0; font-family: 'Anonymous Pro', monospace; font-size: 0.6rem; letter-spacing: 0.3em; text-align: center; padding: 7px 0; text-transform: uppercase; }
+  .section:nth-child(1){animation-delay:0.8s} .section:nth-child(2){animation-delay:0.95s} .section:nth-child(3){animation-delay:1.1s} .section:nth-child(4){animation-delay:1.25s} .section:nth-child(5){animation-delay:1.4s} .section:nth-child(6){animation-delay:1.55s} .section:nth-child(7){animation-delay:1.7s} .section:nth-child(8){animation-delay:1.85s}
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+  @media(max-width:600px){ .doc-inner{padding:36px 24px 52px 80px} .doc-inner::before{left:56px} .encounter-header{flex-direction:column} .encounter-verdict{text-align:left} .stat-row{flex-direction:column} .danger-desc{max-width:100%} }
+
+  .social-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--faded);
+    border: 1px solid rgba(0,0,0,0.15);
+    padding: 7px 9px; justify-content: center;
+    background: rgba(0,0,0,0.04);
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .social-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .social-btn:hover { background: rgba(0,0,0,0.08); color: var(--ink); border-color: rgba(0,0,0,0.25); }
+
+</style>
+</head>
+<body>
+<div class="document">
+  <div class="classification-bar">◆ &nbsp; monster survival guide &nbsp;—&nbsp; the wendigo &nbsp; ◆</div>
+  <div class="doc-inner">
+    <a href="/" style="display:inline-block; margin-bottom:18px; font-family:'Anonymous Pro',monospace; font-size:0.62rem; letter-spacing:0.2em; color:var(--faded); text-decoration:none; text-transform:uppercase; opacity:0.7;">&larr; Back to all entries</a>
+    <div class="stamp-row">
+      <div class="stamp red">Extreme Cold</div>
+      <div class="stamp faded">Boreal Forests</div>
+      <div class="stamp blue">Ancient Threat</div>
+    </div>
+    <div class="doc-meta">
+      <div>ENTITY: &nbsp;<span>The Wendigo (Windigo / Witiko)</span></div>
+      <div>ORIGIN: &nbsp;<span>Algonquian Tradition — Northern Boreal Forests</span></div>
+      <div>THREAT GUIDE TYPE: &nbsp;<span>Identification · Behaviour · Survival Protocol</span></div>
+      <div>STATUS: &nbsp;<span>Active Threat — Seasonal / Winter Months</span></div>
+    </div>
+    <div class="doc-title">The Wendigo</div>
+    <p class="doc-subtitle"><em>It was human once. That is the part that should terrify you.</em></p>
+    <div class="danger-meter">
+      <div class="danger-label-col"><div class="danger-title">Monster Danger Index</div><div class="danger-name">CRITICAL</div></div>
+      <div class="danger-bars"><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar"></div></div>
+      <div class="danger-desc">9/10 — Apex predator. Possession risk. No escape in isolation.</div>
+    </div>
+    <div class="section">
+      <div class="section-head">If You're Reading This</div>
+      <p>Picture this. It is February. You are somewhere in the northern wilderness — Canada, maybe, or the upper reaches of the American Midwest. The temperature has dropped below what the thermometer was built to measure. Your fire is small and you are very, very far from anyone who could help you.</p>
+      <p>You hear something outside the treeline. Not a snap of a branch — something worse. The sound of movement that stops the moment you go still. Something that knows you heard it. Something that waits.</p>
+      <p>The Algonquian people of the northeastern forests have a word for what is out there. They have had it for centuries. They did not make it up to frighten children. They made it up because they needed a name for something real.</p>
+      <p>Welcome to the Monster Survival Guide. Episode One. Tonight, we talk about the Wendigo — the spirit of the winter, the hunger that walks, the thing that used to be a person. Pull your coat tighter. Do not let the fire go out. And whatever you do — do not go outside to check that sound.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">Where It Comes From</div>
+      <p>The Wendigo does not come from a forum post or a campfire story told to scare teenagers. It comes from one of the oldest and most deeply held belief systems of the Algonquian-speaking peoples — the Ojibwe, the Cree, the Innu, the Naskapi — nations who have lived alongside the deep northern forests for thousands of years. This is not mythology in the diminishing sense. This is theology. This is warning. This is history.</p>
+      <p>The word itself — <em>Wendigo</em>, or Windigo, or Witiko depending on the community — translates roughly as the evil spirit that devours mankind. But that translation flattens something important. Because the Wendigo is not simply a monster that exists in the dark. It is a transformation. It is what a person becomes.</p>
+      <div class="pull-quote">The Wendigo begins as a human being. It ends as something that no longer remembers what it was. The horror is not that the monster is out there. The horror is that it was once in here — sitting by a fire exactly like this one, afraid of the cold, afraid of the dark, afraid of starving.</div>
+      <p>The transformation is triggered by an act of cannibalism. In the brutal winters of the subarctic, this was not an unthinkable eventuality — it was a grim possibility that entire communities had to confront. The Wendigo myth served, among other things, as a profound moral warning: once you eat human flesh, you are no longer fully human. You have let something in that cannot be let back out.</p>
+      <div class="lore-box"><p>Wendigo psychosis is a real, documented culture-bound syndrome in which individuals in northern Algonquian communities became convinced they were transforming into Wendigos — developing an intense, compulsive craving for human flesh despite having access to food. Cases were recorded by missionaries and traders as early as the 17th century. In many documented instances, the affected individual pleaded to be killed before the transformation completed.</p></div>
+    </div>
+    <div class="section">
+      <div class="section-head">What You Are Looking At</div>
+      <div class="stat-row">
+        <div class="stat"><span class="stat-num">15FT</span><span class="stat-label">Reported average height of a fully transformed Wendigo</span></div>
+        <div class="stat"><span class="stat-num">−40°</span><span class="stat-label">Typical operating temperature range — subarctic winter</span></div>
+        <div class="stat"><span class="stat-num">1000+</span><span class="stat-label">Years of documented cultural record across Algonquian nations</span></div>
+      </div>
+      <p>The Wendigo is enormous — skeletal, towering, wrong in proportion in the way that only things that were once human can be wrong. It is gaunt to the point of impossibility, every rib visible, skin stretched tight over a frame that seems too large for the flesh covering it. The skin is described as grey or pale yellow, sometimes mottled with frost.</p>
+      <p>Its eyes are deep in hollow sockets, and they glow — red, or yellow, depending on the account. In virtually every traditional description, its lips are chewed away — eaten by the creature itself in its endless, insatiable hunger. The hands end in long, blackened fingers or outright claws. It does not feel the cold. The cold is part of it.</p>
+      <div class="warning-box"><div class="warn-label">⚠ Critical Field Note</div><p>The Wendigo does not stalk from a distance the way a predator does. It moves alongside you, just beyond your vision, matching your pace. It is often reported as being sensed rather than seen — a wrongness in the air, an instinct that the forest is suddenly inhabited in a way it was not a moment ago. By the time you can see it clearly, you have already been hunted for some time.</p></div>
+    </div>
+    <div class="section">
+      <div class="section-head">How It Hunts</div>
+      <p>The Wendigo's hunger is not biological. It does not eat to survive. It eats because the hunger is infinite and insatiable — the more it consumes, the larger it grows, and the larger it grows, the more it needs. There is no satisfying a Wendigo. It will always come back. It will always need more.</p>
+      <p>Its primary method is <em>isolation</em>. It separates prey from the group. A sound just far enough into the trees to investigate. A voice calling your name in a direction that does not quite make sense. A companion who wandered off and has not returned. The Wendigo is patient. It has existed through hundreds of winters. It knows how to wait.</p>
+      <p>There are accounts of the Wendigo mimicking human voices — calling out in the voices of lost companions, of children, of loved ones. It learns your specific attachments. It calls in voices you cannot ignore. This is not animal behaviour. This is human intelligence, twisted entirely toward consumption.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">What Actually Works Against It</div>
+      <p><strong>Fire.</strong> The most consistent and most important. The Wendigo is constituted of cold. Keep your fire burning large and hot. It repels where it cannot harm.</p>
+      <p><strong>Silver and iron.</strong> Consistent across multiple accounts — silver weapons cause injury where conventional weapons do not. Cold iron is repellent across northern European and indigenous folklore traditions.</p>
+      <p><strong>Melting the heart.</strong> Traditional Algonquian accounts are specific: to destroy a Wendigo permanently, you must melt its heart of ice. Fire again. Always fire.</p>
+      <p><strong>Staying together.</strong> The Wendigo hunts the isolated. It is rarely reported attacking groups. Stay with your people. Do not go to investigate sounds alone.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">Six Rules That May Save Your Life</div>
+      <ul class="rules-list">
+        <li><span class="rule-num">01</span><span><strong>Never go into the northern wilderness alone in winter.</strong> The creature targets the isolated. Remove isolation from the equation wherever possible.</span></li>
+        <li><span class="rule-num">02</span><span><strong>Maintain your fire at all costs.</strong> Not a small fire. Not a dying fire. A fire that burns loud and hot and announces your presence to everything in the forest. The cold is the Wendigo's domain. Heat is yours.</span></li>
+        <li><span class="rule-num">03</span><span><strong>Do not follow voices into the trees.</strong> If you hear your name called in the dark — especially in a voice you recognise — do not move toward it. Call back from where you are. Wait for the person to come to you.</span></li>
+        <li><span class="rule-num">04</span><span><strong>Watch for the cold inside.</strong> An unnatural cold felt from within. A craving that is not quite hunger. A detachment from the people around you. These are not metaphors. Take them seriously immediately.</span></li>
+        <li><span class="rule-num">05</span><span><strong>Do not let desperation become an option.</strong> Plan for more food than you think you need. Know your exit routes. The worst outcomes begin with the worst situations — reduce the situations.</span></li>
+        <li><span class="rule-num">06</span><span><strong>Respect the forest and the people who taught us this.</strong> The Algonquian nations have lived alongside this danger for thousands of years. Their warnings are not superstition. They are accumulated wisdom paid for in survival.</span></li>
+      </ul>
+    </div>
+    <div class="section">
+      <div class="section-head">Two Cases on the Record</div>
+      <p>These two cases are documented in court records, police reports, historical archives, and academic literature. They are the closest we have to proof that the Wendigo is not only ancient folklore, but something communities have had to face, survive, and legislate around.</p>
+      <div class="encounter-card">
+        <div class="encounter-header">
+          <div><div class="encounter-id">Encounter 01 · Alberta, Canada · Winter 1878–79</div><div class="encounter-title">The Case of Swift Runner</div><div class="encounter-meta">Ka-Ki-Si-Kutchin · Cree Trapper · First Legal Execution in Alberta</div></div>
+          <div class="encounter-verdict"><div class="verdict-label">Classification</div><div class="verdict-badge verified">Legally Verified</div></div>
+        </div>
+        <div class="encounter-body">
+          <p>In the spring of 1879, a large, well-fed Cree trapper named Swift Runner walked out of the northern Alberta wilderness and into a Catholic mission near Fort Edmonton. He told the priests a story of tragedy: his entire family had perished during a brutal winter — his wife, six children, his mother, his brother. All gone, he said, to starvation.</p>
+          <p>The priests were immediately suspicious. Swift Runner did not look like a man who had starved. He was healthy, well-fed. And he was plagued, night after night, with screaming fits and nightmares. Officers escorted him back to his family's winter camp. The camp was littered with bones, fragments of hair, shreds of clothing. Some of the larger bones had been snapped open, the marrow sucked out. There were eight people unaccounted for. There was only Swift Runner.</p>
+          <p>He confessed. He had done all of this while only twenty-five miles from a Hudson's Bay Company post stocked with food. His defence was possession — that the spirit of a Wendigo had entered him through dreams, that the first act of cannibalism years earlier had opened a door that could not be closed. The jury deliberated for twenty minutes.</p>
+          <p>On December 20, 1879, Swift Runner was hanged at Fort Saskatchewan — the first legal execution in Alberta. Before he died, he said: <em>"I am the least of men and do not merit even being called a man."</em> His case remains the most cited foundational example of Wendigo psychosis in academic literature.</p>
+        </div>
+        <div class="references">
+          <div class="ref-label">// Sources &amp; References</div>
+          <ul class="ref-list">
+            <li>Mysteries of Canada — "Wendigo Encounters in Canada: Swift Runner" (2023): <a href="https://mysteriesofcanada.com/alberta/wendigo-encounters-in-canada-episode-3-swift-runner/" target="_blank">mysteriesofcanada.com</a></li>
+            <li>Executed Today — "1879: Swift Runner, wendigo": <a href="https://www.executedtoday.com/2014/12/20/1879-swift-runner-wendigo/" target="_blank">executedtoday.com</a></li>
+            <li>Britannica — "Wendigo": <a href="https://www.britannica.com/topic/wendigo" target="_blank">britannica.com</a></li>
+            <li>Nathan D. Carlson — Ethnohistory Journal (2009), Duke University Press: <a href="https://read.dukeupress.edu/ethnohistory/article-pdf/56/3/355/253996/EH056-03-01CarlsonFpp.pdf" target="_blank">dukeupress.edu (PDF)</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="encounter-card">
+        <div class="encounter-header">
+          <div><div class="encounter-id">Encounter 02 · Sandy Lake, Ontario · 1906–1907</div><div class="encounter-title">Jack Fiddler — The Wendigo Hunter</div><div class="encounter-meta">Zhauwuno-geezhigo-gaubow · Oji-Cree Shaman &amp; Chief · 14 Claimed Kills</div></div>
+          <div class="encounter-verdict"><div class="verdict-label">Classification</div><div class="verdict-badge documented">Court Documented</div></div>
+        </div>
+        <div class="encounter-body">
+          <p>In the summer of 1907, two officers of the Royal North-West Mounted Police trekked deep into the boreal forests of northwestern Ontario — territory so remote that no patrol had ever entered it before. They were looking for an 87-year-old shaman named Zhauwuno-geezhigo-gaubow, known to Europeans as Jack Fiddler. His Anishinaabe name meant: <em>He who stands in the southern sky.</em></p>
+          <p>The charge was murder. The victim: Wahsakapeequay, Joseph's daughter-in-law, who had been strangled to prevent her from completing a transformation into a Wendigo. She was the fourteenth. Over his lifetime, Jack Fiddler had killed fourteen people his community identified as Wendigos or individuals on the verge of becoming one. In many cases, the affected person asked to be killed before they could harm others.</p>
+          <p>To his community, Jack Fiddler was not a murderer. He was the only line of defence between the Sucker people and something that had taken lives in those forests for generations. The trial that followed was the first Canadian legal proceeding ever to reach the Sandy Lake people.</p>
+          <p>In October 1907, Jack Fiddler slipped away from his guard during a supervised walk, tied a slipknot in his own sash, and was dead within minutes. He never faced trial. His brother Joseph died in prison three days before news of his pardon arrived. Jack Fiddler's case remains the only trial of its kind in Canadian legal history.</p>
+        </div>
+        <div class="references">
+          <div class="ref-label">// Sources &amp; References</div>
+          <ul class="ref-list">
+            <li>Wikipedia — "Jack Fiddler": <a href="https://en.wikipedia.org/wiki/Jack_Fiddler" target="_blank">en.wikipedia.org/wiki/Jack_Fiddler</a></li>
+            <li>Dictionary of Canadian Biography — "Zhauwuno-geezhigo-gaubow": <a href="https://www.biographi.ca/en/bio/zhauwuno_geezhigo_gaubow_13E.html" target="_blank">biographi.ca</a></li>
+            <li>The Hypocrite Reader — "The Power to Punish": <a href="https://hypocritereader.com/2/the-power-to-punish" target="_blank">hypocritereader.com</a></li>
+            <li>Legends of America — "Wendigo – Flesheater of the Forests": <a href="https://www.legendsofamerica.com/mn-wendigo/" target="_blank">legendsofamerica.com</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head">Before You Go</div>
+      <div class="outro">
+        <p>The Wendigo is not the most mysterious monster we will cover on this show. It does not hide in your peripheral vision or follow you through the internet. It is simply enormous, ancient, and hungry — and it was once exactly like you.</p>
+        <p style="margin-top:18px;">Swift Runner stood twenty-five miles from food and chose differently. Jack Fiddler stood between his people and something they had feared for generations, and the law came for him anyway. Both stories end the same way: with the cold winning, one way or another.</p>
+        <p style="margin-top:18px;">Keep your fire burning. Stay with your people. And the next time you are somewhere cold and you hear your name called from a direction that does not quite make sense — <em>stay where you are.</em></p>
+        <p style="margin-top:18px;">This has been the Monster Survival Guide. Stay warm. Stay sceptical. And remember — the cold has teeth.</p>
+      </div>
+    </div>
+    <div class="sign-off-block"><div class="sig-left">Monster Survival Guide<br/><span class="sig-name">Zazu</span><span style="font-family:'Anonymous Pro',monospace;font-size:0.58rem;color:var(--margin-col);">Identification · Survival · Documented Accounts</span>
+    <div class="social-row">
+      <a href="#" class="social-btn" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg></a>
+      <a href="#" class="social-btn" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.5h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg></a>
+      <a href="#" class="social-btn" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85 0 3.2-.01 3.58-.07 4.85-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07-3.2 0-3.58-.01-4.85-.07-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12c0-3.2.01-3.58.07-4.85C2.38 3.85 3.9 2.31 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.7.07 7.05.01 8.33 0 8.74 0 12c0 3.26.01 3.67.07 4.95.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24c3.26 0 3.67-.01 4.95-.07 4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95 0-3.26-.01-3.67-.07-4.95-.2-4.35-2.63-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32A6.16 6.16 0 0 0 12 5.84zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg></a>
+      <a href="#" class="social-btn" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.24 2h3.28l-7.17 8.2L22.79 22h-6.6l-5.17-6.76L4.84 22H1.55l7.67-8.77L1.2 2h6.77l4.67 6.18zm-1.15 18h1.82L6.99 3.84H5.04z"/></svg></a>
+      <a href="#" class="social-btn" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg></a>
+    </div></div><div class="sig-right">Classification: Open<br/>Distribution: Unrestricted<br/>Status: <span style="color:var(--warn);">Active Entry</span></div></div>
+  </div>
+  <div class="bottom-bar">◆ &nbsp; monster survival guide &nbsp;—&nbsp; the wendigo &nbsp; ◆</div>
+</div>
+</body>
+</html>
