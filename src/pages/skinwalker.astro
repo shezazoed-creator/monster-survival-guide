@@ -1,0 +1,289 @@
+---
+import FieldManual from '../layouts/FieldManual.astro';
+
+export const entry = {
+  number: "07",
+  entryClass: "Cultural Threat",
+  region: "Four Corners",
+  title: "The Skinwalker",
+  description: "The teaching is older than the country it walks in. The teaching is also that we should not be talking about it.",
+  tags: ["Sacred lore", "Discuss with care", "Four Corners region"],
+  danger: 9,
+  bandColor: "#6a2818",
+  url: "/skinwalker",
+};
+---
+
+<FieldManual title="The Skinwalker" classification="monster survival guide &nbsp;—&nbsp; the skinwalker" status="Active Entry — Sensitive">
+  <style is:global>
+:root {
+    --paper: #e8ddc8;
+    --aged: #dccfb6;
+    --ink: #1a0e08;
+    --faded: #4a3020;
+    --stamp-red: #8b1a0a;
+    --stamp-blue: #5a2818;
+    --accent: #6a2818;
+    --redact: #100804;
+    --margin: #8a6a4a;
+    --rule: rgba(26,14,8,0.1);
+    --warn: #8b1a0a;
+    --eye: #c04020;
+  }
+
+.danger-meter { display: flex; align-items: center; gap: 18px; padding: 14px 0 18px; border-bottom: 1px solid rgba(26,14,8,0.1); margin-bottom: 36px; flex-wrap: wrap; }
+
+.danger-label-col { flex-shrink: 0; }
+
+.danger-title { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; letter-spacing: 0.25em; color: var(--faded); text-transform: uppercase; margin-bottom: 4px; }
+
+.danger-name { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.6rem; color: var(--eye); letter-spacing: 0.06em; line-height: 1; }
+
+.danger-bars { display: flex; gap: 3px; flex: 1; min-width: 140px; }
+
+.bar { height: 14px; flex: 1; border: 1px solid rgba(26,14,8,0.1); background: rgba(26,14,8,0.03); }
+
+.bar.filled { background: var(--eye); border-color: var(--eye); }
+
+.danger-desc { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; color: var(--faded); letter-spacing: 0.06em; max-width: 160px; line-height: 1.5; text-transform: uppercase; flex-shrink: 0; }
+
+.section { margin-bottom: 40px; animation: fadeUp 0.7s ease both; }
+
+em { font-style: italic; }
+
+strong { font-weight: 600; }
+
+.pull-quote { border-left: 3px solid var(--accent); padding: 14px 22px; margin: 24px 0; background: rgba(106,40,24,0.06); font-style: italic; font-size: 1.08rem; color: var(--ink); line-height: 1.75; }
+
+.warning-box { border: 1px solid rgba(139,26,10,0.3); padding: 16px 20px; margin: 24px 0; background: rgba(139,26,10,0.03); }
+
+.warning-box .warn-label { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; letter-spacing: 0.25em; color: var(--warn); text-transform: uppercase; margin-bottom: 10px; }
+
+.warning-box p { margin-bottom: 0; font-size: 0.97rem; }
+
+.cultural-note { border: 2px solid var(--accent); padding: 20px 24px; margin: 28px 0; background: rgba(106,40,24,0.04); position: relative; }
+
+.cultural-note::before { content: 'CULTURAL CONTEXT — READ FIRST'; position: absolute; top: -10px; left: 16px; background: var(--paper); padding: 0 10px; font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; letter-spacing: 0.22em; color: var(--accent); font-weight: 700; }
+
+.cultural-note p { font-size: 0.97rem; margin-bottom: 12px; line-height: 1.8; }
+
+.cultural-note p:last-child { margin-bottom: 0; }
+
+.lore-box { background: var(--aged); border-top: 2px solid var(--accent); padding: 18px 22px; margin: 24px 0; position: relative; }
+
+.lore-box::before { content: 'FIELD NOTE'; position: absolute; top: -9px; left: 14px; background: var(--aged); padding: 0 8px; font-family: 'Anonymous Pro', monospace; font-size: 0.56rem; letter-spacing: 0.18em; color: var(--faded); }
+
+.lore-box p { font-size: 0.96rem; margin-bottom: 0; color: var(--faded); }
+
+.stat-row { display: flex; border: 1px solid rgba(26,14,8,0.12); margin: 16px 0 24px; overflow: hidden; }
+
+.stat { flex: 1; padding: 14px 16px; border-right: 1px solid rgba(26,14,8,0.1); background: var(--aged); }
+
+.stat:last-child { border-right: none; }
+
+.stat-num { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 2.2rem; color: var(--eye); line-height: 1; letter-spacing: 0.04em; display: block; }
+
+.stat-label { font-family: 'Anonymous Pro', monospace; font-size: 0.6rem; color: var(--faded); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px; line-height: 1.4; }
+
+.rules-list { list-style: none; padding: 0; margin: 16px 0; }
+
+.rules-list li { display: flex; gap: 16px; padding: 13px 0; border-bottom: 1px solid rgba(26,14,8,0.08); font-size: 1.02rem; line-height: 1.75; color: var(--ink); }
+
+.rules-list li:last-child { border-bottom: none; }
+
+.rule-num { font-family: 'Rajdhani', sans-serif; font-weight: 700; color: var(--accent); font-size: 1.3rem; min-width: 32px; line-height: 1.2; }
+
+.encounter-card { border: 1px solid rgba(26,14,8,0.14); background: var(--aged); margin: 0 0 32px; overflow: hidden; }
+
+.encounter-header { background: rgba(26,14,8,0.04); border-bottom: 1px solid rgba(26,14,8,0.1); padding: 18px 22px; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+
+.encounter-id { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; letter-spacing: 0.24em; color: var(--eye); text-transform: uppercase; margin-bottom: 5px; }
+
+.encounter-title { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.45rem; color: var(--ink); letter-spacing: 0.03em; line-height: 1.15; }
+
+.encounter-meta { font-family: 'Anonymous Pro', monospace; font-size: 0.6rem; color: var(--faded); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+
+.encounter-verdict { flex-shrink: 0; text-align: right; }
+
+.verdict-label { font-family: 'Anonymous Pro', monospace; font-size: 0.52rem; letter-spacing: 0.2em; color: var(--margin); text-transform: uppercase; margin-bottom: 4px; }
+
+.verdict-badge { font-family: 'Anonymous Pro', monospace; font-size: 0.6rem; letter-spacing: 0.1em; padding: 4px 9px; border: 1px solid; display: inline-block; text-transform: uppercase; }
+
+.verdict-badge.documented { color: #6a5020; border-color: #6a5020; background: rgba(106,80,32,0.07); }
+
+.verdict-badge.cultural { color: #6a2818; border-color: #6a2818; background: rgba(106,40,24,0.07); }
+
+.encounter-body { padding: 22px; }
+
+.encounter-body p { font-size: 1.0rem; line-height: 1.86; margin-bottom: 16px; }
+
+.encounter-body p:last-of-type { margin-bottom: 0; }
+
+.references { border-top: 1px solid rgba(26,14,8,0.1); padding: 14px 22px; background: rgba(26,14,8,0.02); }
+
+.ref-label { font-family: 'Anonymous Pro', monospace; font-size: 0.54rem; letter-spacing: 0.24em; color: var(--margin); text-transform: uppercase; margin-bottom: 10px; }
+
+.ref-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+
+.ref-list li { font-family: 'Anonymous Pro', monospace; font-size: 0.62rem; color: var(--faded); line-height: 1.5; display: flex; gap: 8px; align-items: baseline; }
+
+.ref-list li::before { content: '→'; color: var(--eye); flex-shrink: 0; opacity: 0.6; }
+
+.ref-list a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(106,40,24,0.25); transition: border-color 0.2s; word-break: break-all; }
+
+.ref-list a:hover { border-color: var(--accent); }
+
+.outro { font-size: 1.1rem; color: var(--ink); line-height: 1.85; margin-top: 44px; padding-top: 28px; border-top: 1px solid rgba(26,14,8,0.12); font-style: italic; }
+
+.section:nth-child(1){animation-delay:0.8s}
+
+.section:nth-child(2){animation-delay:0.95s}
+
+.section:nth-child(3){animation-delay:1.1s}
+
+.section:nth-child(4){animation-delay:1.25s}
+
+.section:nth-child(5){animation-delay:1.4s}
+
+.section:nth-child(6){animation-delay:1.55s}
+
+.section:nth-child(7){animation-delay:1.7s}
+
+.section:nth-child(8){animation-delay:1.85s}
+
+.section:nth-child(9){animation-delay:2.0s}
+
+@media(max-width:600px) {
+  .encounter-header{flex-direction:column}
+  .encounter-verdict{text-align:left}
+  .stat-row{flex-direction:column}
+  .danger-desc{max-width:100%}
+}
+  </style>
+
+    <a href="/" style="display:inline-block; margin-bottom:18px; font-family:'Anonymous Pro',monospace; font-size:0.62rem; letter-spacing:0.2em; color:var(--faded); text-decoration:none; text-transform:uppercase; opacity:0.7;">&larr; Back to Guide</a>
+    <div class="stamp-row">
+      <div class="stamp red">Sacred Lore</div>
+      <div class="stamp faded">Four Corners</div>
+      <div class="stamp blue">Discuss With Care</div>
+    </div>
+    <div class="doc-meta">
+      <div>ENTITY: &nbsp;<span>The Skinwalker (Yee Naaldlooshii)</span></div>
+      <div>ORIGIN: &nbsp;<span>Diné (Navajo) Tradition — American Southwest</span></div>
+      <div>THREAT GUIDE TYPE: &nbsp;<span>Identification · Behaviour · Survival Protocol</span></div>
+      <div>STATUS: &nbsp;<span>Critical — Active Reports From Four Corners Region</span></div>
+    </div>
+    <div class="doc-title">The Skinwalker</div>
+    <p class="doc-subtitle"><em>The teaching is older than the country it walks in. The teaching is also that we should not be talking about it.</em></p>
+    <div class="danger-meter">
+      <div class="danger-label-col"><div class="danger-title">Monster Danger Index</div><div class="danger-name">CRITICAL</div></div>
+      <div class="danger-bars"><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar"></div></div>
+      <div class="danger-desc">9/10 — Apex spiritual threat. Shapeshifting. Mimicry. Avoidance is the only protocol.</div>
+    </div>
+    <div class="cultural-note">
+      <p>This entry concerns a being from the sacred tradition of the Diné — the Navajo Nation. Within traditional Diné belief, public discussion of this entity is considered both inappropriate and dangerous. To speak its name openly, to ask elders about it, or to study it from outside the culture is, in many traditional teachings, to invite its attention.</p>
+      <p>We are not Diné. We are presenting this entry because the entity is referenced widely in popular folklore, and because uninformed engagement with its legend has produced real harm. We have therefore made three editorial decisions: <strong>we do not include images, we do not present specific Diné ceremonial information that elders have asked be kept private, and we centre the survival material on what non-Diné people most need to know — which is, almost entirely, what not to do.</strong></p>
+      <p>If you are Diné, you do not need this guide. If you are not Diné, the most respectful thing you can do is read it once, take the warnings seriously, and not bring this conversation into the homes or gatherings of Diné people you may know. The teaching is not yours, and it is not portable.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">Before We Begin</div>
+      <p>You are driving across the high desert at night. The Four Corners region — the place where Utah, Colorado, Arizona, and New Mexico meet — is one of the largest stretches of unlit, uninhabited land in the continental United States. The road runs straight for miles. Your high-beams pick out red rock, sagebrush, the occasional fence-line. Nothing else.</p>
+      <p>And then, briefly, your headlights catch something paralleling your vehicle on the open ground a hundred yards off the road. A coyote, you think. Then the figure rises onto two legs and continues to keep pace with your car at fifty miles an hour. It is not a coyote. It is not anything you have a name for in any tradition you grew up in.</p>
+      <p>It does not catch up. It does not need to. It is keeping you company.</p>
+      <p>Welcome back to the Monster Survival Guide. Tonight we are going to do something we have not done before, and that we will do again only when we have to. We are going to talk carefully. We are going to talk briefly. And we are going to be honest about the limits of what we, the people making this show, are entitled to say.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">Where It Comes From</div>
+      <p>The Diné — known in English as the Navajo — are the largest Indigenous nation in the United States, with a homeland that spans the Four Corners and a cosmology that is among the most carefully maintained in North America. Within that cosmology, there exists a category of being that English-language sources translate, badly, as <em>"witch"</em> — a person who has chosen, deliberately and through specific transgressions, to become something that is no longer fully a person.</p>
+      <p>The most widely referenced of these is the <em>Yee Naaldlooshii</em>. The phrase translates roughly as <em>"with it, he goes on all fours"</em> — referring to a person who, having broken the most serious cultural and spiritual taboos, has acquired the ability to take the shape of an animal by wearing its skin. The transgressions required to achieve this transformation are profound. They include, in most traditional accounts, the killing of a close family member. The cost is, by design, the worst thing a person can do.</p>
+      <div class="pull-quote">The horror of the Yee Naaldlooshii is not that it is non-human. The horror is that it was once a person. It still has all the knowledge of a person. It knows your name, your habits, your weaknesses, the sound of your child's voice. And it has chosen, fully and irreversibly, to use that knowledge against you.</div>
+      <p>The teaching is centuries old. It is not folklore in the diminishing sense. It is, within its tradition, a serious moral and theological category — a description of what happens when a community member decides to stop being a community member, and what the consequences of that decision are for everyone around them. The protective ceremonies that exist within Diné culture for dealing with these beings are sacred. They are not for sale, they are not on the internet, and they are not the subject of this entry.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">What People Have Reported</div>
+      <div class="stat-row">
+        <div class="stat"><span class="stat-num">50+</span><span class="stat-label">Years of academic anthropological documentation</span></div>
+        <div class="stat"><span class="stat-num">512</span><span class="stat-label">Acres of the so-called "Skinwalker Ranch" in Utah</span></div>
+        <div class="stat"><span class="stat-num">4</span><span class="stat-label">U.S. states across the Diné homeland and surrounding territory</span></div>
+      </div>
+      <p>What follows is what witnesses — both Diné and non-Diné — have reported, drawn from the public anthropological literature, court records, and journalistic accounts. We present it descriptively, not credulously, and we omit details that traditional teachers have asked be kept private.</p>
+      <p>Witnesses describe an entity that takes animal form — most often coyote, wolf, bear, owl, or crow, but with proportions that are subtly wrong. Too tall at the shoulder. Too long in the limb. Eyes that catch headlights at the wrong height. The animal moves with intelligence that does not match the species. It may stand on its hind legs. It may briefly speak.</p>
+      <p>The most consistent and most chilling reported behaviour is mimicry — vocal imitation of human sounds, including specific voices the witness recognises. The voice of a family member calling from outside the house. The voice of a child crying in the wrong direction. The behaviour matches a hunting strategy older than the legend itself: target the bond, not the body.</p>
+      <div class="warning-box"><div class="warn-label">⚠ Critical Field Note</div><p>Across the witness archive — from the academic anthropological record to contemporary journalism to the sustained reports from the Uintah Basin — one pattern recurs more reliably than any other. <strong>Engaging with the entity makes it more present.</strong> Looking at it directly. Speaking back to its voice. Photographing it. Studying it. Researching it past the point of basic awareness. Witnesses who survived their encounters with their lives and their composure intact are, almost without exception, the witnesses who refused to engage. The teaching that traditional Diné people give about this — that you do not speak of it — is not superstition. It is functional defensive doctrine that has been refined for centuries.</p></div>
+    </div>
+    <div class="section">
+      <div class="section-head">An Honest Assessment of Defence</div>
+      <p>There are things we will not include here. The protective ceremonies. The specific words and substances that traditional Diné medicine people use to defend a household. The names of the medicine people themselves. None of that is ours to share, and the people whose tradition it is have asked, repeatedly, that outsiders stop trying.</p>
+      <p>What we can say is what the broader public record, including non-Diné anthropologists and law-enforcement officers who have worked the Four Corners for decades, all converge on. <strong>Avoidance is the only reliable strategy.</strong> Do not seek the entity out. Do not visit places associated with it as a tourist. Do not buy a piece of its skin or its lore in a curiosity shop. Do not use its name as a brand or a punchline.</p>
+      <p>If you encounter something on the road or in the desert that does not match a known animal — break eye contact, leave the area, do not return, and do not discuss the encounter casually with strangers afterward. The pattern in the witness archive is overwhelmingly that public discussion of an encounter precedes further encounters. There may or may not be a metaphysical reason for that. There is unquestionably a behavioural one: people who keep talking about something keep going back to it.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">Six Rules That May Save Your Life</div>
+      <p>These rules are framed for non-Diné readers. They are deliberately conservative.</p>
+      <ul class="rules-list">
+        <li><span class="rule-num">01</span><span><strong>Do not say the name aloud unnecessarily.</strong> Especially not in the homes or vehicles of Diné people. Especially not at night. The cultural prohibition is the entire defensive doctrine of this entry. Honour it.</span></li>
+        <li><span class="rule-num">02</span><span><strong>Do not visit "Skinwalker Ranch" or related sites as tourists.</strong> Treating the lore as entertainment, going looking for an encounter, is the best-documented way of producing one. The novelty wears off. The encounter does not.</span></li>
+        <li><span class="rule-num">03</span><span><strong>If a voice from outside calls your name, do not respond.</strong> If the voice is one you recognise — a partner, a parent, a child — and it is calling from a place that voice has no business being, especially at night, do not open the door, do not call back, and confirm the location of the real person by other means.</span></li>
+        <li><span class="rule-num">04</span><span><strong>If an animal seems wrong, leave the area.</strong> Wrong proportions. Wrong eye-height. Movement that is not the movement of that species. You do not need to identify what it is. You only need to be somewhere else.</span></li>
+        <li><span class="rule-num">05</span><span><strong>Do not photograph or record what you cannot identify.</strong> The witness archive contains a striking number of accounts in which the use of cameras and audio recorders preceded escalation. Whether or not you accept the metaphysical explanation, the behavioural one is sound: you are signalling engagement.</span></li>
+        <li><span class="rule-num">06</span><span><strong>Listen to Diné voices when they tell you to stop.</strong> If a Diné friend, neighbour, or stranger asks you to drop a topic, drop the topic. The teaching is not yours to negotiate. It is theirs to maintain, and they have been maintaining it for an extremely long time.</span></li>
+      </ul>
+    </div>
+    <div class="section">
+      <div class="section-head">Two Cases on the Record</div>
+      <p>The Skinwalker archive presents an unusual evidentiary problem. The traditional cultural record is closed by design. The public record consists of anthropological accounts (gathered carefully, often by Diné scholars and their close collaborators), and a separate, more recent stream of phenomena from a property in Utah that has become a fixture of paranormal media. We treat them in that order, and with proportionate caution.</p>
+      <div class="encounter-card">
+        <div class="encounter-header">
+          <div><div class="encounter-id">Encounter 01 · Diné Bikéyah · 1980s — Anthropological Record</div><div class="encounter-title">The Anthropological Account — As Reported</div><div class="encounter-meta">Multiple Witnesses · Anonymised · From Published Ethnographic Field Notes</div></div>
+          <div class="encounter-verdict"><div class="verdict-label">Classification</div><div class="verdict-badge cultural">Cultural Account</div></div>
+        </div>
+        <div class="encounter-body">
+          <p>In the 1980s, an extended family in the western Navajo Nation reported a sustained period of activity around their hogan over the course of several months. The accounts, gathered later by anthropologists working closely with the family and published in academic literature with the family's specific permission, are presented here at a high level only — the published record is detailed; we are not.</p>
+          <p>The reported pattern was as follows: footsteps on the roof at night, when the family's livestock dogs failed to bark. Knocking on the walls in sequences that matched the rhythm of family members' speech patterns. Shapes seen at the edge of the firelight, briefly, at a distance that made identification impossible. And, most disturbingly, the voice of a deceased uncle calling from the corral on three consecutive nights.</p>
+          <p>The family did not photograph anything. They did not engage. They contacted a medicine person from a neighbouring community. The specific ceremonies that followed are not for this guide. The activity ended within several weeks. Those involved have, by their request, not been named here. The published record is in the references for readers who wish to consult it directly.</p>
+          <p><em>The presentation here is necessarily flattened. The full account is more textured, more specific, and more careful with the role of Diné protective tradition than any non-Diné summary can be. Readers are directed to the primary sources rather than to our condensation.</em></p>
+        </div>
+        <div class="references">
+          <div class="ref-label">// Sources &amp; References</div>
+          <ul class="ref-list">
+            <li>Wikipedia — "Skin-walker": <a href="https://en.wikipedia.org/wiki/Skin-walker" target="_blank">en.wikipedia.org/wiki/Skin-walker</a></li>
+            <li>Clyde Kluckhohn — Navaho Witchcraft (1944, reissued Beacon Press 1967): foundational ethnographic study of Diné witchcraft tradition</li>
+            <li>Margaret K. Brady — Some Kind of Power: Navajo Children's Skinwalker Narratives (1984), University of Utah Press</li>
+            <li>Tony Hillerman — extensive incorporation of the tradition into the Leaphorn / Chee mystery series, written in close consultation with Diné cultural advisors</li>
+            <li>Navajo Nation Office of the President &amp; Vice President — public statements requesting respectful media handling: <a href="https://www.navajo-nsn.gov" target="_blank">navajo-nsn.gov</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="encounter-card">
+        <div class="encounter-header">
+          <div><div class="encounter-id">Encounter 02 · Uintah Basin, Utah · 1994–Present</div><div class="encounter-title">The Sherman Ranch — "Skinwalker Ranch"</div><div class="encounter-meta">Sherman Family · NIDS · Robert Bigelow · Ongoing Investigation</div></div>
+          <div class="encounter-verdict"><div class="verdict-label">Classification</div><div class="verdict-badge documented">Multi-Source Documented</div></div>
+        </div>
+        <div class="encounter-body">
+          <p>In 1994, a Utah family named Sherman purchased a 480-acre cattle ranch in the Uintah Basin, north of the Ute Indian Reservation. Within months of moving in, they began reporting an extended series of phenomena — cattle mutilations, lights in the sky, large unidentified animals, and on at least one occasion, a wolf-shaped figure that the family reported was unaffected by close-range rifle fire. The Shermans spoke first to local press in 1996. Within months, the entire 480-acre property had been purchased outright by the aerospace entrepreneur Robert Bigelow, founder of the National Institute for Discovery Science.</p>
+          <p>NIDS conducted an investigation on the property from 1996 until 2004. The institute's findings — a mixture of seismic data, photography, and witness accounts from researchers who lived on-site — remain unpublished in any peer-reviewed venue, but were summarised in <em>Hunt for the Skinwalker</em> by Colm Kelleher and George Knapp (2005). In 2016 the property was acquired by the real-estate executive Brandon Fugal, whose ongoing investigation has been the subject of the History Channel programme <em>The Secret of Skinwalker Ranch.</em></p>
+          <p>The relationship between the phenomena reported on the Sherman Ranch and the traditional Diné concept of the Yee Naaldlooshii is heavily contested. Many Diné people have publicly objected to the use of the name. The local Ute people, whose reservation borders the property, have their own traditions about the area that long predate the Sherman family — and those traditions, like the Diné ones, are not for outsiders. The journalism around the property has often elided these distinctions in ways that responsible coverage should not.</p>
+          <p>What the Uintah Basin does provide, irrespective of which tradition you locate it within, is a sustained, multi-decade, multi-witness archive of unexplained phenomena on a single bounded property — examined by aerospace research bodies, broadcast television, and independent journalists. Whatever the explanation, the persistence of the reports is a fact in the record. <em>The connection between this archive and traditional Diné teaching is one we present as contested, not as established.</em></p>
+        </div>
+        <div class="references">
+          <div class="ref-label">// Sources &amp; References</div>
+          <ul class="ref-list">
+            <li>Wikipedia — "Skinwalker Ranch": <a href="https://en.wikipedia.org/wiki/Skinwalker_Ranch" target="_blank">en.wikipedia.org/wiki/Skinwalker_Ranch</a></li>
+            <li>Colm A. Kelleher &amp; George Knapp — Hunt for the Skinwalker (2005), Pocket Books</li>
+            <li>Las Vegas Review-Journal — original Knapp reporting on the Sherman family (1996 archive)</li>
+            <li>Smithsonian Magazine — "Skinwalker Ranch": <a href="https://www.smithsonianmag.com" target="_blank">smithsonianmag.com</a></li>
+            <li>The History Channel — "The Secret of Skinwalker Ranch" (Programme Archive)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head">Before You Go</div>
+      <div class="outro">
+        <p>The Wendigo is hunger. The Mothman is warning. The Black-Eyed Children are the threshold. The Skinwalker is something we, the people making this show, are not entitled to fully describe — and that limit is part of the teaching, not a frustration to be worked around.</p>
+        <p style="margin-top:18px;">If you are Diné and you are reading this — we hope we have not overstepped. If we have, please tell us, and we will correct it. The point of this entry is not to add to the noise. The point is to slow it down.</p>
+        <p style="margin-top:18px;">If you are not Diné and you are reading this, the most useful thing this entry can do is encourage you to do less, not more. Do not visit the Ranch. Do not bring the topic to dinner. Do not buy the merchandise. Do not say the name as a joke. The tradition has lasted for centuries because it was carefully maintained. Help it last by leaving it alone.</p>
+        <p style="margin-top:18px;">This has been the Monster Survival Guide. Stay quiet about this one. Stay sceptical. And if you hear a voice you recognise calling from outside in the dark — <em>do not answer it.</em></p>
+      </div>
+    </div>
+</FieldManual>

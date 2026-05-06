@@ -1,0 +1,278 @@
+---
+import FieldManual from '../layouts/FieldManual.astro';
+
+export const entry = {
+  number: "05",
+  entryClass: "Roadside Threat",
+  region: "Walworth County WI",
+  title: "The Beast of Bray Road",
+  description: "It is too tall to be a wolf. It is the wrong shape to be a man. It is on the road in front of you.",
+  tags: ["Upright canid", "Roadside encounters", "Godfrey archive"],
+  danger: 6,
+  bandColor: "#6a4018",
+  url: "/beast-of-bray-road",
+};
+---
+
+<FieldManual title="The Beast of Bray Road" classification="monster survival guide &nbsp;—&nbsp; the beast of bray road" status="Active Entry">
+  <style is:global>
+:root {
+    --paper: #ebe4d0;
+    --aged: #ddd2bc;
+    --ink: #1a1208;
+    --faded: #4a3820;
+    --stamp-red: #8b2010;
+    --stamp-blue: #4a3818;
+    --accent: #6a4018;
+    --redact: #100a04;
+    --margin: #8a7050;
+    --rule: rgba(26,18,8,0.1);
+    --warn: #8b2010;
+    --eye: #a04018;
+  }
+
+.danger-meter { display: flex; align-items: center; gap: 18px; padding: 14px 0 18px; border-bottom: 1px solid rgba(26,18,8,0.1); margin-bottom: 36px; flex-wrap: wrap; }
+
+.danger-label-col { flex-shrink: 0; }
+
+.danger-title { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; letter-spacing: 0.25em; color: var(--faded); text-transform: uppercase; margin-bottom: 4px; }
+
+.danger-name { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.6rem; color: var(--eye); letter-spacing: 0.06em; line-height: 1; }
+
+.danger-bars { display: flex; gap: 3px; flex: 1; min-width: 140px; }
+
+.bar { height: 14px; flex: 1; border: 1px solid rgba(26,18,8,0.1); background: rgba(26,18,8,0.03); }
+
+.bar.filled { background: var(--eye); border-color: var(--eye); }
+
+.danger-desc { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; color: var(--faded); letter-spacing: 0.06em; max-width: 160px; line-height: 1.5; text-transform: uppercase; flex-shrink: 0; }
+
+.section { margin-bottom: 40px; animation: fadeUp 0.7s ease both; }
+
+em { font-style: italic; }
+
+strong { font-weight: 600; }
+
+.pull-quote { border-left: 3px solid var(--accent); padding: 14px 22px; margin: 24px 0; background: rgba(106,64,24,0.06); font-style: italic; font-size: 1.08rem; color: var(--ink); line-height: 1.75; }
+
+.warning-box { border: 1px solid rgba(139,32,16,0.3); padding: 16px 20px; margin: 24px 0; background: rgba(139,32,16,0.03); }
+
+.warning-box .warn-label { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; letter-spacing: 0.25em; color: var(--warn); text-transform: uppercase; margin-bottom: 10px; }
+
+.warning-box p { margin-bottom: 0; font-size: 0.97rem; }
+
+.lore-box { background: var(--aged); border-top: 2px solid var(--accent); padding: 18px 22px; margin: 24px 0; position: relative; }
+
+.lore-box::before { content: 'FIELD NOTE'; position: absolute; top: -9px; left: 14px; background: var(--aged); padding: 0 8px; font-family: 'Anonymous Pro', monospace; font-size: 0.56rem; letter-spacing: 0.18em; color: var(--faded); }
+
+.lore-box p { font-size: 0.96rem; margin-bottom: 0; color: var(--faded); }
+
+.stat-row { display: flex; border: 1px solid rgba(26,18,8,0.12); margin: 16px 0 24px; overflow: hidden; }
+
+.stat { flex: 1; padding: 14px 16px; border-right: 1px solid rgba(26,18,8,0.1); background: var(--aged); }
+
+.stat:last-child { border-right: none; }
+
+.stat-num { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 2.2rem; color: var(--eye); line-height: 1; letter-spacing: 0.04em; display: block; }
+
+.stat-label { font-family: 'Anonymous Pro', monospace; font-size: 0.6rem; color: var(--faded); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px; line-height: 1.4; }
+
+.rules-list { list-style: none; padding: 0; margin: 16px 0; }
+
+.rules-list li { display: flex; gap: 16px; padding: 13px 0; border-bottom: 1px solid rgba(26,18,8,0.08); font-size: 1.02rem; line-height: 1.75; color: var(--ink); }
+
+.rules-list li:last-child { border-bottom: none; }
+
+.rule-num { font-family: 'Rajdhani', sans-serif; font-weight: 700; color: var(--accent); font-size: 1.3rem; min-width: 32px; line-height: 1.2; }
+
+.encounter-card { border: 1px solid rgba(26,18,8,0.14); background: var(--aged); margin: 0 0 32px; overflow: hidden; }
+
+.encounter-header { background: rgba(26,18,8,0.04); border-bottom: 1px solid rgba(26,18,8,0.1); padding: 18px 22px; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+
+.encounter-id { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; letter-spacing: 0.24em; color: var(--eye); text-transform: uppercase; margin-bottom: 5px; }
+
+.encounter-title { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.45rem; color: var(--ink); letter-spacing: 0.03em; line-height: 1.15; }
+
+.encounter-meta { font-family: 'Anonymous Pro', monospace; font-size: 0.6rem; color: var(--faded); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+
+.encounter-verdict { flex-shrink: 0; text-align: right; }
+
+.verdict-label { font-family: 'Anonymous Pro', monospace; font-size: 0.52rem; letter-spacing: 0.2em; color: var(--margin); text-transform: uppercase; margin-bottom: 4px; }
+
+.verdict-badge { font-family: 'Anonymous Pro', monospace; font-size: 0.6rem; letter-spacing: 0.1em; padding: 4px 9px; border: 1px solid; display: inline-block; text-transform: uppercase; }
+
+.verdict-badge.firsthand { color: #3a6a3a; border-color: #3a6a3a; background: rgba(58,106,58,0.07); }
+
+.verdict-badge.documented { color: #6a5020; border-color: #6a5020; background: rgba(106,80,32,0.07); }
+
+.encounter-body { padding: 22px; }
+
+.encounter-body p { font-size: 1.0rem; line-height: 1.86; margin-bottom: 16px; }
+
+.encounter-body p:last-of-type { margin-bottom: 0; }
+
+.references { border-top: 1px solid rgba(26,18,8,0.1); padding: 14px 22px; background: rgba(26,18,8,0.02); }
+
+.ref-label { font-family: 'Anonymous Pro', monospace; font-size: 0.54rem; letter-spacing: 0.24em; color: var(--margin); text-transform: uppercase; margin-bottom: 10px; }
+
+.ref-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+
+.ref-list li { font-family: 'Anonymous Pro', monospace; font-size: 0.62rem; color: var(--faded); line-height: 1.5; display: flex; gap: 8px; align-items: baseline; }
+
+.ref-list li::before { content: '→'; color: var(--eye); flex-shrink: 0; opacity: 0.6; }
+
+.ref-list a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(106,64,24,0.25); transition: border-color 0.2s; word-break: break-all; }
+
+.ref-list a:hover { border-color: var(--accent); }
+
+.outro { font-size: 1.1rem; color: var(--ink); line-height: 1.85; margin-top: 44px; padding-top: 28px; border-top: 1px solid rgba(26,18,8,0.12); font-style: italic; }
+
+.section:nth-child(1){animation-delay:0.8s}
+
+.section:nth-child(2){animation-delay:0.95s}
+
+.section:nth-child(3){animation-delay:1.1s}
+
+.section:nth-child(4){animation-delay:1.25s}
+
+.section:nth-child(5){animation-delay:1.4s}
+
+.section:nth-child(6){animation-delay:1.55s}
+
+.section:nth-child(7){animation-delay:1.7s}
+
+.section:nth-child(8){animation-delay:1.85s}
+
+@media(max-width:600px) {
+  .encounter-header{flex-direction:column}
+  .encounter-verdict{text-align:left}
+  .stat-row{flex-direction:column}
+  .danger-desc{max-width:100%}
+}
+  </style>
+
+    <a href="/" style="display:inline-block; margin-bottom:18px; font-family:'Anonymous Pro',monospace; font-size:0.62rem; letter-spacing:0.2em; color:var(--faded); text-decoration:none; text-transform:uppercase; opacity:0.7;">&larr; Back to Guide</a>
+    <div class="stamp-row">
+      <div class="stamp red">Walworth County WI</div>
+      <div class="stamp faded">Upright Canid</div>
+      <div class="stamp blue">Godfrey Archive</div>
+    </div>
+    <div class="doc-meta">
+      <div>ENTITY: &nbsp;<span>The Beast of Bray Road (Manitou / Wisconsin Wolfman)</span></div>
+      <div>ORIGIN: &nbsp;<span>Bray Road, Elkhorn, Wisconsin — first reported sightings 1936</span></div>
+      <div>THREAT GUIDE TYPE: &nbsp;<span>Identification · Behaviour · Survival Protocol</span></div>
+      <div>STATUS: &nbsp;<span>Active — Sightings Across Upper Midwest Ongoing</span></div>
+    </div>
+    <div class="doc-title">The Beast of Bray Road</div>
+    <p class="doc-subtitle"><em>It is too tall to be a wolf. It is the wrong shape to be a man. It is on the road in front of you.</em></p>
+    <div class="danger-meter">
+      <div class="danger-label-col"><div class="danger-title">Monster Danger Index</div><div class="danger-name">ROAD HUNTER</div></div>
+      <div class="danger-bars"><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+      <div class="danger-desc">6/10 — Significant. Vehicle pursuit reported. No confirmed fatalities. Localised but expanding.</div>
+    </div>
+    <div class="section">
+      <div class="section-head">Before We Begin</div>
+      <p>You are driving home. It is late. You are tired. The road is one of those quiet rural blacktops in southern Wisconsin where the corn comes right up to the shoulder and the streetlights stop existing about a mile back. Your headlights are the only thing for miles.</p>
+      <p>Something is in the road. You slow. Your brain is still trying to process whether it is a deer or a person when you realise it is neither. It is on two legs. It is the wrong size for a man. It is the wrong shape for a wolf. It is looking at you.</p>
+      <p>It does not run. It walks — calmly, deliberately, on hind legs that bend in a way that legs are not supposed to bend — to the side of the road, and it watches you pass.</p>
+      <p>Welcome back to the Monster Survival Guide. Tonight we talk about the thing on Bray Road. We talk about the woman who went looking for it on purpose, and what she found. And we talk about why, if you live in the upper Midwest, you have probably driven through its territory more times than you know.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">Where It Comes From</div>
+      <p>Bray Road is a two-and-a-half-mile stretch of rural blacktop running between farms outside Elkhorn, Wisconsin, in Walworth County. By any normal measure it is unremarkable. There are no monuments on it. No museums. No haunted houses. It is corn on one side, cattle on the other, and the kind of small wood lots that southern Wisconsin uses to break up its agricultural geometry. And yet, since at least the 1930s, people have been reporting that something tall, hairy, and impossibly upright walks alongside it after dark.</p>
+      <p>The earliest sighting in the public record is from 1936, when a night watchman named Mark Schackelman reported seeing a creature digging in a Native American burial mound near Jefferson, Wisconsin. He returned the next night, saw it again, and described it specifically as a six-foot-tall hair-covered man-wolf. The story sat dormant in local memory for decades.</p>
+      <div class="pull-quote">In 1991, a young reporter named Linda Godfrey at the Walworth County Week was assigned what her editor presented as a joke story — to investigate a supposed "werewolf" being seen by drivers on Bray Road. She expected to write three hundred light-hearted words and move on. Instead, she ended up filing reports that her sources begged her not to put their names on, and she spent the next thirty years documenting what she came to believe was a much larger phenomenon than one road in one county.</div>
+      <p>The Indigenous Algonquian-speaking peoples of the Great Lakes region have a much older category for what may be at work here: the <em>Manitou</em>, the <em>Wendigo</em> in some accounts, or — most relevantly to Bray Road — the upright canid spirit recorded in oral tradition long before European settlement. Godfrey, in her later work, has been careful to draw the connection without conflating the categories. The Beast of Bray Road may be a single creature. It may be many. It may be something the people who lived on this land before us knew how to discuss in a way we have not yet learned.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">What You Are Looking At</div>
+      <div class="stat-row">
+        <div class="stat"><span class="stat-num">7FT</span><span class="stat-label">Upper bound of reported height when fully upright</span></div>
+        <div class="stat"><span class="stat-num">300+</span><span class="stat-label">Independent sightings catalogued in Godfrey archive</span></div>
+        <div class="stat"><span class="stat-num">90+</span><span class="stat-label">Years of documented reports across the Upper Midwest</span></div>
+      </div>
+      <p>The Beast of Bray Road is canid in face and posture but humanoid in proportion. Witnesses across thirty years describe the same composite: a wolf-like or German Shepherd-like head, pointed ears, a long muzzle with visible canines, dark fur ranging from grey-brown to nearly black, a barrel chest, muscular shoulders, and forelimbs that end in clawed hands rather than paws. The hindquarters bend backward in the canine fashion — at the hock — which is the part that makes the upright posture so unsettling, because it does not look like a costume.</p>
+      <p>It is reported standing six to seven feet tall when fully upright. It moves on two legs and on four with apparent ease, switching between the two depending on terrain and apparent intent. The eyes are most often described as yellow or amber, and self-luminous in low light.</p>
+      <div class="warning-box"><div class="warn-label">⚠ Critical Behavioural Note</div><p>The Beast does not flee from vehicles the way a wolf does. Witnesses across multiple decades report the same specific behaviour: when a car approaches, the creature stops, turns, and looks directly at the driver before walking — not running — off the road. The stare is widely described as deliberate, intelligent, and unfriendly. Multiple drivers report the sensation that they were being assessed.</p></div>
+    </div>
+    <div class="section">
+      <div class="section-head">How It Operates</div>
+      <p>The behavioural pattern of the Beast is unusually consistent for a regional cryptid. It is reported almost exclusively at night. It is reported almost exclusively in agricultural and semi-wooded landscape — the field-and-treeline pattern that characterises the upper Midwest. It is reported on rural roads, almost always with the witness in a vehicle and the creature on or beside the road.</p>
+      <p>It eats. This is one of the more useful pieces of behavioural evidence. Several of the most credible early sightings — including the Endrizzi account discussed below — describe the creature in the act of consuming roadkill or small carrion, holding food up to its mouth with humanoid hands. The opportunistic-scavenger pattern is consistent across decades.</p>
+      <p>Direct attacks on humans are extremely rare in the documented archive. There are accounts of the creature charging vehicles, of pacing cars at speed for short distances, and of one or two reports of physical contact with vehicle exteriors. There are very few accounts of bodily attack. The creature appears to use its physical presence as a deterrent — to be seen, to be feared, and to be left alone in its territory.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">An Honest Assessment of Its Weaknesses</div>
+      <p>The Beast of Bray Road is, in the practical sense, a road-side problem. The defence against it is mostly the defence against any large carnivore: vehicles, headlights, distance, speed. The accumulated record contains very few accounts of injury when the witness was inside a vehicle and continued moving. The accounts of injury — and there are some — involve witnesses on foot, alone, after dark, often near livestock.</p>
+      <p>It is reported to avoid populated areas. Sightings cluster on rural roads and the edges of farmland. The closer you are to a town centre, the closer you are to streetlights, the closer you are to people, the lower the risk profile becomes.</p>
+      <p>Linda Godfrey, who has spent more time on this case than any other living investigator, has remarked in multiple interviews that the most reliable defensive posture is the one that nearly all surviving witnesses adopted instinctively: <em>do not get out of the car.</em> She is more careful than most folklorists about distinguishing what the evidence supports from what the legend embellishes. On this particular point, she has been consistent.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">Six Rules That May Save Your Life</div>
+      <ul class="rules-list">
+        <li><span class="rule-num">01</span><span><strong>Do not get out of the car.</strong> The single most consistent piece of advice from the witness archive. The vehicle is your shelter. Until you are somewhere with light and people, stay inside it.</span></li>
+        <li><span class="rule-num">02</span><span><strong>Do not stop on rural roads at night to investigate movement.</strong> If something is in your headlights that is the wrong shape — keep driving. Slow down only enough to be safe. Do not pull over. Do not roll the window down.</span></li>
+        <li><span class="rule-num">03</span><span><strong>Do not photograph it.</strong> Multiple accounts describe the creature reacting aggressively to the use of phones, cameras, and flashlights. Whether this is coincidence or specific behaviour, the pattern is in the record. Keep moving.</span></li>
+        <li><span class="rule-num">04</span><span><strong>If it paces your vehicle, accelerate.</strong> Recorded pursuit speeds put the creature in the 25–35 mph range over short distances. You can outrun it on any rural road. Do it.</span></li>
+        <li><span class="rule-num">05</span><span><strong>Secure livestock at sundown.</strong> The clearest non-vehicular pattern in the archive is opportunistic predation on small livestock — sheep, calves, dogs. If you farm in southern Wisconsin or northern Illinois, your evening chores include closing every barn door before dark.</span></li>
+        <li><span class="rule-num">06</span><span><strong>Trust the staring.</strong> Witnesses universally describe the creature as making sustained, deliberate eye contact. This is not animal behaviour. Treat it as the warning it almost certainly is, and remove yourself from the situation.</span></li>
+      </ul>
+    </div>
+    <div class="section">
+      <div class="section-head">Two Cases on the Record</div>
+      <p>The Beast of Bray Road archive is unusually rich for a cryptid case because of one investigator: Linda Godfrey, whose decades of journalistic and folkloric work have produced the single most thorough collection of witness accounts on any North American canid cryptid. We have selected the two cases that defined the modern legend.</p>
+      <div class="encounter-card">
+        <div class="encounter-header">
+          <div><div class="encounter-id">Encounter 01 · Bray Road, Elkhorn WI · October 1989</div><div class="encounter-title">Lori Endrizzi — The Kneeling Witness</div><div class="encounter-meta">Bartender · Eyewitness Sketch · Catalysing Account for Godfrey Investigation</div></div>
+          <div class="encounter-verdict"><div class="verdict-label">Classification</div><div class="verdict-badge firsthand">First-Hand Account</div></div>
+        </div>
+        <div class="encounter-body">
+          <p>Sometime around one o'clock on an October morning in 1989, a 24-year-old bartender named Lori Endrizzi was driving home along Bray Road after closing her shift. Her headlights caught what she initially took to be a person kneeling at the side of the road. She slowed to look. As she passed at perhaps twenty miles an hour, she got a clear view of the figure at a distance of roughly six feet from her driver's side window.</p>
+          <p>The figure was not a person. It was kneeling on its hind legs, holding something — what she would later describe as a piece of meat — in two humanoid hands, raised to its mouth. Its face was canine. The fur was greyish-brown. The eyes, when it turned to look at her, were yellow. She estimated its weight at roughly 150 pounds and its height, had it stood, at six feet or more.</p>
+          <p>Endrizzi did not stop. She drove home, deeply shaken, and told nobody for several days. When she finally described the encounter to friends and family, the response she received — uniformly, across multiple sources — was that they had seen something similar, or knew somebody who had. The Bray Road sightings, it turned out, had been an open secret in Walworth County for years.</p>
+          <p>It was Endrizzi's account, and an eyewitness sketch she produced from memory, that came to the attention of Linda Godfrey two years later. Godfrey's investigation, eventually published as <em>The Beast of Bray Road: Tailing Wisconsin's Werewolf</em> in 2003, treated Endrizzi's account as the central, anchor-point witness statement of the entire phenomenon. Endrizzi has never altered her account.</p>
+        </div>
+        <div class="references">
+          <div class="ref-label">// Sources &amp; References</div>
+          <ul class="ref-list">
+            <li>Wikipedia — "Beast of Bray Road": <a href="https://en.wikipedia.org/wiki/Beast_of_Bray_Road" target="_blank">en.wikipedia.org</a></li>
+            <li>Linda S. Godfrey — The Beast of Bray Road (2003), Trails Books</li>
+            <li>Walworth County Week — "The Beast of Bray Road" (Original Reporting, 1991–92)</li>
+            <li>Atlas Obscura — "Bray Road": <a href="https://www.atlasobscura.com" target="_blank">atlasobscura.com</a></li>
+            <li>Linda Godfrey — Strange Wisconsin (Personal Archive): <a href="https://www.lindagodfrey.com" target="_blank">lindagodfrey.com</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="encounter-card">
+        <div class="encounter-header">
+          <div><div class="encounter-id">Encounter 02 · Bray Road, Elkhorn WI · October 31, 1991</div><div class="encounter-title">Doristine Gipson — Halloween Night Collision</div><div class="encounter-meta">Driver · Direct Physical Contact · Vehicle Damage Reported</div></div>
+          <div class="encounter-verdict"><div class="verdict-label">Classification</div><div class="verdict-badge documented">Multi-Source Documented</div></div>
+        </div>
+        <div class="encounter-body">
+          <p>On the night of Halloween, 1991, an eighteen-year-old woman named Doristine Gipson was driving along Bray Road around 11pm. She felt her right front tire bump over something in the road. She slowed and stepped — briefly, against the rule we will outline shortly — out of her vehicle. In her headlights, perhaps fifty feet behind her, she saw a large dark figure rising into a crouch.</p>
+          <p>It came toward the car. Gipson got back inside. Before she could close the door fully, the creature leapt onto the trunk. The vehicle's surface was wet from rain; the creature's claws scraped along the metal as it failed to gain purchase. Gipson accelerated. The creature was thrown clear. She did not look back until she reached the next intersection, where she stopped under a streetlight to confirm what she had seen. Long scratch marks were visible across the trunk.</p>
+          <p>Gipson, like Endrizzi before her, told only family at first. The Walworth County Sheriff's Office logged the incident under a non-specific animal-collision category. It was not until Linda Godfrey began publishing her investigation the following year that Gipson's account became part of the public record. She gave Godfrey a detailed description that matched, in nearly every respect, accounts that Godfrey had collected from witnesses who had no contact with one another.</p>
+          <p>The Halloween date became a part of the local folklore around Bray Road, with subsequent witnesses sometimes reporting heightened activity near the end of October. Godfrey has been careful to note that the pattern may be a function of reporting bias rather than creature behaviour. The activity itself, as documented across the full year, does not appear to be seasonal.</p>
+        </div>
+        <div class="references">
+          <div class="ref-label">// Sources &amp; References</div>
+          <ul class="ref-list">
+            <li>Wikipedia — "Beast of Bray Road" (Modern Sightings): <a href="https://en.wikipedia.org/wiki/Beast_of_Bray_Road" target="_blank">en.wikipedia.org</a></li>
+            <li>Linda S. Godfrey — Hunting the American Werewolf (2006), Trails Books</li>
+            <li>Milwaukee Journal Sentinel — "The Beast of Bray Road, 30 Years On" (Archive)</li>
+            <li>The Lineup — "The Real Story of the Beast of Bray Road": <a href="https://the-line-up.com" target="_blank">the-line-up.com</a></li>
+            <li>Travel Wisconsin — "Bray Road": <a href="https://www.travelwisconsin.com" target="_blank">travelwisconsin.com</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head">Before You Go</div>
+      <div class="outro">
+        <p>The Wendigo is winter and hunger. The Mothman is the bridge before it falls. The Black-Eyed Children are the knock at the threshold. The Beast of Bray Road is something humbler and more practical — a thing that walks beside an ordinary road in an ordinary county in an ordinary state, and stares at you when you drive past.</p>
+        <p style="margin-top:18px;">It has not killed anyone we know of. It has frightened a great many people. The frightened ones, almost without exception, are the ones who slowed down. The very frightened ones are the ones who got out of their cars. Linda Godfrey has been telling people the same thing for thirty years. The advice has the merit of being free.</p>
+        <p style="margin-top:18px;">If you are driving home tonight on a rural road in southern Wisconsin and your headlights catch something the wrong shape — <em>do not stop.</em> Keep your foot on the accelerator. Acknowledge what you saw later, somewhere with people.</p>
+        <p style="margin-top:18px;">This has been the Monster Survival Guide. Stay in the car. Stay sceptical. And remember — the thing that stares back is telling you something. Listen to it.</p>
+      </div>
+    </div>
+</FieldManual>

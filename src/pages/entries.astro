@@ -1,5 +1,23 @@
 ---
 import FieldManual from '../layouts/FieldManual.astro';
+
+// =====================================================================
+//  AUTO-DISCOVERY OF MONSTER ENTRIES
+//  Every .astro page in src/pages/ that exports a `const entry = {...}`
+//  is automatically picked up here and rendered as a card. To add a new
+//  monster to the menu: just create the page file with that export.
+//  No edit to this file required.
+// =====================================================================
+
+// import.meta.glob runs at build time and pulls in every sibling .astro file.
+// `eager: true` returns the modules synchronously instead of as promises.
+const allModules: Record<string, any> = import.meta.glob('./*.astro', { eager: true });
+
+// Filter to pages that export a card-shaped `entry` object, then sort by number.
+const entries = Object.values(allModules)
+  .map((mod: any) => mod.entry)
+  .filter((e) => e && typeof e === 'object' && e.title && e.url)
+  .sort((a: any, b: any) => parseInt(a.number, 10) - parseInt(b.number, 10));
 ---
 
 <FieldManual title="Monster Index" classification="monster survival guide &nbsp;—&nbsp; menu" bottomBar="monster survival guide &nbsp;·&nbsp; all entries &nbsp;·&nbsp; season one">
@@ -17,9 +35,9 @@ import FieldManual from '../layouts/FieldManual.astro';
     --warn: #8b1a0a;
   }
 
-.entry-list { display: flex; flex-direction: column; gap: 0; margin: 8px 0 44px; }
+  .entry-list { display: flex; flex-direction: column; gap: 0; margin: 8px 0 44px; }
 
-.entry-card {
+  .entry-card {
     display: flex;
     align-items: stretch;
     border: 1px solid rgba(26,22,16,0.14);
@@ -32,18 +50,13 @@ import FieldManual from '../layouts/FieldManual.astro';
     overflow: hidden;
   }
 
-.entry-card:last-child { border-bottom: 1px solid rgba(26,22,16,0.14); }
+  .entry-card:last-child { border-bottom: 1px solid rgba(26,22,16,0.14); }
+  .entry-card:hover { background: #ddd5be; }
+  .entry-card:hover .entry-arrow { opacity: 1; transform: translateX(0); }
 
-.entry-card:hover { background: #ddd5be; }
+  .entry-band { width: 5px; flex-shrink: 0; }
 
-.entry-card:hover .entry-arrow { opacity: 1; transform: translateX(0); }
-
-.entry-band {
-    width: 5px;
-    flex-shrink: 0;
-  }
-
-.entry-body {
+  .entry-body {
     flex: 1;
     padding: 16px 20px;
     display: flex;
@@ -51,7 +64,7 @@ import FieldManual from '../layouts/FieldManual.astro';
     gap: 4px;
   }
 
-.entry-label {
+  .entry-label {
     font-family: 'Anonymous Pro', monospace;
     font-size: 0.55rem;
     letter-spacing: 0.26em;
@@ -59,7 +72,7 @@ import FieldManual from '../layouts/FieldManual.astro';
     text-transform: uppercase;
   }
 
-.entry-title {
+  .entry-title {
     font-family: 'Rajdhani', sans-serif;
     font-weight: 700;
     font-size: 1.35rem;
@@ -68,7 +81,7 @@ import FieldManual from '../layouts/FieldManual.astro';
     line-height: 1.15;
   }
 
-.entry-desc {
+  .entry-desc {
     font-family: 'Sorts Mill Goudy', Georgia, serif;
     font-style: italic;
     font-size: 0.88rem;
@@ -77,14 +90,9 @@ import FieldManual from '../layouts/FieldManual.astro';
     margin-top: 2px;
   }
 
-.entry-meta {
-    display: flex;
-    gap: 12px;
-    margin-top: 6px;
-    flex-wrap: wrap;
-  }
+  .entry-meta { display: flex; gap: 12px; margin-top: 6px; flex-wrap: wrap; }
 
-.entry-tag {
+  .entry-tag {
     font-family: 'Anonymous Pro', monospace;
     font-size: 0.55rem;
     letter-spacing: 0.14em;
@@ -95,7 +103,7 @@ import FieldManual from '../layouts/FieldManual.astro';
     background: rgba(26,22,16,0.03);
   }
 
-.entry-right {
+  .entry-right {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -105,14 +113,14 @@ import FieldManual from '../layouts/FieldManual.astro';
     flex-shrink: 0;
   }
 
-.mini-index {
+  .mini-index {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 4px;
   }
 
-.mini-label {
+  .mini-label {
     font-family: 'Anonymous Pro', monospace;
     font-size: 0.5rem;
     letter-spacing: 0.18em;
@@ -120,21 +128,18 @@ import FieldManual from '../layouts/FieldManual.astro';
     text-transform: uppercase;
   }
 
-.mini-bars {
-    display: flex;
-    gap: 2px;
-  }
+  .mini-bars { display: flex; gap: 2px; }
 
-.mbar {
+  .mbar {
     width: 8px;
     height: 8px;
     border: 1px solid rgba(26,22,16,0.14);
     background: rgba(26,22,16,0.04);
   }
 
-.mbar.f { background: var(--warn); border-color: var(--warn); }
+  .mbar.f { background: var(--warn); border-color: var(--warn); }
 
-.entry-arrow {
+  .entry-arrow {
     font-family: 'Anonymous Pro', monospace;
     font-size: 0.85rem;
     color: var(--warn);
@@ -144,30 +149,26 @@ import FieldManual from '../layouts/FieldManual.astro';
     margin-top: 4px;
   }
 
-.entry-card.about {
+  .entry-card.about {
     background: rgba(26,22,16,0.04);
     border-color: rgba(26,22,16,0.18);
   }
 
-.entry-card.about:hover { background: rgba(26,22,16,0.08); }
+  .entry-card.about:hover { background: rgba(26,22,16,0.08); }
 
-.entry-card { animation: fadeUp 0.6s ease both; }
+  .entry-card { animation: fadeUp 0.6s ease both; }
+  .entry-card:nth-child(1) { animation-delay: 0.85s; }
+  .entry-card:nth-child(2) { animation-delay: 0.95s; }
+  .entry-card:nth-child(3) { animation-delay: 1.05s; }
+  .entry-card:nth-child(4) { animation-delay: 1.15s; }
+  .entry-card:nth-child(5) { animation-delay: 1.25s; }
+  .entry-card:nth-child(6) { animation-delay: 1.35s; }
+  .entry-card:nth-child(7) { animation-delay: 1.45s; }
+  .entry-card:nth-child(8) { animation-delay: 1.55s; }
 
-.entry-card:nth-child(1) { animation-delay: 0.85s; }
-
-.entry-card:nth-child(2) { animation-delay: 0.95s; }
-
-.entry-card:nth-child(3) { animation-delay: 1.05s; }
-
-.entry-card:nth-child(4) { animation-delay: 1.15s; }
-
-.entry-card:nth-child(5) { animation-delay: 1.25s; }
-
-.entry-card:nth-child(6) { animation-delay: 1.35s; }
-
-@media (max-width: 600px) {
-  .entry-right { display: none; }
-}
+  @media (max-width: 600px) {
+    .entry-right { display: none; }
+  }
   </style>
 
     <div class="stamp-row">
@@ -179,14 +180,14 @@ import FieldManual from '../layouts/FieldManual.astro';
     <div class="doc-meta">
       <div>DOCUMENT TYPE: &nbsp;<span>Index — All Survival Guide Entries</span></div>
       <div>SEASON: &nbsp;<span>One — Currently Active</span></div>
-      <div>ENTRIES: &nbsp;<span>5 Filed — More Incoming</span></div>
+      <div>ENTRIES: &nbsp;<span>{entries.length} Filed — More Incoming</span></div>
       <div>STATUS: &nbsp;<span>Open Distribution — Read Before You Need To</span></div>
     </div>
 
     <div class="doc-title">All<br/>Entries</div>
     <p class="doc-subtitle"><em>Every survival guide filed so far. Start anywhere. Read everything.</em></p>
 
-    <!-- START HERE -->
+    <!-- START HERE (manual — points at the pilot/about page) -->
     <div class="section-head">Start Here</div>
     <div class="entry-list">
       <a class="entry-card about" href="/">
@@ -212,115 +213,39 @@ import FieldManual from '../layouts/FieldManual.astro';
 
     <hr class="divider"/>
 
-    <!-- SEASON ONE ENTRIES -->
+    {/* SEASON ONE ENTRIES — auto-generated from each monster page's `entry` export */}
     <div class="section-head">Season One — Survival Entries</div>
     <div class="entry-list">
-
-      <!-- Wendigo -->
-      <a class="entry-card" href="/wendigo">
-        <div class="entry-band" style="background: #1a5080;"></div>
-        <div class="entry-body">
-          <div class="entry-label">Entry 01 · Ancient Threat · Boreal Forests</div>
-          <div class="entry-title">The Wendigo</div>
-          <div class="entry-desc">It was human once. That is the part that should terrify you.</div>
-          <div class="entry-meta">
-            <span class="entry-tag">Algonquian tradition</span>
-            <span class="entry-tag">Possession risk</span>
-            <span class="entry-tag">Winter threat</span>
-          </div>
-        </div>
-        <div class="entry-right">
-          <div class="mini-index">
-            <div class="mini-label">Danger · 9/10</div>
-            <div class="mini-bars">
-              <div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div>
-              <div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar"></div>
+      {entries.map((e: any) => (
+        <a class="entry-card" href={e.url}>
+          <div class="entry-band" style={`background: ${e.bandColor};`}></div>
+          <div class="entry-body">
+            <div class="entry-label">Entry {e.number} · {e.entryClass} · {e.region}</div>
+            <div class="entry-title">{e.title}</div>
+            <div class="entry-desc">{e.description}</div>
+            <div class="entry-meta">
+              {e.tags.map((t: string) => <span class="entry-tag">{t}</span>)}
             </div>
           </div>
-          <div class="entry-arrow">→</div>
-        </div>
-      </a>
-
-      <!-- Slenderman -->
-      <a class="entry-card" href="/slenderman">
-        <div class="entry-band" style="background: #8b1a0a;"></div>
-        <div class="entry-body">
-          <div class="entry-label">Entry 02 · Absolute Threat · No Geography</div>
-          <div class="entry-title">Slenderman</div>
-          <div class="entry-desc">He is already watching. He has always been watching.</div>
-          <div class="entry-meta">
-            <span class="entry-tag">Digital origin</span>
-            <span class="entry-tag">Proxy syndrome</span>
-            <span class="entry-tag">No confirmed counters</span>
-          </div>
-        </div>
-        <div class="entry-right">
-          <div class="mini-index">
-            <div class="mini-label">Danger · 10/10</div>
-            <div class="mini-bars">
-              <div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div>
-              <div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div>
+          <div class="entry-right">
+            <div class="mini-index">
+              <div class="mini-label">Danger · {e.danger}/10</div>
+              <div class="mini-bars">
+                {Array.from({ length: 10 }).map((_, i) => (
+                  <div class={`mbar ${i < e.danger ? 'f' : ''}`}></div>
+                ))}
+              </div>
             </div>
+            <div class="entry-arrow">→</div>
           </div>
-          <div class="entry-arrow">→</div>
-        </div>
-      </a>
+        </a>
+      ))}
 
-      <!-- Black-Eyed Children -->
-      <a class="entry-card" href="/black-eyed-children">
-        <div class="entry-band" style="background: #1a3050;"></div>
-        <div class="entry-body">
-          <div class="entry-label">Entry 03 · Threshold Threat · Coastal Pattern</div>
-          <div class="entry-title">Black-Eyed Children</div>
-          <div class="entry-desc">They only want to come inside. They will keep asking until you let them.</div>
-          <div class="entry-meta">
-            <span class="entry-tag">Invitation required</span>
-            <span class="entry-tag">Coastal reports</span>
-            <span class="entry-tag">Global sightings</span>
-          </div>
-        </div>
-        <div class="entry-right">
-          <div class="mini-index">
-            <div class="mini-label">Danger · 7/10</div>
-            <div class="mini-bars">
-              <div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div>
-              <div class="mbar f"></div><div class="mbar f"></div><div class="mbar"></div><div class="mbar"></div><div class="mbar"></div>
-            </div>
-          </div>
-          <div class="entry-arrow">→</div>
-        </div>
-      </a>
-
-      <!-- Mothman -->
-      <a class="entry-card" href="/mothman">
-        <div class="entry-band" style="background: #804010;"></div>
-        <div class="entry-body">
-          <div class="entry-label">Entry 03 (Alt) · Harbinger Class · Point Pleasant WV</div>
-          <div class="entry-title">The Mothman</div>
-          <div class="entry-desc">It does not hunt you. It watches you. And where it watches, things collapse.</div>
-          <div class="entry-meta">
-            <span class="entry-tag">Prophetic appearance</span>
-            <span class="entry-tag">Bridge warning</span>
-            <span class="entry-tag">46 dead</span>
-          </div>
-        </div>
-        <div class="entry-right">
-          <div class="mini-index">
-            <div class="mini-label">Danger · 8/10</div>
-            <div class="mini-bars">
-              <div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div>
-              <div class="mbar f"></div><div class="mbar f"></div><div class="mbar f"></div><div class="mbar"></div><div class="mbar"></div>
-            </div>
-          </div>
-          <div class="entry-arrow">→</div>
-        </div>
-      </a>
-
-      <!-- Coming Soon -->
+      {/* Coming Soon placeholder — kept manual; remove or edit as you like */}
       <div class="entry-card" style="opacity:0.4; cursor:default; pointer-events:none;">
         <div class="entry-band" style="background: rgba(26,22,16,0.2);"></div>
         <div class="entry-body">
-          <div class="entry-label">Entry 04 · Coming Soon</div>
+          <div class="entry-label">Next Entry · Coming Soon</div>
           <div class="entry-title">Unknown Entity</div>
           <div class="entry-desc">The next entry is being prepared. Check back soon.</div>
           <div class="entry-meta">
@@ -338,6 +263,5 @@ import FieldManual from '../layouts/FieldManual.astro';
           <div class="entry-arrow" style="opacity:0.2;">→</div>
         </div>
       </div>
-
     </div>
 </FieldManual>

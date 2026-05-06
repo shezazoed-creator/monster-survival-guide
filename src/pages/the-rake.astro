@@ -1,0 +1,279 @@
+---
+import FieldManual from '../layouts/FieldManual.astro';
+
+export const entry = {
+  number: "08",
+  entryClass: "Bedside Threat",
+  region: "Modern Folklore",
+  title: "The Rake",
+  description: "It crouches at the foot of the bed. It waits for you to wake up. And then it makes sure you do not get to sleep again.",
+  tags: ["Internet origin 2005", "Bedside terror", "Modern folklore"],
+  danger: 8,
+  bandColor: "#1a1a1a",
+  url: "/the-rake",
+};
+---
+
+<FieldManual title="The Rake" classification="monster survival guide &nbsp;—&nbsp; the rake" status="Active Entry">
+  <style is:global>
+:root {
+    --paper: #d8d2c4;
+    --aged: #c8c0b0;
+    --ink: #0a0a0a;
+    --faded: #3a3a3a;
+    --stamp-red: #6a1010;
+    --stamp-blue: #2a2a3a;
+    --accent: #1a1a1a;
+    --redact: #050505;
+    --margin: #707070;
+    --rule: rgba(10,10,10,0.12);
+    --warn: #6a1010;
+    --eye: #1a1a1a;
+  }
+
+.danger-meter { display: flex; align-items: center; gap: 18px; padding: 14px 0 18px; border-bottom: 1px solid rgba(10,10,10,0.12); margin-bottom: 36px; flex-wrap: wrap; }
+
+.danger-label-col { flex-shrink: 0; }
+
+.danger-title { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; letter-spacing: 0.25em; color: var(--faded); text-transform: uppercase; margin-bottom: 4px; }
+
+.danger-name { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.6rem; color: var(--warn); letter-spacing: 0.06em; line-height: 1; }
+
+.danger-bars { display: flex; gap: 3px; flex: 1; min-width: 140px; }
+
+.bar { height: 14px; flex: 1; border: 1px solid rgba(10,10,10,0.15); background: rgba(10,10,10,0.04); }
+
+.bar.filled { background: var(--accent); border-color: var(--accent); }
+
+.danger-desc { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; color: var(--faded); letter-spacing: 0.06em; max-width: 160px; line-height: 1.5; text-transform: uppercase; flex-shrink: 0; }
+
+.section { margin-bottom: 40px; animation: fadeUp 0.7s ease both; }
+
+em { font-style: italic; }
+
+strong { font-weight: 600; }
+
+.pull-quote { border-left: 3px solid var(--accent); padding: 14px 22px; margin: 24px 0; background: rgba(10,10,10,0.05); font-style: italic; font-size: 1.08rem; color: var(--ink); line-height: 1.75; }
+
+.warning-box { border: 1px solid rgba(106,16,16,0.35); padding: 16px 20px; margin: 24px 0; background: rgba(106,16,16,0.04); }
+
+.warning-box .warn-label { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; letter-spacing: 0.25em; color: var(--warn); text-transform: uppercase; margin-bottom: 10px; }
+
+.warning-box p { margin-bottom: 0; font-size: 0.97rem; }
+
+.lore-box { background: var(--aged); border-top: 2px solid var(--accent); padding: 18px 22px; margin: 24px 0; position: relative; }
+
+.lore-box::before { content: 'FIELD NOTE'; position: absolute; top: -9px; left: 14px; background: var(--aged); padding: 0 8px; font-family: 'Anonymous Pro', monospace; font-size: 0.56rem; letter-spacing: 0.18em; color: var(--faded); }
+
+.lore-box p { font-size: 0.96rem; margin-bottom: 0; color: var(--faded); }
+
+.stat-row { display: flex; border: 1px solid rgba(10,10,10,0.14); margin: 16px 0 24px; overflow: hidden; }
+
+.stat { flex: 1; padding: 14px 16px; border-right: 1px solid rgba(10,10,10,0.1); background: var(--aged); }
+
+.stat:last-child { border-right: none; }
+
+.stat-num { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 2.2rem; color: var(--accent); line-height: 1; letter-spacing: 0.04em; display: block; }
+
+.stat-label { font-family: 'Anonymous Pro', monospace; font-size: 0.6rem; color: var(--faded); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px; line-height: 1.4; }
+
+.rules-list { list-style: none; padding: 0; margin: 16px 0; }
+
+.rules-list li { display: flex; gap: 16px; padding: 13px 0; border-bottom: 1px solid rgba(10,10,10,0.1); font-size: 1.02rem; line-height: 1.75; color: var(--ink); }
+
+.rules-list li:last-child { border-bottom: none; }
+
+.rule-num { font-family: 'Rajdhani', sans-serif; font-weight: 700; color: var(--accent); font-size: 1.3rem; min-width: 32px; line-height: 1.2; }
+
+.encounter-card { border: 1px solid rgba(10,10,10,0.18); background: var(--aged); margin: 0 0 32px; overflow: hidden; }
+
+.encounter-header { background: rgba(10,10,10,0.05); border-bottom: 1px solid rgba(10,10,10,0.12); padding: 18px 22px; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+
+.encounter-id { font-family: 'Anonymous Pro', monospace; font-size: 0.58rem; letter-spacing: 0.24em; color: var(--warn); text-transform: uppercase; margin-bottom: 5px; }
+
+.encounter-title { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.45rem; color: var(--ink); letter-spacing: 0.03em; line-height: 1.15; }
+
+.encounter-meta { font-family: 'Anonymous Pro', monospace; font-size: 0.6rem; color: var(--faded); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+
+.encounter-verdict { flex-shrink: 0; text-align: right; }
+
+.verdict-label { font-family: 'Anonymous Pro', monospace; font-size: 0.52rem; letter-spacing: 0.2em; color: var(--margin); text-transform: uppercase; margin-bottom: 4px; }
+
+.verdict-badge { font-family: 'Anonymous Pro', monospace; font-size: 0.6rem; letter-spacing: 0.1em; padding: 4px 9px; border: 1px solid; display: inline-block; text-transform: uppercase; }
+
+.verdict-badge.documented { color: #6a5020; border-color: #6a5020; background: rgba(106,80,32,0.08); }
+
+.verdict-badge.lore { color: #5a5a5a; border-color: #5a5a5a; background: rgba(90,90,90,0.07); }
+
+.encounter-body { padding: 22px; }
+
+.encounter-body p { font-size: 1.0rem; line-height: 1.86; margin-bottom: 16px; }
+
+.encounter-body p:last-of-type { margin-bottom: 0; }
+
+.references { border-top: 1px solid rgba(10,10,10,0.12); padding: 14px 22px; background: rgba(10,10,10,0.03); }
+
+.ref-label { font-family: 'Anonymous Pro', monospace; font-size: 0.54rem; letter-spacing: 0.24em; color: var(--margin); text-transform: uppercase; margin-bottom: 10px; }
+
+.ref-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+
+.ref-list li { font-family: 'Anonymous Pro', monospace; font-size: 0.62rem; color: var(--faded); line-height: 1.5; display: flex; gap: 8px; align-items: baseline; }
+
+.ref-list li::before { content: '→'; color: var(--warn); flex-shrink: 0; opacity: 0.6; }
+
+.ref-list a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(10,10,10,0.25); transition: border-color 0.2s; word-break: break-all; }
+
+.ref-list a:hover { border-color: var(--accent); }
+
+.outro { font-size: 1.1rem; color: var(--ink); line-height: 1.85; margin-top: 44px; padding-top: 28px; border-top: 1px solid rgba(10,10,10,0.14); font-style: italic; }
+
+.section:nth-child(1){animation-delay:0.8s}
+
+.section:nth-child(2){animation-delay:0.95s}
+
+.section:nth-child(3){animation-delay:1.1s}
+
+.section:nth-child(4){animation-delay:1.25s}
+
+.section:nth-child(5){animation-delay:1.4s}
+
+.section:nth-child(6){animation-delay:1.55s}
+
+.section:nth-child(7){animation-delay:1.7s}
+
+.section:nth-child(8){animation-delay:1.85s}
+
+@media(max-width:600px) {
+  .encounter-header{flex-direction:column}
+  .encounter-verdict{text-align:left}
+  .stat-row{flex-direction:column}
+  .danger-desc{max-width:100%}
+}
+  </style>
+
+    <a href="/" style="display:inline-block; margin-bottom:18px; font-family:'Anonymous Pro',monospace; font-size:0.62rem; letter-spacing:0.2em; color:var(--faded); text-decoration:none; text-transform:uppercase; opacity:0.7;">&larr; Back to Guide</a>
+    <div class="stamp-row">
+      <div class="stamp red">Bedside Threat</div>
+      <div class="stamp faded">Modern Folklore</div>
+      <div class="stamp blue">Origin 2005</div>
+    </div>
+    <div class="doc-meta">
+      <div>ENTITY: &nbsp;<span>The Rake</span></div>
+      <div>ORIGIN: &nbsp;<span>Internet Folklore — First Codified 4chan /b/, 2005</span></div>
+      <div>THREAT GUIDE TYPE: &nbsp;<span>Identification · Behaviour · Survival Protocol</span></div>
+      <div>STATUS: &nbsp;<span>Active in Reported Lore — Bedroom &amp; Wooded-Edge Encounters</span></div>
+    </div>
+    <div class="doc-title">The Rake</div>
+    <p class="doc-subtitle"><em>It crouches at the foot of the bed. It waits for you to wake up. And then it makes sure you do not get to sleep again.</em></p>
+    <div class="danger-meter">
+      <div class="danger-label-col"><div class="danger-title">Monster Danger Index</div><div class="danger-name">EXTREME</div></div>
+      <div class="danger-bars"><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar"></div><div class="bar"></div></div>
+      <div class="danger-desc">8/10 — Extreme. Sleep-state attacks. Domestic threshold breach. No reliable counter.</div>
+    </div>
+    <div class="section">
+      <div class="section-head">Before We Begin</div>
+      <p>It is the small hours of the morning. Maybe three. Maybe four. You have woken up, and you do not know what woke you up, but every part of you that evolved to keep you alive in dark forests is awake now and is awake about something specific.</p>
+      <p>You do not move. You have not opened your eyes. You are waiting for the part of you that knows what is wrong to tell you what is wrong. And then it does. There is weight at the foot of the bed. There is breathing that is not yours.</p>
+      <p>You open your eyes. There is a figure crouched on the duvet. It is pale. It is hairless. It is folded in on itself in a way that does not match any human posture you have ever seen. It is looking at you, and the eyes are entirely wrong, and your brain — the part of it that has had this script available since long before you ever read a word of folklore — gives you the answer in a single hot rush. <em>It is in the room.</em></p>
+      <p>Welcome back to the Monster Survival Guide. Tonight we talk about the modern monster. The one that arrived in the era of the internet and decided to live in the part of the night that already terrifies us. The Rake.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">Where It Comes From</div>
+      <p>We have to be honest about this one, and we are going to be. The Rake is the youngest entity in this season's lineup by an enormous margin. The codified legend, in the form most people now recognise, was assembled in 2005 on the message board 4chan, in a thread asking participants to invent a new horror creature using only existing details. The result was a hairless, pale, crouched humanoid with large black eyes, the proportions of an emaciated person, and a documented behavioural pattern of appearing at the foot of beds at night.</p>
+      <p>Within six months the legend had escaped its origin. A wiki entry appeared. A "compendium" was assembled — a fictional document that presented itself as a curated set of historical encounters spanning back to a 1691 mariner's log and forward to a 2003 New York account. None of the historical sources are real. All of them are written in the deliberately fragmentary, deliberately unverifiable style of period documents. The lore is a piece of collaborative creative writing. We are not going to pretend otherwise.</p>
+      <div class="pull-quote">And yet. The reason this entry exists is that the Rake's behavioural template has produced, in the twenty years since the legend was written, an unusually large number of independent sleep-paralysis and night-terror reports in which witnesses with no prior exposure to the lore describe — in their own words, in their own panic — a pale, hairless, crouched figure at the foot of the bed. The legend is fictional. The experience the legend predicted is, for a non-trivial number of people, real. We have to take that seriously without pretending it means more than it does.</p>
+      <div class="lore-box"><p>Sleep paralysis is a documented neurological state in which the body's natural REM atonia persists into wakefulness, leaving the sleeper conscious but unable to move. The condition is associated, in roughly 30% of cases, with hallucinated presences in the room — a phenomenon documented across virtually every culture that has produced sleep research. The "Old Hag" of Newfoundland tradition. The "Mara" of Scandinavian folklore. The "Pisadeira" of Brazilian Portuguese lore. The Rake fits this pattern almost too perfectly to be accidental — the legend was, in a sense, designed to slot into a neurological vulnerability that humans have been describing for millennia. That is not the same as saying the Rake is real. It is also not the same as saying the experience is not.</p></div>
+    </div>
+    <div class="section">
+      <div class="section-head">What People Have Reported</div>
+      <div class="stat-row">
+        <div class="stat"><span class="stat-num">2005</span><span class="stat-label">Year of the codified internet origin</span></div>
+        <div class="stat"><span class="stat-num">6FT</span><span class="stat-label">Reported standing height when fully extended</span></div>
+        <div class="stat"><span class="stat-num">~30%</span><span class="stat-label">Of sleep-paralysis episodes that include a hallucinated figure</span></div>
+      </div>
+      <p>The accounts cluster, with surprising consistency, around a single composite. The figure is described as roughly the size and proportions of a human adult, but emaciated to the point of looking more skeletal than starved. The skin is pale — bone-white to grey-white — and entirely hairless. The eyes are large, lidless, and either solid black or solid pale. The mouth is described variously as small and lipless, or as not visible at all.</p>
+      <p>The posture is the part that recurs most reliably. The Rake does not stand. It crouches. It folds. The reported limbs are too long for the torso and the joints bend in directions that do not flatter human anatomy. Witnesses consistently struggle to describe the limb proportions in language, which is, incidentally, exactly what witnesses do when they are describing real perceptual experiences that fall outside their existing categories.</p>
+      <div class="warning-box"><div class="warn-label">⚠ Critical Field Note</div><p>The defining behavioural feature of the Rake is location. It is not a forest creature in the way of the Wendigo. It is not a road creature in the way of the Beast of Bray Road. It is, in the overwhelming majority of accounts, a <em>domestic</em> creature. It appears in the bedroom. At the foot of the bed. In the corner of the bathroom mirror. Crouched in the doorway of the closet. The threshold it has crossed, by the time you encounter it, is not a forest treeline. It is the boundary of your home.</p></div>
+    </div>
+    <div class="section">
+      <div class="section-head">How It Operates</div>
+      <p>The behavioural pattern, as it has accumulated across two decades of accounts, is unusually specific. The Rake is reported almost exclusively at night, between roughly 2am and 5am — the part of the sleep cycle when REM density is highest and when sleep-paralysis episodes are most likely. It is reported at the foot of beds, at the side of beds, and occasionally in adjacent doorways. It is reported watching, not attacking. The attacks, when they occur in the lore, occur after the figure has been seen — sometimes nights after, sometimes weeks.</p>
+      <p>The longer-form lore claims that the Rake escalates: that the first sighting is observation, the second is closer, the third involves contact, and that prolonged exposure produces psychological deterioration in the witness. We treat this part of the legend as legend. The pattern of escalation in the witness reports, where it appears, is consistent with how human beings respond to repeated nighttime fear — not with what an external creature would necessarily do.</p>
+      <p>What does appear to be real, and worth taking seriously, is the cumulative sleep cost. Witnesses who have had Rake-style experiences and continued to engage with the lore — researching it, watching films about it, reading further accounts before bed — report worsening symptoms. Witnesses who break the cycle — by treating the underlying sleep disorder, by changing their nighttime media consumption, by addressing the room itself — report improvement. The intervention that works on the Rake is, suspiciously and usefully, the intervention that works on sleep paralysis.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">An Honest Assessment of Defence</div>
+      <p>We are obliged, with this entry, to give you two answers in parallel. The first is the answer the legend gives. The second is the answer the evidence gives. They are not the same answer, and both of them are useful.</p>
+      <p><strong>What the legend says.</strong> Do not investigate. Do not engage. Do not search for further information. Do not record. Do not photograph. The lore is consistent that engagement increases proximity, and that the second and third sightings are worse than the first.</p>
+      <p><strong>What the evidence says.</strong> Most "Rake" experiences are sleep paralysis with strong cultural priming. The most effective interventions are the standard sleep-medicine protocols: regular sleep schedule, reduced caffeine and alcohol, side-sleeping rather than supine sleeping, treatment of underlying anxiety, and — counter-intuitively — discussion of the experience in waking hours rather than suppression of it. Cognitive behavioural therapy for insomnia (CBT-I) has the strongest evidence base for reducing recurrent episodes.</p>
+      <p>The two answers do not contradict each other as much as they look like they do. The legend tells you to stop reading. The evidence tells you to stop watching horror films before bed and start treating your sleep. In both cases, the intervention is the same: do less, not more.</p>
+    </div>
+    <div class="section">
+      <div class="section-head">Six Rules That May Save Your Life</div>
+      <ul class="rules-list">
+        <li><span class="rule-num">01</span><span><strong>Do not read about the Rake before bed.</strong> Cultural priming materially increases the probability of an episode. Whatever you think the experience is, the variable that you can most reliably control is what you put into your head in the last hour of the day. Read something else.</span></li>
+        <li><span class="rule-num">02</span><span><strong>Sleep on your side.</strong> Supine sleeping (on your back) is the strongest single behavioural correlate with sleep paralysis episodes. Side-sleeping reduces the rate substantially. This is not folklore. This is sleep medicine.</span></li>
+        <li><span class="rule-num">03</span><span><strong>If you wake and cannot move, breathe.</strong> The episode is time-limited. The body's atonia will resolve, almost always within a minute or two. Slow your breathing. Do not fight the paralysis. Wiggle a toe or a finger — voluntary movement of an extremity is the most reliable way to break the episode.</span></li>
+        <li><span class="rule-num">04</span><span><strong>Do not turn the light on to "check".</strong> Whatever you see, real or hallucinated, the response is the same: get out of the bed, get out of the bedroom, go somewhere with light and other people, and re-enter the room only when you are fully awake. Do not investigate while still partially in REM.</span></li>
+        <li><span class="rule-num">05</span><span><strong>Treat the underlying sleep disorder.</strong> If episodes are recurrent, you have a clinical situation, not a paranormal one — at least in the first instance. Sleep clinics treat this routinely. The standard interventions work. Use them.</span></li>
+        <li><span class="rule-num">06</span><span><strong>Do not photograph or record the bedroom looking for it.</strong> Whether you accept the legend or the neuroscience, this rule holds. The legend says recording escalates proximity. The neuroscience says reviewing footage of your bedroom at 3am is a near-perfect protocol for entrenching the anxiety that drives the episodes. Both are reasons not to do it.</span></li>
+      </ul>
+    </div>
+    <div class="section">
+      <div class="section-head">Two Cases on the Record</div>
+      <p>The Rake archive is, by the nature of its origin, almost entirely composed of self-reports rather than verifiable third-party documentation. We have selected one case from the original codified compendium — clearly labelled as constructed lore — and one from the post-2005 era of independent witness reports.</p>
+      <div class="encounter-card">
+        <div class="encounter-header">
+          <div><div class="encounter-id">Encounter 01 · The Rake Compendium · Posted 2005–2006</div><div class="encounter-title">The "Mariner's Log" Account — As Written</div><div class="encounter-meta">Constructed Lore · Pseudohistorical Document · Origin Wiki</div></div>
+          <div class="encounter-verdict"><div class="verdict-label">Classification</div><div class="verdict-badge lore">Constructed Lore</div></div>
+        </div>
+        <div class="encounter-body">
+          <p>The original Rake compendium, posted across 4chan and various paranormal wikis between 2005 and 2006, presents itself as a collection of historical fragments. The earliest dated fragment is presented as an excerpt from the log of an unnamed merchant vessel, supposedly written by a mariner observing a strange figure on board the ship in the small hours of the morning. The figure is described as crouched in the corner of his cabin, hairless, pale, and watching him sleep.</p>
+          <p>The mariner's log, as a piece of writing, is a careful pastiche of the period style of 18th and 19th-century shipboard journals. The vocabulary is consistent. The phrasing is plausible. The damage and partial illegibility of the supposed manuscript is integrated into the text. It is well-constructed creative work.</p>
+          <p>It is also entirely fictional. There is no log. There is no mariner. There is no archive holding the document. The compendium presents the fragment as part of a chain of supposed historical encounters precisely because the structure of folklore — the apparent depth of an oral tradition — is what gives a horror entity its weight. The Rake's authors understood this and built the apparent history into the legend from the start.</p>
+          <p>We include this fragment in the encounter section not because it is real, but because it is the foundational document of the modern legend. Every subsequent Rake account in the witness archive is, in some measure, in conversation with the compendium. To understand what people are reporting, you have to understand what they read first. <em>This account is presented as constructed lore, not as historical fact.</em></p>
+        </div>
+        <div class="references">
+          <div class="ref-label">// Sources &amp; References</div>
+          <ul class="ref-list">
+            <li>Wikipedia — "The Rake": <a href="https://en.wikipedia.org/wiki/The_Rake_(creepypasta)" target="_blank">en.wikipedia.org</a></li>
+            <li>Know Your Meme — "The Rake": <a href="https://knowyourmeme.com/memes/the-rake" target="_blank">knowyourmeme.com</a></li>
+            <li>Creepypasta Wiki — "The Rake" entry archive: <a href="https://creepypasta.fandom.com/wiki/The_Rake" target="_blank">creepypasta.fandom.com</a></li>
+            <li>Vox — "How the internet invented modern folklore": <a href="https://www.vox.com/culture" target="_blank">vox.com</a></li>
+            <li>Folklore Studies — "Digital Legend Tripping in the Internet Age" (Journal of American Folklore, 2014)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="encounter-card">
+        <div class="encounter-header">
+          <div><div class="encounter-id">Encounter 02 · Reddit r/Glitch_in_the_Matrix · 2009–Present</div><div class="encounter-title">The Bedside Witness Wave — Post-Lore Reports</div><div class="encounter-meta">Multiple Anonymous Witnesses · Sleep Paralysis Cluster · No Verification</div></div>
+          <div class="encounter-verdict"><div class="verdict-label">Classification</div><div class="verdict-badge documented">Self-Reported Cluster</div></div>
+        </div>
+        <div class="encounter-body">
+          <p>From roughly 2009 onward, message boards and subreddits dedicated to unexplained personal experiences began producing a measurable signal of accounts that mirrored the Rake template without the witnesses always being aware of the lore. The most studied collection has been gathered by folklorist Trevor J. Blank in his work on digital vernacular, drawing on r/Glitch_in_the_Matrix, r/Paranormal, and r/SleepParalysis.</p>
+          <p>The pattern is consistent. A witness wakes between 3am and 5am. They are unable to move. They perceive a presence in the room. They eventually open their eyes — or feel that they do, the distinction is not always preserved in the report — and see a pale, hairless, crouched figure at the foot of the bed or in the corner of the room. The figure does not move. The witness eventually breaks the paralysis, often through a partner waking them, and the figure is gone.</p>
+          <p>Independent witnesses who report the experience without prior exposure to the Rake legend describe a figure that is, in nearly every respect, the same figure. This is the part of the case that is interesting. It is not evidence that the Rake is real. It is evidence that human sleep paralysis hallucinations have a strong cross-individual consistency — and that the 2005 legend was written, intentionally or not, in the shape of an experience that human brains were already producing. <em>These accounts are presented as folklore-aligned witness reports rather than as verified paranormal data.</em></p>
+          <p>The clinical literature on this is reasonably mature. The takeaway, from a survival-guide perspective, is consistent: the experience is real, the figure is most likely not, the interventions that help are well-known, and the worst thing you can do is treat the lore as a research project.</p>
+        </div>
+        <div class="references">
+          <div class="ref-label">// Sources &amp; References</div>
+          <ul class="ref-list">
+            <li>Trevor J. Blank — Folklore and the Internet (2009), Utah State University Press</li>
+            <li>Brian A. Sharpless &amp; Karl Doghramji — Sleep Paralysis: Historical, Psychological, and Medical Perspectives (2015), Oxford University Press</li>
+            <li>National Institutes of Health — Sleep Paralysis Overview: <a href="https://www.nhlbi.nih.gov" target="_blank">nhlbi.nih.gov</a></li>
+            <li>Reddit — r/SleepParalysis (community archive): <a href="https://www.reddit.com/r/SleepParalysis" target="_blank">reddit.com/r/SleepParalysis</a></li>
+            <li>The Atlantic — "The Internet Made Folklore": <a href="https://www.theatlantic.com" target="_blank">theatlantic.com</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head">Before You Go</div>
+      <div class="outro">
+        <p>The Wendigo predates the country. The Mothman has bridges to its name. The Black-Eyed Children knock at the threshold. The Rake is the most modern monster on this show — born in a forum, raised on a wiki, and somehow, between 2005 and now, threaded into enough genuine human nightmare that we cannot quite dismiss it without lying about what it has become.</p>
+        <p style="margin-top:18px;">There are two kinds of fear at the foot of your bed. There is the fear that an unspeakable thing is in the room. And there is the fear that your own brain, in the small hours of the morning, can produce something so vivid that the difference does not matter for as long as the episode lasts. The Rake lives in the gap between those two fears. The legend made the gap a little wider on purpose.</p>
+        <p style="margin-top:18px;">If you wake at three in the morning tonight and you cannot move and you can sense weight at the foot of the bed — <em>breathe.</em> Wiggle a toe. Wait it out. The episode will end. The thing you saw, real or otherwise, will not.</p>
+        <p style="margin-top:18px;">This has been the Monster Survival Guide. Sleep on your side. Stay sceptical. And remember — the room is yours. Whatever has crossed the threshold has done so on a temporary visa. You are still the resident.</p>
+      </div>
+    </div>
+</FieldManual>
