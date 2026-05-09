@@ -1,120 +1,127 @@
 ---
 import FieldManual from '../layouts/FieldManual.astro';
-import css from '../styles/pages/entries.css?raw';
+import StampRow from '../components/StampRow.astro';
+import DocMeta from '../components/DocMeta.astro';
+import DocTitle from '../components/DocTitle.astro';
+import { loadMonsterEntries } from '../lib/monsters.ts';
+import { upcoming } from '../config/site.ts';
+import '../styles/pages/entries.css';
 
-// =====================================================================
-//  AUTO-DISCOVERY OF MONSTER ENTRIES
-//  Every .astro page in src/pages/ that exports a `const entry = {...}`
-//  is automatically picked up here and rendered as a card. To add a new
-//  monster to the menu: just create the page file with that export.
-//  No edit to this file required.
-// =====================================================================
-
-// import.meta.glob runs at build time and pulls in every sibling .astro file.
-// `eager: true` returns the modules synchronously instead of as promises.
-const allModules: Record<string, any> = import.meta.glob('./*.astro', { eager: true });
-
-// Filter to pages that export a card-shaped `entry` object, then sort by number.
-const entries = Object.values(allModules)
-  .map((mod: any) => mod.entry)
-  .filter((e) => e && typeof e === 'object' && e.title && e.url)
-  .sort((a: any, b: any) => parseInt(a.number, 10) - parseInt(b.number, 10));
+// Auto-discover every monster page that exports an `entry`.
+// To add a new monster: create the page file with that export. No edit here.
+const modules = import.meta.glob<{ entry?: import('../lib/monsters.ts').MonsterEntry }>(
+  './*.astro',
+  { eager: true },
+);
+const entries = loadMonsterEntries(modules);
 ---
 
-<FieldManual title="Monster Index" classification="monster survival guide &nbsp;—&nbsp; menu" bottomBar="monster survival guide &nbsp;·&nbsp; all entries &nbsp;·&nbsp; season one">
-  <style is:inline set:html={css}></style>
+<FieldManual
+  title="Monster Index"
+  description="Every Monster Survival Guide entry filed so far. Start anywhere. Read everything."
+  classification="monster survival guide  —  menu"
+  bottomBar="monster survival guide  ·  all entries  ·  season one"
+>
+  <StampRow red="All Entries" faded="Season One" blue="Field Manual" />
+  <DocMeta
+    rows={[
+      { label: 'DOCUMENT TYPE', value: 'Index — All Survival Guide Journal Entries' },
+      { label: 'SEASON', value: 'One — Currently Active' },
+      { label: 'ENTRIES', value: `${entries.length} Filed — More Incoming` },
+      { label: 'STATUS', value: 'Open Distribution — Read Before You Need To' },
+    ]}
+  />
+  <DocTitle subtitle="Every survival guide filed so far. Start anywhere. Read everything.">
+    All<br />Entries
+  </DocTitle>
 
-    <div class="stamp-row">
-      <div class="stamp red">All Entries</div>
-      <div class="stamp faded">Season One</div>
-      <div class="stamp blue">Field Manual</div>
-    </div>
-
-    <div class="doc-meta">
-      <div>DOCUMENT TYPE: &nbsp;<span>Index — All Survival Guide Journal Entries</span></div>
-      <div>SEASON: &nbsp;<span>One — Currently Active</span></div>
-      <div>ENTRIES: &nbsp;<span>{entries.length} Filed — More Incoming</span></div>
-      <div>STATUS: &nbsp;<span>Open Distribution — Read Before You Need To</span></div>
-    </div>
-
-    <div class="doc-title">All<br/>Entries</div>
-    <p class="doc-subtitle"><em>Every survival guide filed so far. Start anywhere. Read everything.</em></p>
-
-    <!-- START HERE (manual — points at the pilot/about page) -->
-    <div class="section-head">Start Here</div>
-    <div class="entry-list">
-      <a class="entry-card about" href="/">
-        <div class="entry-band" style="background: rgba(26,22,16,0.25);"></div>
-        <div class="entry-body">
-          <div class="entry-label">Introduction · Field Manual</div>
-          <div class="entry-title">About This Guide</div>
-          <div class="entry-desc">What this is, how it works, and why you should read it before you need it.</div>
-          <div class="entry-meta">
-            <span class="entry-tag">How to use</span>
-            <span class="entry-tag">Danger index explained</span>
-            <span class="entry-tag">Season one overview</span>
-          </div>
+  <h2 class="section-head">Start Here</h2>
+  <div class="entry-list">
+    <a class="entry-card about" href="/">
+      <div class="entry-band" style="background: rgba(26,22,16,0.25);"></div>
+      <div class="entry-body">
+        <div class="entry-label">Introduction · Field Manual</div>
+        <h3 class="entry-title">About This Guide</h3>
+        <div class="entry-desc">
+          What this is, how it works, and why you should read it before you need it.
         </div>
-        <div class="entry-right">
-          <div class="mini-index">
-            <div class="mini-label">No threat entity</div>
-          </div>
-          <div class="entry-arrow">→</div>
+        <div class="entry-meta">
+          <span class="entry-tag">How to use</span>
+          <span class="entry-tag">Danger index explained</span>
+          <span class="entry-tag">Season one overview</span>
         </div>
-      </a>
-    </div>
+      </div>
+      <div class="entry-right">
+        <div class="mini-index">
+          <div class="mini-label">No threat entity</div>
+        </div>
+        <div class="entry-arrow">→</div>
+      </div>
+    </a>
+  </div>
 
-    <hr class="divider"/>
+  <hr class="divider" />
 
-    {/* SEASON ONE ENTRIES — auto-generated from each monster page's `entry` export */}
-    <div class="section-head">Season One — Survival Entries</div>
-    <div class="entry-list">
-      {entries.map((e: any) => (
+  <h2 class="section-head">Season One — Survival Entries</h2>
+  <div class="entry-list">
+    {
+      entries.map((e) => (
         <a class="entry-card" href={e.url}>
-          <div class="entry-band" style={`background: ${e.bandColor};`}></div>
+          <div class="entry-band" style={`background: ${e.bandColor};`} />
           <div class="entry-body">
-            <div class="entry-label">Entry {e.number} · {e.entryClass} · {e.region}</div>
-            <div class="entry-title">{e.title}</div>
+            <div class="entry-label">
+              Entry {e.number} · {e.entryClass} · {e.region}
+            </div>
+            <h3 class="entry-title">{e.title}</h3>
             <div class="entry-desc">{e.description}</div>
             <div class="entry-meta">
-              {e.tags.map((t: string) => <span class="entry-tag">{t}</span>)}
+              {e.tags.map((t) => (
+                <span class="entry-tag">{t}</span>
+              ))}
             </div>
           </div>
           <div class="entry-right">
             <div class="mini-index">
               <div class="mini-label">Danger · {e.danger}/10</div>
-              <div class="mini-bars">
+              <div class="mini-bars" role="img" aria-label={`Danger ${e.danger} out of 10`}>
                 {Array.from({ length: 10 }).map((_, i) => (
-                  <div class={`mbar ${i < e.danger ? 'f' : ''}`}></div>
+                  <div class={i < e.danger ? 'mbar f' : 'mbar'} aria-hidden="true" />
                 ))}
               </div>
             </div>
             <div class="entry-arrow">→</div>
           </div>
         </a>
-      ))}
+      ))
+    }
 
-      {/* Coming Soon placeholder — kept manual; remove or edit as you like */}
-      <div class="entry-card" style="opacity:0.4; cursor:default; pointer-events:none;">
-        <div class="entry-band" style="background: rgba(26,22,16,0.2);"></div>
-        <div class="entry-body">
-          <div class="entry-label">Next Entry · Coming Soon</div>
-          <div class="entry-title">Unknown Entity</div>
-          <div class="entry-desc">The next entry is being prepared. Check back soon.</div>
-          <div class="entry-meta">
-            <span class="entry-tag">Pending</span>
-          </div>
-        </div>
-        <div class="entry-right">
-          <div class="mini-index">
-            <div class="mini-label">Classified</div>
-            <div class="mini-bars">
-              <div class="mbar"></div><div class="mbar"></div><div class="mbar"></div><div class="mbar"></div><div class="mbar"></div>
-              <div class="mbar"></div><div class="mbar"></div><div class="mbar"></div><div class="mbar"></div><div class="mbar"></div>
+    {
+      upcoming && (
+        <div class="entry-card coming-soon">
+          <div class="entry-band" style="background: rgba(26,22,16,0.2);" />
+          <div class="entry-body">
+            <div class="entry-label">{upcoming.label}</div>
+            <h3 class="entry-title">{upcoming.title}</h3>
+            <div class="entry-desc">{upcoming.description}</div>
+            <div class="entry-meta">
+              <span class="entry-tag">Pending</span>
             </div>
           </div>
-          <div class="entry-arrow" style="opacity:0.2;">→</div>
+          <div class="entry-right">
+            <div class="mini-index">
+              <div class="mini-label">Classified</div>
+              <div class="mini-bars" aria-hidden="true">
+                {Array.from({ length: 10 }).map(() => (
+                  <div class="mbar" />
+                ))}
+              </div>
+            </div>
+            <div class="entry-arrow" style="opacity:0.2;">
+              →
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )
+    }
+  </div>
 </FieldManual>

@@ -1,0 +1,24 @@
+---
+interface Props {
+  red: string;
+  faded: string;
+  blue: string;
+  /** Optional href to make the faded stamp a link. */
+  fadedHref?: string;
+}
+const { red, faded, blue, fadedHref } = Astro.props;
+---
+
+<div class="stamp-row">
+  <span class="stamp red">{red}</span>
+  {
+    fadedHref ? (
+      <a class="stamp faded" href={fadedHref}>
+        {faded}
+      </a>
+    ) : (
+      <span class="stamp faded">{faded}</span>
+    )
+  }
+  <span class="stamp blue">{blue}</span>
+</div>

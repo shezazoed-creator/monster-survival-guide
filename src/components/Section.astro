@@ -1,0 +1,14 @@
+---
+interface Props {
+  heading: string;
+  /** Heading level. Defaults to h2 — bump if nesting deeper. */
+  level?: 2 | 3 | 4;
+}
+const { heading, level = 2 } = Astro.props;
+const Heading = `h${level}` as const;
+---
+
+<section class="section">
+  <Heading class="section-head">{heading}</Heading>
+  <slot />
+</section>

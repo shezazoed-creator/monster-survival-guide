@@ -1,152 +1,257 @@
 ---
 import FieldManual from '../layouts/FieldManual.astro';
-import css from '../styles/pages/index.css?raw';
+import StampRow from '../components/StampRow.astro';
+import DocMeta from '../components/DocMeta.astro';
+import DocTitle from '../components/DocTitle.astro';
+import Section from '../components/Section.astro';
+import { site } from '../config/site.ts';
+import '../styles/pages/index.css';
 ---
 
-<FieldManual title="Monster Survival Guide" classification="monster survival guide &nbsp;—&nbsp; field manual series" bottomBar="monster survival guide &nbsp;·&nbsp; field manual series &nbsp;·&nbsp; season one">
-  <style is:inline set:html={css}></style>
+<FieldManual
+  title={site.name}
+  description={site.description}
+  classification="monster survival guide  —  field manual series"
+  bottomBar="monster survival guide  ·  field manual series  ·  season one"
+>
+  <StampRow red="Start Here" faded="Menu" blue="Field Manual Vol. I" fadedHref="/entries" />
+  <DocMeta
+    rows={[
+      { label: 'GUIDE TYPE', value: 'Introduction — How to Use This Guide' },
+      { label: 'AUDIENCE', value: 'Anyone Who May Need This' },
+      { label: 'CONTENT', value: 'Format, Philosophy, Danger Index, Season One Overview' },
+      { label: 'STATUS', value: 'Active — Updated Continuously' },
+    ]}
+  />
+  <DocTitle subtitle="What this is, how it works, and why you should read it before you need it.">
+    Monster<br />Survival<br />Guide
+  </DocTitle>
 
-    <!-- STAMPS -->
-    <div class="stamp-row">
-      <div class="stamp red">Start Here</div>
-      <a href="/entries" class="stamp faded" style="text-decoration:none;cursor:pointer;">Menu</a>
-      <div class="stamp blue">Field Manual Vol. I</div>
+  <Section heading="Where Most Guides Go Wrong">
+    <p>Let me tell you the thing that everyone who makes a manual like this gets wrong.</p>
+    <p>
+      They start with the monster. They open on the darkness, the scream, the moment of encounter.
+      They give you the horror first and the context never. They assume that what you came for is
+      the fear, and so they deliver the fear, efficiently, without any of the surrounding
+      information that might actually help you.
+    </p>
+    <p>This Journal is not that kind of journal.</p>
+    <p>
+      My name is unimportant for now. What's important is what I do, which is this: I research
+      things that should not exist, I verify everything I can verify, I am honest with you when I
+      cannot verify something, and then I tell you what I found — not to frighten you, but to
+      prepare you. Because the difference between a person who encounters something in the dark and
+      survives, and a person who doesn't, is almost never bravery. It is almost always information.
+    </p>
+    <p>
+      Welcome to Monster Survival Guide. This is the pilot. This is the page where I explain the
+      rules before the game begins. Stay with me.
+    </p>
+  </Section>
+
+  <Section heading="Why This Guide Exists">
+    <p>
+      Here is a fact that the mainstream is not entirely comfortable acknowledging: across every
+      human culture, on every continent, in every era of recorded history, people have reported
+      encounters with entities that do not fit the known biological or physical categories. Not all
+      of them. Not most of them. But enough — consistently enough, across enough independent sources
+      with enough overlapping detail — that dismissing the entire body of evidence requires its own
+      kind of faith. The faith that all of these people, across all of these centuries, were simply
+      wrong.
+    </p>
+    <p>
+      I am not asking you to believe everything. I am not asking you to believe anything, actually.
+      What I am asking you to do is take the accounts seriously enough to study them. Because the
+      alternative — ignoring them entirely until you need them — is the position of someone who has
+      never needed them yet.
+    </p>
+    <div class="pull-quote">
+      Every creature we cover on this journal has been encountered by real people in real places.
+      Some of those encounters have court records. Some have police reports. Some have only the
+      testimony of one person sitting alone with what they saw. All of them are worth your
+      attention. None of them are worth your panic. Information is the opposite of panic.
     </div>
+    <p>
+      The Monster Survival Guide exists because nobody gave these people a field manual before they
+      needed one. We are the field manual. That is all this is.
+    </p>
+  </Section>
 
-    <!-- META -->
-    <div class="doc-meta">
-      <div>GUIDE TYPE: &nbsp;<span>Introduction — How to Use This Guide</span></div>
-      <div>AUDIENCE: &nbsp;<span>Anyone Who May Need This</span></div>
-      <div>CONTENT: &nbsp;<span>Format, Philosophy, Danger Index, Season One Overview</span></div>
-      <div>STATUS: &nbsp;<span>Active — Updated Continuously</span></div>
+  <Section heading="How Every Entry Is Structured">
+    <p>
+      Each page of this journal follows the same structure. Not because we lack imagination, but
+      because the structure exists for a reason. In an emergency, you do not want to have to
+      remember where the information you need is located. You want it in the same place every time.
+      Here is where it is.
+    </p>
+
+    <table class="format-table">
+      <thead>
+        <tr>
+          <th scope="col">Segment</th>
+          <th scope="col">Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Cold Open</td>
+          <td
+            >Places you in the encounter before you know you are in it. Establishes atmosphere.
+            Earns your attention before it asks for your trust.</td
+          >
+        </tr>
+        <tr>
+          <td>Origins</td>
+          <td
+            >Where the entity comes from — culturally, historically, geographically. A monster
+            without context is just a horror story. A monster with context is something you can
+            understand, and things you can understand can sometimes be survived.</td
+          >
+        </tr>
+        <tr>
+          <td>Physical Description</td>
+          <td
+            >What it looks like. What witnesses agree on. What varies. What to look for before you
+            know what you are looking at.</td
+          >
+        </tr>
+        <tr>
+          <td>Behaviour</td>
+          <td
+            >How it hunts, haunts, or operates. The pattern of the encounter. What comes first, what
+            comes next, and what comes after that if you do nothing.</td
+          >
+        </tr>
+        <tr>
+          <td>Known Weaknesses</td>
+          <td
+            >What works. What the accumulated evidence suggests might slow it, stop it, or redirect
+            it. We are honest when this section is thin. Some entities have no confirmed counters.
+            That information is also useful.</td
+          >
+        </tr>
+        <tr>
+          <td>Documented Encounters</td>
+          <td
+            >Two real accounts per monster — verified where verification is possible, clearly
+            labelled when it is not. We do not present folklore as fact. We present it as what it
+            is: the record of what people reported, and what that record tells us.</td
+          >
+        </tr>
+        <tr>
+          <td>The Six Rules</td>
+          <td
+            >The survival protocol. Six specific, actionable rules derived from the encounter
+            record. Not general advice. Not common sense. The specific things that the evidence says
+            increase your chances of walking away.</td
+          >
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="field-note">
+      <p>
+        The Six Rules close every journal entry because they are the reason the episode existed.
+        Everything before them is the evidence. The rules are the conclusion. If you remember
+        nothing else from an episode — remember the rules.
+      </p>
     </div>
+  </Section>
 
-    <!-- TITLE -->
-    <div class="doc-title">Monster<br/>Survival<br/>Guide</div>
-    <p class="doc-subtitle"><em>What this is, how it works, and why you should read it before you need it.</em></p>
+  <Section heading="Understanding the Danger Index">
+    <p>
+      Every journal entry carries a Monster Danger Index score from 1 to 10. Here is what those
+      numbers mean, so that you are never in any doubt.
+    </p>
 
-    <!-- COLD OPEN -->
-    <div class="section">
-      <div class="section-head">Where Most Guides Go Wrong</div>
-      <p>Let me tell you the thing that everyone who makes a manual like this gets wrong.</p>
-      <p>They start with the monster. They open on the darkness, the scream, the moment of encounter. They give you the horror first and the context never. They assume that what you came for is the fear, and so they deliver the fear, efficiently, without any of the surrounding information that might actually help you.</p>
-      <p>This Journal is not that kind of journal.</p>
-      <p>My name is unimportant for now. What's important is what I do, which is this: I research things that should not exist, I verify everything I can verify, I am honest with you when I cannot verify something, and then I tell you what I found — not to frighten you, but to prepare you. Because the difference between a person who encounters something in the dark and survives, and a person who doesn't, is almost never bravery. It is almost always information.</p>
-      <p>Welcome to Monster Survival Guide. This is the pilot. This is the page where I explain the rules before the game begins. Stay with me.</p>
-    </div>
-
-    <!-- WHY THIS EXISTS -->
-    <div class="section">
-      <div class="section-head">Why This Guide Exists</div>
-      <p>Here is a fact that the mainstream is not entirely comfortable acknowledging: across every human culture, on every continent, in every era of recorded history, people have reported encounters with entities that do not fit the known biological or physical categories. Not all of them. Not most of them. But enough — consistently enough, across enough independent sources with enough overlapping detail — that dismissing the entire body of evidence requires its own kind of faith. The faith that all of these people, across all of these centuries, were simply wrong.</p>
-      <p>I am not asking you to believe everything. I am not asking you to believe anything, actually. What I am asking you to do is take the accounts seriously enough to study them. Because the alternative — ignoring them entirely until you need them — is the position of someone who has never needed them yet.</p>
-
-      <div class="pull-quote">
-        Every creature we cover on this journal has been encountered by real people in real places. Some of those encounters have court records. Some have police reports. Some have only the testimony of one person sitting alone with what they saw. All of them are worth your attention. None of them are worth your panic. Information is the opposite of panic.
+    <div class="scale-row">
+      <div class="scale-item s1">
+        <span class="scale-num">1–2</span>
+        Documented but manageable. Clear counters exist. Survival is probable with correct information.
       </div>
-
-      <p>The Monster Survival Guide exists because nobody gave these people a field manual before they needed one. We are the field manual. That is all this is.</p>
-    </div>
-
-    <!-- WHAT TO EXPECT -->
-    <div class="section">
-      <div class="section-head">How Every Entry Is Structured</div>
-      <p>Each page of this journal follows the same structure. Not because we lack imagination, but because the structure exists for a reason. In an emergency, you do not want to have to remember where the information you need is located. You want it in the same place every time. Here is where it is.</p>
-
-      <table class="format-table">
-        <thead>
-          <tr>
-            <th>Segment</th>
-            <th>Purpose</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Cold Open</td>
-            <td>Places you in the encounter before you know you are in it. Establishes atmosphere. Earns your attention before it asks for your trust.</td>
-          </tr>
-          <tr>
-            <td>Origins</td>
-            <td>Where the entity comes from — culturally, historically, geographically. A monster without context is just a horror story. A monster with context is something you can understand, and things you can understand can sometimes be survived.</td>
-          </tr>
-          <tr>
-            <td>Physical Description</td>
-            <td>What it looks like. What witnesses agree on. What varies. What to look for before you know what you are looking at.</td>
-          </tr>
-          <tr>
-            <td>Behaviour</td>
-            <td>How it hunts, haunts, or operates. The pattern of the encounter. What comes first, what comes next, and what comes after that if you do nothing.</td>
-          </tr>
-          <tr>
-            <td>Known Weaknesses</td>
-            <td>What works. What the accumulated evidence suggests might slow it, stop it, or redirect it. We are honest when this section is thin. Some entities have no confirmed counters. That information is also useful.</td>
-          </tr>
-          <tr>
-            <td>Documented Encounters</td>
-            <td>Two real accounts per monster — verified where verification is possible, clearly labelled when it is not. We do not present folklore as fact. We present it as what it is: the record of what people reported, and what that record tells us.</td>
-          </tr>
-          <tr>
-            <td>The Six Rules</td>
-            <td>The survival protocol. Six specific, actionable rules derived from the encounter record. Not general advice. Not common sense. The specific things that the evidence says increase your chances of walking away.</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="field-note">
-        <p>The Six Rules close every journal entry because they are the reason the episode existed. Everything before them is the evidence. The rules are the conclusion. If you remember nothing else from an episode — remember the rules.</p>
+      <div class="scale-item s2">
+        <span class="scale-num">3–4</span>
+        Significant threat. Counters exist but require preparation. Survival is possible with prior knowledge,
+        unlikely without it.
+      </div>
+      <div class="scale-item s3">
+        <span class="scale-num">5–6</span>
+        Serious threat. Partial counters. Survival rate in documented encounters is mixed. Knowledge materially
+        improves outcomes.
+      </div>
+      <div class="scale-item s4">
+        <span class="scale-num">7–8</span>
+        Extreme threat. Limited or conditional counters. The margin between survival and non-survival
+        is narrow and specific.
+      </div>
+      <div class="scale-item s5">
+        <span class="scale-num">9–10</span>
+        Critical or absolute threat. No confirmed counters, or counters so demanding as to be effectively
+        unavailable. Avoidance is the only reliable strategy.
       </div>
     </div>
 
-    <!-- DANGER INDEX -->
-    <div class="section">
-      <div class="section-head">Understanding the Danger Index</div>
-      <p>Every journal entry carries a Monster Danger Index score from 1 to 10. Here is what those numbers mean, so that you are never in any doubt.</p>
+    <p>
+      The index is not a measure of how frightening an entity is. It is a measure of how much danger
+      a typical, unprepared person faces upon encounter. An entity that scores 10 but can be avoided
+      entirely by staying away from a specific type of location is not more dangerous in practical
+      terms than a 7 that appears anywhere. Read the score alongside the behaviour section. The
+      number alone tells you only part of the story.
+    </p>
+  </Section>
 
-      <div class="scale-row">
-        <div class="scale-item s1">
-          <span class="scale-num">1–2</span>
-          Documented but manageable. Clear counters exist. Survival is probable with correct information.
-        </div>
-        <div class="scale-item s2">
-          <span class="scale-num">3–4</span>
-          Significant threat. Counters exist but require preparation. Survival is possible with prior knowledge, unlikely without it.
-        </div>
-        <div class="scale-item s3">
-          <span class="scale-num">5–6</span>
-          Serious threat. Partial counters. Survival rate in documented encounters is mixed. Knowledge materially improves outcomes.
-        </div>
-        <div class="scale-item s4">
-          <span class="scale-num">7–8</span>
-          Extreme threat. Limited or conditional counters. The margin between survival and non-survival is narrow and specific.
-        </div>
-        <div class="scale-item s5">
-          <span class="scale-num">9–10</span>
-          Critical or absolute threat. No confirmed counters, or counters so demanding as to be effectively unavailable. Avoidance is the only reliable strategy.
-        </div>
-      </div>
+  <Section heading="The Philosophy Behind This Guide">
+    <p>
+      We believe the following things, and we want to be transparent about them, because you deserve
+      to know the position from which we approach this material.
+    </p>
+    <p>
+      <strong>We believe that witness testimony deserves respect.</strong> Not credulity — respect. There
+      is a difference. Respecting a witness means taking their account seriously enough to examine it
+      carefully, to look for corroboration, to note where accounts align across independent sources, and
+      to be honest about where they do not. It does not mean accepting every account uncritically. It
+      means not dismissing people because what they reported was inconvenient.
+    </p>
+    <p>
+      <strong>We believe that fear and information are opposites.</strong> The purpose of this journal
+      is not to frighten you. We understand that it will sometimes frighten you, because the material
+      is frightening. But our intention — always — is to leave you more capable at the end of an episode
+      than you were at the beginning. A frightened person without information is helpless. A frightened
+      person with information is dangerous to whatever is frightening them.
+    </p>
+    <p>
+      <strong>We believe in being honest about what we do not know.</strong> This guide will tell you
+      when evidence is thin, when accounts are disputed, when what we are presenting is documented lore
+      rather than verified fact. We will not inflate the certainty of the record to make better views.
+      The record is strange enough without inflation.
+    </p>
 
-      <p>The index is not a measure of how frightening an entity is. It is a measure of how much danger a typical, unprepared person faces upon encounter. An entity that scores 10 but can be avoided entirely by staying away from a specific type of location is not more dangerous in practical terms than a 7 that appears anywhere. Read the score alongside the behaviour section. The number alone tells you only part of the story.</p>
+    <div class="field-note">
+      <p>
+        This guide does not tell you that monsters are real. It tells you what people have reported,
+        what those reports have in common, what researchers have found, and what the accumulated
+        evidence suggests you should do if you ever find yourself in the position of needing to
+        know. What you conclude from that is yours to decide.
+      </p>
     </div>
+  </Section>
 
-    <!-- PHILOSOPHY -->
-    <div class="section">
-      <div class="section-head">The Philosophy Behind This Guide</div>
-      <p>We believe the following things, and we want to be transparent about them, because you deserve to know the position from which we approach this material.</p>
-      <p><strong>We believe that witness testimony deserves respect.</strong> Not credulity — respect. There is a difference. Respecting a witness means taking their account seriously enough to examine it carefully, to look for corroboration, to note where accounts align across independent sources, and to be honest about where they do not. It does not mean accepting every account uncritically. It means not dismissing people because what they reported was inconvenient.</p>
-      <p><strong>We believe that fear and information are opposites.</strong> The purpose of this journal is not to frighten you. We understand that it will sometimes frighten you, because the material is frightening. But our intention — always — is to leave you more capable at the end of an episode than you were at the beginning. A frightened person without information is helpless. A frightened person with information is dangerous to whatever is frightening them.</p>
-      <p><strong>We believe in being honest about what we do not know.</strong> This guide will tell you when evidence is thin, when accounts are disputed, when what we are presenting is documented lore rather than verified fact. We will not inflate the certainty of the record to make better views. The record is strange enough without inflation.</p>
-
-      <div class="field-note">
-        <p>This show guide not tell you that monsters are real. It tells you what people have reported, what those reports have in common, what researchers have found, and what the accumulated evidence suggests you should do if you ever find yourself in the position of needing to know. What you conclude from that is yours to decide.</p>
-      </div>
-    </div>
-
-    <!-- THE LINEUP -->
-    <div class="section">
-      <div class="section-head">What This Guide Covers — Season One</div>
-      <p>This is the Guide. The numbered entries begin immediately after. Here, in the order they arrive, is what we are covering in Season One of the Monster Survival Guide. Consider this your briefing before the briefings begin.</p>
-      <p>Every entity in the Guide has been reported across multiple independent sources. Every entry contains two documented real-world encounters with sources you can verify for yourself. Every entry ends with six rules. The rules are the point.</p>
-      <p>We do this because someone has to. Because the people who encountered these things had no preparation, no framework, no field manual. Because information is the only weapon that works against all of them equally.</p>
-      <p>You have found the Guide. That is already the most important step.</p>
-    </div>
+  <Section heading="What This Guide Covers — Season One">
+    <p>
+      This is the Guide. The numbered entries begin immediately after. Here, in the order they
+      arrive, is what we are covering in Season One of the Monster Survival Guide. Consider this
+      your briefing before the briefings begin.
+    </p>
+    <p>
+      Every entity in the Guide has been reported across multiple independent sources. Every entry
+      contains two documented real-world encounters with sources you can verify for yourself. Every
+      entry ends with six rules. The rules are the point.
+    </p>
+    <p>
+      We do this because someone has to. Because the people who encountered these things had no
+      preparation, no framework, no field manual. Because information is the only weapon that works
+      against all of them equally.
+    </p>
+    <p>You have found the Guide. That is already the most important step.</p>
+  </Section>
 </FieldManual>

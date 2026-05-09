@@ -1,0 +1,45 @@
+---
+import FieldManual from '../layouts/FieldManual.astro';
+import StampRow from '../components/StampRow.astro';
+import DocMeta from '../components/DocMeta.astro';
+import DocTitle from '../components/DocTitle.astro';
+import Section from '../components/Section.astro';
+import '../styles/pages/404.css';
+---
+
+<FieldManual
+  title="Entry Not on File"
+  description="The page you requested could not be found in the field manual archive."
+  classification="monster survival guide  —  redacted"
+  bottomBar="monster survival guide  ·  entry not located"
+  status="Redacted"
+>
+  <StampRow red="Not on File" faded="404" blue="Archive Gap" />
+  <DocMeta
+    rows={[
+      { label: 'REQUEST', value: 'Page Not Found' },
+      { label: 'STATUS', value: 'Document does not exist in this archive' },
+      { label: 'NEXT STEP', value: 'Return to the index — or to the menu' },
+    ]}
+  />
+  <DocTitle subtitle="The file you requested is not in the cabinet. Try the index instead.">
+    Entry<br />Not on<br />File
+  </DocTitle>
+
+  <Section heading="What This Page Is">
+    <p>
+      You followed a link to a page that does not exist in this guide — or that no longer exists, or
+      that never did. Sometimes pages move. Sometimes URLs go stale. Sometimes the path you typed
+      contains a small mistake that the archive could not resolve.
+    </p>
+    <p>None of those are sinister. They are simply how archives work.</p>
+    <p>
+      If you came here from inside the guide, the link is broken — please tell us. If you came here
+      from outside, you can pick up where you intended to be from one of the two doors below.
+    </p>
+    <p>
+      <a href="/">← Return to the field manual</a> &nbsp;·&nbsp;
+      <a href="/entries">Browse all entries</a>
+    </p>
+  </Section>
+</FieldManual>

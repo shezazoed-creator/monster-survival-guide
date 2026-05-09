@@ -1,0 +1,16 @@
+---
+interface Props {
+  rows: Array<{ label: string; value: string }>;
+}
+const { rows } = Astro.props;
+---
+
+<div class="doc-meta">
+  {
+    rows.map((row) => (
+      <div>
+        {row.label}: &nbsp;<span>{row.value}</span>
+      </div>
+    ))
+  }
+</div>

@@ -1,146 +1,381 @@
 ---
 import FieldManual from '../layouts/FieldManual.astro';
-import css from '../styles/pages/skinwalker.css?raw';
+import BackLink from '../components/BackLink.astro';
+import StampRow from '../components/StampRow.astro';
+import DocMeta from '../components/DocMeta.astro';
+import DocTitle from '../components/DocTitle.astro';
+import DangerMeter from '../components/DangerMeter.astro';
+import Section from '../components/Section.astro';
+import StatRow from '../components/StatRow.astro';
+import SixRules from '../components/SixRules.astro';
+import EncounterCard from '../components/EncounterCard.astro';
+import Outro from '../components/Outro.astro';
+import type { MonsterEntry } from '../lib/monsters.ts';
+import '../styles/pages/skinwalker.css';
 
-export const entry = {
-  number: "07",
-  entryClass: "Cultural Threat",
-  region: "Four Corners",
-  title: "The Skinwalker",
-  description: "The teaching is older than the country it walks in. The teaching is also that we should not be talking about it.",
-  tags: ["Sacred lore", "Discuss with care", "Four Corners region"],
+export const entry: MonsterEntry = {
+  number: '07',
+  entryClass: 'Cultural Threat',
+  region: 'Four Corners',
+  title: 'The Skinwalker',
+  description:
+    'The teaching is older than the country it walks in. The teaching is also that we should not be talking about it.',
+  tags: ['Sacred lore', 'Discuss with care', 'Four Corners region'],
   danger: 9,
-  bandColor: "#6a2818",
-  url: "/skinwalker",
+  bandColor: '#6a2818',
+  url: '/skinwalker',
 };
+
+const rules = [
+  {
+    title: 'Do not say the name aloud unnecessarily.',
+    body: 'Especially not in the homes or vehicles of Diné people. Especially not at night. The cultural prohibition is the entire defensive doctrine of this entry. Honour it.',
+  },
+  {
+    title: 'Do not visit "Skinwalker Ranch" or related sites as tourists.',
+    body: 'Treating the lore as entertainment, going looking for an encounter, is the best-documented way of producing one. The novelty wears off. The encounter does not.',
+  },
+  {
+    title: 'If a voice from outside calls your name, do not respond.',
+    body: 'If the voice is one you recognise — a partner, a parent, a child — and it is calling from a place that voice has no business being, especially at night, do not open the door, do not call back, and confirm the location of the real person by other means.',
+  },
+  {
+    title: 'If an animal seems wrong, leave the area.',
+    body: 'Wrong proportions. Wrong eye-height. Movement that is not the movement of that species. You do not need to identify what it is. You only need to be somewhere else.',
+  },
+  {
+    title: 'Do not photograph or record what you cannot identify.',
+    body: 'The witness archive contains a striking number of accounts in which the use of cameras and audio recorders preceded escalation. Whether or not you accept the metaphysical explanation, the behavioural one is sound: you are signalling engagement.',
+  },
+  {
+    title: 'Listen to Diné voices when they tell you to stop.',
+    body: 'If a Diné friend, neighbour, or stranger asks you to drop a topic, drop the topic. The teaching is not yours to negotiate. It is theirs to maintain, and they have been maintaining it for an extremely long time.',
+  },
+];
 ---
 
-<FieldManual title="The Skinwalker" classification="monster survival guide &nbsp;—&nbsp; the skinwalker" status="Active Entry — Sensitive">
-  <style is:inline set:html={css}></style>
+<FieldManual
+  title={entry.title}
+  description={entry.description}
+  classification="monster survival guide  —  the skinwalker"
+  status="Active Entry — Sensitive"
+>
+  <BackLink href="/" label="Back to Guide" />
+  <StampRow red="Sacred Lore" faded="Four Corners" blue="Discuss With Care" />
+  <DocMeta
+    rows={[
+      { label: 'ENTITY', value: 'The Skinwalker (Yee Naaldlooshii)' },
+      { label: 'ORIGIN', value: 'Diné (Navajo) Tradition — American Southwest' },
+      { label: 'THREAT GUIDE TYPE', value: 'Identification · Behaviour · Survival Protocol' },
+      { label: 'STATUS', value: 'Critical — Active Reports From Four Corners Region' },
+    ]}
+  />
+  <DocTitle subtitle={entry.description}>The Skinwalker</DocTitle>
+  <DangerMeter
+    danger={entry.danger}
+    label="CRITICAL"
+    description="9/10 — Apex spiritual threat. Shapeshifting. Mimicry. Avoidance is the only protocol."
+  />
 
-    <a href="/" style="display:inline-block; margin-bottom:18px; font-family:'Anonymous Pro',monospace; font-size:0.62rem; letter-spacing:0.2em; color:var(--faded); text-decoration:none; text-transform:uppercase; opacity:0.7;">&larr; Back to Guide</a>
-    <div class="stamp-row">
-      <div class="stamp red">Sacred Lore</div>
-      <div class="stamp faded">Four Corners</div>
-      <div class="stamp blue">Discuss With Care</div>
+  <div class="cultural-note">
+    <p>
+      This entry concerns a being from the sacred tradition of the Diné — the Navajo Nation. Within
+      traditional Diné belief, public discussion of this entity is considered both inappropriate and
+      dangerous. To speak its name openly, to ask elders about it, or to study it from outside the
+      culture is, in many traditional teachings, to invite its attention.
+    </p>
+    <p>
+      We are not Diné. We are presenting this entry because the entity is referenced widely in
+      popular folklore, and because uninformed engagement with its legend has produced real harm. We
+      have therefore made three editorial decisions: <strong
+        >we do not include images, we do not present specific Diné ceremonial information that
+        elders have asked be kept private, and we centre the survival material on what non-Diné
+        people most need to know — which is, almost entirely, what not to do.</strong
+      >
+    </p>
+    <p>
+      If you are Diné, you do not need this guide. If you are not Diné, the most respectful thing
+      you can do is read it once, take the warnings seriously, and not bring this conversation into
+      the homes or gatherings of Diné people you may know. The teaching is not yours, and it is not
+      portable.
+    </p>
+  </div>
+
+  <Section heading="Before We Begin">
+    <p>
+      You are driving across the high desert at night. The Four Corners region — the place where
+      Utah, Colorado, Arizona, and New Mexico meet — is one of the largest stretches of unlit,
+      uninhabited land in the continental United States. The road runs straight for miles. Your
+      high-beams pick out red rock, sagebrush, the occasional fence-line. Nothing else.
+    </p>
+    <p>
+      And then, briefly, your headlights catch something paralleling your vehicle on the open ground
+      a hundred yards off the road. A coyote, you think. Then the figure rises onto two legs and
+      continues to keep pace with your car at fifty miles an hour. It is not a coyote. It is not
+      anything you have a name for in any tradition you grew up in.
+    </p>
+    <p>It does not catch up. It does not need to. It is keeping you company.</p>
+    <p>
+      Welcome back to the Monster Survival Guide. Tonight we are going to do something we have not
+      done before, and that we will do again only when we have to. We are going to talk carefully.
+      We are going to talk briefly. And we are going to be honest about the limits of what we, the
+      people making this show, are entitled to say.
+    </p>
+  </Section>
+
+  <Section heading="Where It Comes From">
+    <p>
+      The Diné — known in English as the Navajo — are the largest Indigenous nation in the United
+      States, with a homeland that spans the Four Corners and a cosmology that is among the most
+      carefully maintained in North America. Within that cosmology, there exists a category of being
+      that English-language sources translate, badly, as <em>"witch"</em> — a person who has chosen, deliberately
+      and through specific transgressions, to become something that is no longer fully a person.
+    </p>
+    <p>
+      The most widely referenced of these is the <em>Yee Naaldlooshii</em>. The phrase translates
+      roughly as <em>"with it, he goes on all fours"</em> — referring to a person who, having broken the
+      most serious cultural and spiritual taboos, has acquired the ability to take the shape of an animal
+      by wearing its skin. The transgressions required to achieve this transformation are profound. They
+      include, in most traditional accounts, the killing of a close family member. The cost is, by design,
+      the worst thing a person can do.
+    </p>
+    <div class="pull-quote">
+      The horror of the Yee Naaldlooshii is not that it is non-human. The horror is that it was once
+      a person. It still has all the knowledge of a person. It knows your name, your habits, your
+      weaknesses, the sound of your child's voice. And it has chosen, fully and irreversibly, to use
+      that knowledge against you.
     </div>
-    <div class="doc-meta">
-      <div>ENTITY: &nbsp;<span>The Skinwalker (Yee Naaldlooshii)</span></div>
-      <div>ORIGIN: &nbsp;<span>Diné (Navajo) Tradition — American Southwest</span></div>
-      <div>THREAT GUIDE TYPE: &nbsp;<span>Identification · Behaviour · Survival Protocol</span></div>
-      <div>STATUS: &nbsp;<span>Critical — Active Reports From Four Corners Region</span></div>
+    <p>
+      The teaching is centuries old. It is not folklore in the diminishing sense. It is, within its
+      tradition, a serious moral and theological category — a description of what happens when a
+      community member decides to stop being a community member, and what the consequences of that
+      decision are for everyone around them. The protective ceremonies that exist within Diné
+      culture for dealing with these beings are sacred. They are not for sale, they are not on the
+      internet, and they are not the subject of this entry.
+    </p>
+  </Section>
+
+  <Section heading="What People Have Reported">
+    <StatRow
+      stats={[
+        { num: '50+', label: 'Years of academic anthropological documentation' },
+        { num: '512', label: 'Acres of the so-called “Skinwalker Ranch” in Utah' },
+        { num: '4', label: 'U.S. states across the Diné homeland and surrounding territory' },
+      ]}
+    />
+    <p>
+      What follows is what witnesses — both Diné and non-Diné — have reported, drawn from the public
+      anthropological literature, court records, and journalistic accounts. We present it
+      descriptively, not credulously, and we omit details that traditional teachers have asked be
+      kept private.
+    </p>
+    <p>
+      Witnesses describe an entity that takes animal form — most often coyote, wolf, bear, owl, or
+      crow, but with proportions that are subtly wrong. Too tall at the shoulder. Too long in the
+      limb. Eyes that catch headlights at the wrong height. The animal moves with intelligence that
+      does not match the species. It may stand on its hind legs. It may briefly speak.
+    </p>
+    <p>
+      The most consistent and most chilling reported behaviour is mimicry — vocal imitation of human
+      sounds, including specific voices the witness recognises. The voice of a family member calling
+      from outside the house. The voice of a child crying in the wrong direction. The behaviour
+      matches a hunting strategy older than the legend itself: target the bond, not the body.
+    </p>
+    <div class="warning-box">
+      <div class="warn-label">⚠ Critical Field Note</div>
+      <p>
+        Across the witness archive — from the academic anthropological record to contemporary
+        journalism to the sustained reports from the Uintah Basin — one pattern recurs more reliably
+        than any other. <strong>Engaging with the entity makes it more present.</strong> Looking at it
+        directly. Speaking back to its voice. Photographing it. Studying it. Researching it past the point
+        of basic awareness. Witnesses who survived their encounters with their lives and their composure
+        intact are, almost without exception, the witnesses who refused to engage. The teaching that traditional
+        Diné people give about this — that you do not speak of it — is not superstition. It is functional
+        defensive doctrine that has been refined for centuries.
+      </p>
     </div>
-    <div class="doc-title">The Skinwalker</div>
-    <p class="doc-subtitle"><em>The teaching is older than the country it walks in. The teaching is also that we should not be talking about it.</em></p>
-    <div class="danger-meter">
-      <div class="danger-label-col"><div class="danger-title">Monster Danger Index</div><div class="danger-name">CRITICAL</div></div>
-      <div class="danger-bars"><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar filled"></div><div class="bar"></div></div>
-      <div class="danger-desc">9/10 — Apex spiritual threat. Shapeshifting. Mimicry. Avoidance is the only protocol.</div>
-    </div>
-    <div class="cultural-note">
-      <p>This entry concerns a being from the sacred tradition of the Diné — the Navajo Nation. Within traditional Diné belief, public discussion of this entity is considered both inappropriate and dangerous. To speak its name openly, to ask elders about it, or to study it from outside the culture is, in many traditional teachings, to invite its attention.</p>
-      <p>We are not Diné. We are presenting this entry because the entity is referenced widely in popular folklore, and because uninformed engagement with its legend has produced real harm. We have therefore made three editorial decisions: <strong>we do not include images, we do not present specific Diné ceremonial information that elders have asked be kept private, and we centre the survival material on what non-Diné people most need to know — which is, almost entirely, what not to do.</strong></p>
-      <p>If you are Diné, you do not need this guide. If you are not Diné, the most respectful thing you can do is read it once, take the warnings seriously, and not bring this conversation into the homes or gatherings of Diné people you may know. The teaching is not yours, and it is not portable.</p>
-    </div>
-    <div class="section">
-      <div class="section-head">Before We Begin</div>
-      <p>You are driving across the high desert at night. The Four Corners region — the place where Utah, Colorado, Arizona, and New Mexico meet — is one of the largest stretches of unlit, uninhabited land in the continental United States. The road runs straight for miles. Your high-beams pick out red rock, sagebrush, the occasional fence-line. Nothing else.</p>
-      <p>And then, briefly, your headlights catch something paralleling your vehicle on the open ground a hundred yards off the road. A coyote, you think. Then the figure rises onto two legs and continues to keep pace with your car at fifty miles an hour. It is not a coyote. It is not anything you have a name for in any tradition you grew up in.</p>
-      <p>It does not catch up. It does not need to. It is keeping you company.</p>
-      <p>Welcome back to the Monster Survival Guide. Tonight we are going to do something we have not done before, and that we will do again only when we have to. We are going to talk carefully. We are going to talk briefly. And we are going to be honest about the limits of what we, the people making this show, are entitled to say.</p>
-    </div>
-    <div class="section">
-      <div class="section-head">Where It Comes From</div>
-      <p>The Diné — known in English as the Navajo — are the largest Indigenous nation in the United States, with a homeland that spans the Four Corners and a cosmology that is among the most carefully maintained in North America. Within that cosmology, there exists a category of being that English-language sources translate, badly, as <em>"witch"</em> — a person who has chosen, deliberately and through specific transgressions, to become something that is no longer fully a person.</p>
-      <p>The most widely referenced of these is the <em>Yee Naaldlooshii</em>. The phrase translates roughly as <em>"with it, he goes on all fours"</em> — referring to a person who, having broken the most serious cultural and spiritual taboos, has acquired the ability to take the shape of an animal by wearing its skin. The transgressions required to achieve this transformation are profound. They include, in most traditional accounts, the killing of a close family member. The cost is, by design, the worst thing a person can do.</p>
-      <div class="pull-quote">The horror of the Yee Naaldlooshii is not that it is non-human. The horror is that it was once a person. It still has all the knowledge of a person. It knows your name, your habits, your weaknesses, the sound of your child's voice. And it has chosen, fully and irreversibly, to use that knowledge against you.</div>
-      <p>The teaching is centuries old. It is not folklore in the diminishing sense. It is, within its tradition, a serious moral and theological category — a description of what happens when a community member decides to stop being a community member, and what the consequences of that decision are for everyone around them. The protective ceremonies that exist within Diné culture for dealing with these beings are sacred. They are not for sale, they are not on the internet, and they are not the subject of this entry.</p>
-    </div>
-    <div class="section">
-      <div class="section-head">What People Have Reported</div>
-      <div class="stat-row">
-        <div class="stat"><span class="stat-num">50+</span><span class="stat-label">Years of academic anthropological documentation</span></div>
-        <div class="stat"><span class="stat-num">512</span><span class="stat-label">Acres of the so-called "Skinwalker Ranch" in Utah</span></div>
-        <div class="stat"><span class="stat-num">4</span><span class="stat-label">U.S. states across the Diné homeland and surrounding territory</span></div>
-      </div>
-      <p>What follows is what witnesses — both Diné and non-Diné — have reported, drawn from the public anthropological literature, court records, and journalistic accounts. We present it descriptively, not credulously, and we omit details that traditional teachers have asked be kept private.</p>
-      <p>Witnesses describe an entity that takes animal form — most often coyote, wolf, bear, owl, or crow, but with proportions that are subtly wrong. Too tall at the shoulder. Too long in the limb. Eyes that catch headlights at the wrong height. The animal moves with intelligence that does not match the species. It may stand on its hind legs. It may briefly speak.</p>
-      <p>The most consistent and most chilling reported behaviour is mimicry — vocal imitation of human sounds, including specific voices the witness recognises. The voice of a family member calling from outside the house. The voice of a child crying in the wrong direction. The behaviour matches a hunting strategy older than the legend itself: target the bond, not the body.</p>
-      <div class="warning-box"><div class="warn-label">⚠ Critical Field Note</div><p>Across the witness archive — from the academic anthropological record to contemporary journalism to the sustained reports from the Uintah Basin — one pattern recurs more reliably than any other. <strong>Engaging with the entity makes it more present.</strong> Looking at it directly. Speaking back to its voice. Photographing it. Studying it. Researching it past the point of basic awareness. Witnesses who survived their encounters with their lives and their composure intact are, almost without exception, the witnesses who refused to engage. The teaching that traditional Diné people give about this — that you do not speak of it — is not superstition. It is functional defensive doctrine that has been refined for centuries.</p></div>
-    </div>
-    <div class="section">
-      <div class="section-head">An Honest Assessment of Defence</div>
-      <p>There are things we will not include here. The protective ceremonies. The specific words and substances that traditional Diné medicine people use to defend a household. The names of the medicine people themselves. None of that is ours to share, and the people whose tradition it is have asked, repeatedly, that outsiders stop trying.</p>
-      <p>What we can say is what the broader public record, including non-Diné anthropologists and law-enforcement officers who have worked the Four Corners for decades, all converge on. <strong>Avoidance is the only reliable strategy.</strong> Do not seek the entity out. Do not visit places associated with it as a tourist. Do not buy a piece of its skin or its lore in a curiosity shop. Do not use its name as a brand or a punchline.</p>
-      <p>If you encounter something on the road or in the desert that does not match a known animal — break eye contact, leave the area, do not return, and do not discuss the encounter casually with strangers afterward. The pattern in the witness archive is overwhelmingly that public discussion of an encounter precedes further encounters. There may or may not be a metaphysical reason for that. There is unquestionably a behavioural one: people who keep talking about something keep going back to it.</p>
-    </div>
-    <div class="section">
-      <div class="section-head">Six Rules That May Save Your Life</div>
-      <p>These rules are framed for non-Diné readers. They are deliberately conservative.</p>
-      <ul class="rules-list">
-        <li><span class="rule-num">01</span><span><strong>Do not say the name aloud unnecessarily.</strong> Especially not in the homes or vehicles of Diné people. Especially not at night. The cultural prohibition is the entire defensive doctrine of this entry. Honour it.</span></li>
-        <li><span class="rule-num">02</span><span><strong>Do not visit "Skinwalker Ranch" or related sites as tourists.</strong> Treating the lore as entertainment, going looking for an encounter, is the best-documented way of producing one. The novelty wears off. The encounter does not.</span></li>
-        <li><span class="rule-num">03</span><span><strong>If a voice from outside calls your name, do not respond.</strong> If the voice is one you recognise — a partner, a parent, a child — and it is calling from a place that voice has no business being, especially at night, do not open the door, do not call back, and confirm the location of the real person by other means.</span></li>
-        <li><span class="rule-num">04</span><span><strong>If an animal seems wrong, leave the area.</strong> Wrong proportions. Wrong eye-height. Movement that is not the movement of that species. You do not need to identify what it is. You only need to be somewhere else.</span></li>
-        <li><span class="rule-num">05</span><span><strong>Do not photograph or record what you cannot identify.</strong> The witness archive contains a striking number of accounts in which the use of cameras and audio recorders preceded escalation. Whether or not you accept the metaphysical explanation, the behavioural one is sound: you are signalling engagement.</span></li>
-        <li><span class="rule-num">06</span><span><strong>Listen to Diné voices when they tell you to stop.</strong> If a Diné friend, neighbour, or stranger asks you to drop a topic, drop the topic. The teaching is not yours to negotiate. It is theirs to maintain, and they have been maintaining it for an extremely long time.</span></li>
-      </ul>
-    </div>
-    <div class="section">
-      <div class="section-head">Two Cases on the Record</div>
-      <p>The Skinwalker archive presents an unusual evidentiary problem. The traditional cultural record is closed by design. The public record consists of anthropological accounts (gathered carefully, often by Diné scholars and their close collaborators), and a separate, more recent stream of phenomena from a property in Utah that has become a fixture of paranormal media. We treat them in that order, and with proportionate caution.</p>
-      <div class="encounter-card">
-        <div class="encounter-header">
-          <div><div class="encounter-id">Encounter 01 · Diné Bikéyah · 1980s — Anthropological Record</div><div class="encounter-title">The Anthropological Account — As Reported</div><div class="encounter-meta">Multiple Witnesses · Anonymised · From Published Ethnographic Field Notes</div></div>
-          <div class="encounter-verdict"><div class="verdict-label">Classification</div><div class="verdict-badge cultural">Cultural Account</div></div>
-        </div>
-        <div class="encounter-body">
-          <p>In the 1980s, an extended family in the western Navajo Nation reported a sustained period of activity around their hogan over the course of several months. The accounts, gathered later by anthropologists working closely with the family and published in academic literature with the family's specific permission, are presented here at a high level only — the published record is detailed; we are not.</p>
-          <p>The reported pattern was as follows: footsteps on the roof at night, when the family's livestock dogs failed to bark. Knocking on the walls in sequences that matched the rhythm of family members' speech patterns. Shapes seen at the edge of the firelight, briefly, at a distance that made identification impossible. And, most disturbingly, the voice of a deceased uncle calling from the corral on three consecutive nights.</p>
-          <p>The family did not photograph anything. They did not engage. They contacted a medicine person from a neighbouring community. The specific ceremonies that followed are not for this guide. The activity ended within several weeks. Those involved have, by their request, not been named here. The published record is in the references for readers who wish to consult it directly.</p>
-          <p><em>The presentation here is necessarily flattened. The full account is more textured, more specific, and more careful with the role of Diné protective tradition than any non-Diné summary can be. Readers are directed to the primary sources rather than to our condensation.</em></p>
-        </div>
-        <div class="references">
-          <div class="ref-label">// Sources &amp; References</div>
-          <ul class="ref-list">
-            <li>Wikipedia — "Skin-walker": <a href="https://en.wikipedia.org/wiki/Skin-walker" target="_blank">en.wikipedia.org/wiki/Skin-walker</a></li>
-            <li>Clyde Kluckhohn — Navaho Witchcraft (1944, reissued Beacon Press 1967): foundational ethnographic study of Diné witchcraft tradition</li>
-            <li>Margaret K. Brady — Some Kind of Power: Navajo Children's Skinwalker Narratives (1984), University of Utah Press</li>
-            <li>Tony Hillerman — extensive incorporation of the tradition into the Leaphorn / Chee mystery series, written in close consultation with Diné cultural advisors</li>
-            <li>Navajo Nation Office of the President &amp; Vice President — public statements requesting respectful media handling: <a href="https://www.navajo-nsn.gov" target="_blank">navajo-nsn.gov</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="encounter-card">
-        <div class="encounter-header">
-          <div><div class="encounter-id">Encounter 02 · Uintah Basin, Utah · 1994–Present</div><div class="encounter-title">The Sherman Ranch — "Skinwalker Ranch"</div><div class="encounter-meta">Sherman Family · NIDS · Robert Bigelow · Ongoing Investigation</div></div>
-          <div class="encounter-verdict"><div class="verdict-label">Classification</div><div class="verdict-badge documented">Multi-Source Documented</div></div>
-        </div>
-        <div class="encounter-body">
-          <p>In 1994, a Utah family named Sherman purchased a 480-acre cattle ranch in the Uintah Basin, north of the Ute Indian Reservation. Within months of moving in, they began reporting an extended series of phenomena — cattle mutilations, lights in the sky, large unidentified animals, and on at least one occasion, a wolf-shaped figure that the family reported was unaffected by close-range rifle fire. The Shermans spoke first to local press in 1996. Within months, the entire 480-acre property had been purchased outright by the aerospace entrepreneur Robert Bigelow, founder of the National Institute for Discovery Science.</p>
-          <p>NIDS conducted an investigation on the property from 1996 until 2004. The institute's findings — a mixture of seismic data, photography, and witness accounts from researchers who lived on-site — remain unpublished in any peer-reviewed venue, but were summarised in <em>Hunt for the Skinwalker</em> by Colm Kelleher and George Knapp (2005). In 2016 the property was acquired by the real-estate executive Brandon Fugal, whose ongoing investigation has been the subject of the History Channel programme <em>The Secret of Skinwalker Ranch.</em></p>
-          <p>The relationship between the phenomena reported on the Sherman Ranch and the traditional Diné concept of the Yee Naaldlooshii is heavily contested. Many Diné people have publicly objected to the use of the name. The local Ute people, whose reservation borders the property, have their own traditions about the area that long predate the Sherman family — and those traditions, like the Diné ones, are not for outsiders. The journalism around the property has often elided these distinctions in ways that responsible coverage should not.</p>
-          <p>What the Uintah Basin does provide, irrespective of which tradition you locate it within, is a sustained, multi-decade, multi-witness archive of unexplained phenomena on a single bounded property — examined by aerospace research bodies, broadcast television, and independent journalists. Whatever the explanation, the persistence of the reports is a fact in the record. <em>The connection between this archive and traditional Diné teaching is one we present as contested, not as established.</em></p>
-        </div>
-        <div class="references">
-          <div class="ref-label">// Sources &amp; References</div>
-          <ul class="ref-list">
-            <li>Wikipedia — "Skinwalker Ranch": <a href="https://en.wikipedia.org/wiki/Skinwalker_Ranch" target="_blank">en.wikipedia.org/wiki/Skinwalker_Ranch</a></li>
-            <li>Colm A. Kelleher &amp; George Knapp — Hunt for the Skinwalker (2005), Pocket Books</li>
-            <li>Las Vegas Review-Journal — original Knapp reporting on the Sherman family (1996 archive)</li>
-            <li>Smithsonian Magazine — "Skinwalker Ranch": <a href="https://www.smithsonianmag.com" target="_blank">smithsonianmag.com</a></li>
-            <li>The History Channel — "The Secret of Skinwalker Ranch" (Programme Archive)</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="section">
-      <div class="section-head">Before You Go</div>
-      <div class="outro">
-        <p>The Wendigo is hunger. The Mothman is warning. The Black-Eyed Children are the threshold. The Skinwalker is something we, the people making this show, are not entitled to fully describe — and that limit is part of the teaching, not a frustration to be worked around.</p>
-        <p style="margin-top:18px;">If you are Diné and you are reading this — we hope we have not overstepped. If we have, please tell us, and we will correct it. The point of this entry is not to add to the noise. The point is to slow it down.</p>
-        <p style="margin-top:18px;">If you are not Diné and you are reading this, the most useful thing this entry can do is encourage you to do less, not more. Do not visit the Ranch. Do not bring the topic to dinner. Do not buy the merchandise. Do not say the name as a joke. The tradition has lasted for centuries because it was carefully maintained. Help it last by leaving it alone.</p>
-        <p style="margin-top:18px;">This has been the Monster Survival Guide. Stay quiet about this one. Stay sceptical. And if you hear a voice you recognise calling from outside in the dark — <em>do not answer it.</em></p>
-      </div>
-    </div>
+  </Section>
+
+  <Section heading="An Honest Assessment of Defence">
+    <p>
+      There are things we will not include here. The protective ceremonies. The specific words and
+      substances that traditional Diné medicine people use to defend a household. The names of the
+      medicine people themselves. None of that is ours to share, and the people whose tradition it
+      is have asked, repeatedly, that outsiders stop trying.
+    </p>
+    <p>
+      What we can say is what the broader public record, including non-Diné anthropologists and
+      law-enforcement officers who have worked the Four Corners for decades, all converge on. <strong
+        >Avoidance is the only reliable strategy.</strong
+      > Do not seek the entity out. Do not visit places associated with it as a tourist. Do not buy a
+      piece of its skin or its lore in a curiosity shop. Do not use its name as a brand or a punchline.
+    </p>
+    <p>
+      If you encounter something on the road or in the desert that does not match a known animal —
+      break eye contact, leave the area, do not return, and do not discuss the encounter casually
+      with strangers afterward. The pattern in the witness archive is overwhelmingly that public
+      discussion of an encounter precedes further encounters. There may or may not be a metaphysical
+      reason for that. There is unquestionably a behavioural one: people who keep talking about
+      something keep going back to it.
+    </p>
+  </Section>
+
+  <Section heading="Six Rules That May Save Your Life">
+    <p>These rules are framed for non-Diné readers. They are deliberately conservative.</p>
+    <SixRules rules={rules} />
+  </Section>
+
+  <Section heading="Two Cases on the Record">
+    <p>
+      The Skinwalker archive presents an unusual evidentiary problem. The traditional cultural
+      record is closed by design. The public record consists of anthropological accounts (gathered
+      carefully, often by Diné scholars and their close collaborators), and a separate, more recent
+      stream of phenomena from a property in Utah that has become a fixture of paranormal media. We
+      treat them in that order, and with proportionate caution.
+    </p>
+    <EncounterCard
+      id="Encounter 01 · Diné Bikéyah · 1980s — Anthropological Record"
+      title="The Anthropological Account — As Reported"
+      meta="Multiple Witnesses · Anonymised · From Published Ethnographic Field Notes"
+      verdict="cultural"
+      verdictLabel="Cultural Account"
+      references={[
+        {
+          text: 'Wikipedia — “Skin-walker”',
+          label: 'en.wikipedia.org/wiki/Skin-walker',
+          href: 'https://en.wikipedia.org/wiki/Skin-walker',
+        },
+        {
+          text: 'Clyde Kluckhohn — Navaho Witchcraft (1944, reissued Beacon Press 1967): foundational ethnographic study of Diné witchcraft tradition',
+        },
+        {
+          text: 'Margaret K. Brady — Some Kind of Power: Navajo Children’s Skinwalker Narratives (1984), University of Utah Press',
+        },
+        {
+          text: 'Tony Hillerman — extensive incorporation of the tradition into the Leaphorn / Chee mystery series, written in close consultation with Diné cultural advisors',
+        },
+        {
+          text: 'Navajo Nation Office of the President & Vice President — public statements requesting respectful media handling',
+          label: 'navajo-nsn.gov',
+          href: 'https://www.navajo-nsn.gov',
+        },
+      ]}
+    >
+      <p>
+        In the 1980s, an extended family in the western Navajo Nation reported a sustained period of
+        activity around their hogan over the course of several months. The accounts, gathered later
+        by anthropologists working closely with the family and published in academic literature with
+        the family's specific permission, are presented here at a high level only — the published
+        record is detailed; we are not.
+      </p>
+      <p>
+        The reported pattern was as follows: footsteps on the roof at night, when the family's
+        livestock dogs failed to bark. Knocking on the walls in sequences that matched the rhythm of
+        family members' speech patterns. Shapes seen at the edge of the firelight, briefly, at a
+        distance that made identification impossible. And, most disturbingly, the voice of a
+        deceased uncle calling from the corral on three consecutive nights.
+      </p>
+      <p>
+        The family did not photograph anything. They did not engage. They contacted a medicine
+        person from a neighbouring community. The specific ceremonies that followed are not for this
+        guide. The activity ended within several weeks. Those involved have, by their request, not
+        been named here. The published record is in the references for readers who wish to consult
+        it directly.
+      </p>
+      <p>
+        <em
+          >The presentation here is necessarily flattened. The full account is more textured, more
+          specific, and more careful with the role of Diné protective tradition than any non-Diné
+          summary can be. Readers are directed to the primary sources rather than to our
+          condensation.</em
+        >
+      </p>
+    </EncounterCard>
+    <EncounterCard
+      id="Encounter 02 · Uintah Basin, Utah · 1994–Present"
+      title='The Sherman Ranch — "Skinwalker Ranch"'
+      meta="Sherman Family · NIDS · Robert Bigelow · Ongoing Investigation"
+      verdict="documented"
+      verdictLabel="Multi-Source Documented"
+      references={[
+        {
+          text: 'Wikipedia — “Skinwalker Ranch”',
+          label: 'en.wikipedia.org/wiki/Skinwalker_Ranch',
+          href: 'https://en.wikipedia.org/wiki/Skinwalker_Ranch',
+        },
+        { text: 'Colm A. Kelleher & George Knapp — Hunt for the Skinwalker (2005), Pocket Books' },
+        {
+          text: 'Las Vegas Review-Journal — original Knapp reporting on the Sherman family (1996 archive)',
+        },
+        {
+          text: 'Smithsonian Magazine — “Skinwalker Ranch”',
+          label: 'smithsonianmag.com',
+          href: 'https://www.smithsonianmag.com',
+        },
+        { text: 'The History Channel — “The Secret of Skinwalker Ranch” (Programme Archive)' },
+      ]}
+    >
+      <p>
+        In 1994, a Utah family named Sherman purchased a 480-acre cattle ranch in the Uintah Basin,
+        north of the Ute Indian Reservation. Within months of moving in, they began reporting an
+        extended series of phenomena — cattle mutilations, lights in the sky, large unidentified
+        animals, and on at least one occasion, a wolf-shaped figure that the family reported was
+        unaffected by close-range rifle fire. The Shermans spoke first to local press in 1996.
+        Within months, the entire 480-acre property had been purchased outright by the aerospace
+        entrepreneur Robert Bigelow, founder of the National Institute for Discovery Science.
+      </p>
+      <p>
+        NIDS conducted an investigation on the property from 1996 until 2004. The institute's
+        findings — a mixture of seismic data, photography, and witness accounts from researchers who
+        lived on-site — remain unpublished in any peer-reviewed venue, but were summarised in <em
+          >Hunt for the Skinwalker</em
+        > by Colm Kelleher and George Knapp (2005). In 2016 the property was acquired by the real-estate
+        executive Brandon Fugal, whose ongoing investigation has been the subject of the History Channel
+        programme <em>The Secret of Skinwalker Ranch.</em>
+      </p>
+      <p>
+        The relationship between the phenomena reported on the Sherman Ranch and the traditional
+        Diné concept of the Yee Naaldlooshii is heavily contested. Many Diné people have publicly
+        objected to the use of the name. The local Ute people, whose reservation borders the
+        property, have their own traditions about the area that long predate the Sherman family —
+        and those traditions, like the Diné ones, are not for outsiders. The journalism around the
+        property has often elided these distinctions in ways that responsible coverage should not.
+      </p>
+      <p>
+        What the Uintah Basin does provide, irrespective of which tradition you locate it within, is
+        a sustained, multi-decade, multi-witness archive of unexplained phenomena on a single
+        bounded property — examined by aerospace research bodies, broadcast television, and
+        independent journalists. Whatever the explanation, the persistence of the reports is a fact
+        in the record. <em
+          >The connection between this archive and traditional Diné teaching is one we present as
+          contested, not as established.</em
+        >
+      </p>
+    </EncounterCard>
+  </Section>
+
+  <Section heading="Before You Go">
+    <Outro>
+      <p>
+        The Wendigo is hunger. The Mothman is warning. The Black-Eyed Children are the threshold.
+        The Skinwalker is something we, the people making this show, are not entitled to fully
+        describe — and that limit is part of the teaching, not a frustration to be worked around.
+      </p>
+      <p>
+        If you are Diné and you are reading this — we hope we have not overstepped. If we have,
+        please tell us, and we will correct it. The point of this entry is not to add to the noise.
+        The point is to slow it down.
+      </p>
+      <p>
+        If you are not Diné and you are reading this, the most useful thing this entry can do is
+        encourage you to do less, not more. Do not visit the Ranch. Do not bring the topic to
+        dinner. Do not buy the merchandise. Do not say the name as a joke. The tradition has lasted
+        for centuries because it was carefully maintained. Help it last by leaving it alone.
+      </p>
+      <p>
+        This has been the Monster Survival Guide. Stay quiet about this one. Stay sceptical. And if
+        you hear a voice you recognise calling from outside in the dark — <em>do not answer it.</em>
+      </p>
+    </Outro>
+  </Section>
 </FieldManual>

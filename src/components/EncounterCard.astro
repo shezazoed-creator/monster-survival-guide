@@ -1,0 +1,62 @@
+---
+interface Reference {
+  text: string;
+  href?: string;
+  label?: string;
+}
+interface Props {
+  /** e.g. "Encounter 01 · Alberta, Canada · Winter 1878–79" */
+  id: string;
+  title: string;
+  meta: string;
+  /** "verified" | "documented" | "firsthand" | "folklore" | "lore" | "cultural" */
+  verdict: 'verified' | 'documented' | 'firsthand' | 'folklore' | 'lore' | 'cultural';
+  /** Text that appears in the verdict badge. */
+  verdictLabel: string;
+  references: Reference[];
+}
+const { id, title, meta, verdict, verdictLabel, references } = Astro.props;
+---
+
+<article class="encounter-card">
+  <header class="encounter-header">
+    <div>
+      <div class="encounter-id">{id}</div>
+      <h3 class="encounter-title">{title}</h3>
+      <div class="encounter-meta">{meta}</div>
+    </div>
+    <div class="encounter-verdict">
+      <div class="verdict-label">Classification</div>
+      <span class={`verdict-badge ${verdict}`}>{verdictLabel}</span>
+    </div>
+  </header>
+  <div class="encounter-body">
+    <slot />
+  </div>
+  {
+    references.length > 0 && (
+      <div class="references">
+        <div class="ref-label">// Sources &amp; References</div>
+        <ul class="ref-list">
+          {references.map((ref) => (
+            <li>
+              {ref.href ? (
+                <span>
+                  {ref.text}
+                  {ref.label && ': '}
+                  {ref.label && (
+                    <a href={ref.href} target="_blank" rel="noopener noreferrer">
+                      {ref.label}
+                    </a>
+                  )}
+                </span>
+              ) : (
+                <span>{ref.text}</span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+</article>
