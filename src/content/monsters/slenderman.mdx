@@ -1,0 +1,311 @@
+---
+number: '02'
+entryClass: 'Absolute Threat'
+region: 'No Geography'
+title: 'Slenderman'
+description: 'He is already watching. He has always been watching.'
+tags: ['Digital origin', 'Proxy syndrome', 'No confirmed counters']
+danger: 10
+bandColor: '#8b1a0a'
+classification: 'monster survival guide  —  slenderman'
+entryStatus: 'Active Entry'
+status: 'published'
+publishDate: '2026-05-10'
+---
+
+import StampRow from '../../components/StampRow.astro';
+import DocMeta from '../../components/DocMeta.astro';
+import DocTitle from '../../components/DocTitle.astro';
+import DangerMeter from '../../components/DangerMeter.astro';
+import Section from '../../components/Section.astro';
+import SixRules from '../../components/SixRules.astro';
+import EncounterCard from '../../components/EncounterCard.astro';
+import Outro from '../../components/Outro.astro';
+import '../../styles/pages/slenderman.css';
+
+export const rules = [
+  {
+    title: 'Do not go into the woods alone at night.',
+    body: 'The treeline is his domain. The threshold between open space and dense dark is where he waits.',
+  },
+  {
+    title: 'Trust peripheral fear above direct observation.',
+    body: 'If something in the corner of your eye makes your stomach drop, do not look away to rationalise it. Act on the instinct. Move toward people immediately.',
+  },
+  {
+    title: 'If you begin drawing him involuntarily, tell someone.',
+    body: 'Compulsive imagery is an early warning sign of Proxy Syndrome. You are not going mad — you are being targeted. Get help. Get witnesses. Do not be alone.',
+  },
+  {
+    title: 'Do not film him.',
+    body: 'The static, the distortion, the corrupted footage — that is not a recording artefact. That is an invitation. Cameras are lures. Put it down. Run.',
+  },
+  {
+    title: 'The calm is a trap.',
+    body: 'If you feel peaceful near him — serene, accepted, drawn forward — you are already compromised. That feeling is not comfort. It is the absence of the survival instinct he has stolen from you. Fight through it.',
+  },
+  {
+    title: 'Noise, light, and people.',
+    body: 'He cannot follow you there. Or perhaps he has simply chosen not to, yet. Either way, that is where you go. That is where you stay.',
+  },
+];
+
+<StampRow red="Absolute Threat" faded="No Geography" blue="Digital Origin" />
+<DocMeta
+  rows={[
+    { label: 'ENTITY', value: 'Slenderman (The Operator)' },
+    { label: 'ORIGIN', value: 'Internet — Something Awful Forums, June 2009' },
+    { label: 'THREAT GUIDE TYPE', value: 'Identification · Behaviour · Survival Protocol' },
+    { label: 'STATUS', value: 'Active — No Geographic Boundary Confirmed' },
+  ]}
+/>
+<DocTitle subtitle={frontmatter.description}>Slenderman</DocTitle>
+<DangerMeter
+  danger={frontmatter.danger}
+  label="ABSOLUTE"
+  description="10/10 — No weaknesses confirmed. Psychological corruption. Presence alone is lethal."
+/>
+
+<Section heading="Before We Begin">
+  <p>
+    Close your eyes for a moment. Think back to the last time you were walking somewhere alone — a
+    parking garage, a forest trail, a long hallway at night. Remember that feeling? That prickling
+    at the back of your neck. That certainty, just for a second, that something was behind you.
+  </p>
+  <p>You turned around, of course. And there was nothing there.</p>
+  <p>
+    But here is the thing about Slenderman. <em>Nothing there</em> is exactly where he lives.
+  </p>
+  <p>
+    Welcome back to the Monster Survival Guide. Tonight: Slenderman. Pull up a chair. Turn up the
+    volume. And whatever you do — do not look at the window behind you.
+  </p>
+</Section>
+
+<Section heading="Where It Comes From">
+  <p>
+    Every monster has an origin. The Wendigo rose from famine and the desperate cold of the
+    subarctic. Slenderman rose from something perhaps more unsettling: a forum post. A Photoshop
+    contest. An ordinary Tuesday in 2009.
+  </p>
+  <p>
+    A user named Victor Surge posted two black-and-white photographs on the Something Awful forums —
+    doctored images of a school playground, grainy and washed-out. Standing at the edge of each
+    photo, barely in frame, impossibly tall, was a figure in a black suit. No face. Arms that seemed
+    too long, hanging like wet rope.
+  </p>
+  <div class="pull-quote">
+    What makes Slenderman different from every other monster we cover on this show is that he was
+    born knowing exactly what he was doing. He was designed by human minds to exploit human fears.
+    And somehow, that makes him more real, not less.
+  </div>
+  <p>
+    Within days the internet did what the internet does. It ran with it. Other users added their own
+    photos, their own accounts, their own lore. Slenderman spread like fog — quietly, completely,
+    into every corner. And here is the thing about fear: it does not care whether the thing that
+    scares you actually exists.
+  </p>
+</Section>
+
+<Section heading="What You Are Looking At">
+  <p>
+    He is tall. Obscenely, impossibly tall — reports place him anywhere between seven and fifteen
+    feet, though his height seems to shift depending on the space he occupies. He wears what appears
+    to be a black business suit — crisp, formal, anachronistic in the worst possible way. There is
+    no face. Where a face should be, there is only pale, smooth, featureless skin, like the inside
+    of a mask with nothing behind it.
+  </p>
+  <p>
+    His arms are wrong. They bend at angles that arms simply do not bend. Some accounts describe
+    additional appendages — dark, tentacle-like extensions that emerge from his back, reaching
+    outward in all directions. Not aggressively. Almost tenderly.
+  </p>
+  <div class="warning-box">
+    <div class="warn-label">⚠ Critical Identification Warning</div>
+    <p>
+      The most reported experience of Slenderman is not seeing him — it is almost seeing him. A tall
+      shape at the edge of the treeline. Something in your peripheral vision that vanishes when you
+      turn. Darkness in the shape of a person. If you find yourself rationalising what you almost
+      saw, stop rationalising. Trust the instinct.
+    </p>
+  </div>
+</Section>
+
+<Section heading="How It Operates">
+  <p>
+    The process begins with Proxy Syndrome — sometimes called Slender Sickness. Victims report weeks
+    or months of escalating symptoms: chronic nosebleeds, paranoia, dissociation, vivid nightmares
+    of dark forests, the overwhelming sensation of being watched. Some victims begin sleepwalking,
+    waking in unfamiliar locations. Others begin compulsively drawing him — that faceless
+    silhouette, over and over.
+  </p>
+  <p>
+    Then come the sightings. Always at a distance, at first. He stands there. He watches. He waits
+    with the patience of something that does not experience time the way you do. And he gets closer.
+    Always closer. It is never dramatic. You simply look away, and when you look back, he is nearer.
+  </p>
+  <p>
+    And by then the people who see him often report something deeply disturbing: they stop being
+    afraid. A strange calm overtakes them. They say the outstretched arms look almost welcoming.
+    They walk toward him. Those are the ones who disappear.
+  </p>
+</Section>
+
+<Section heading="What Little We Know Works">
+  <p>
+    This section is short, and that should frighten you more than anything else said tonight.
+    Slenderman resists the traditions. He was not born of ancient oral history. He was not bound by
+    the rules of spirits that predate electricity.
+  </p>
+  <p>
+    What the accounts suggest works, even temporarily, is movement and noise. He does not seem to
+    follow into truly populated places — crowds, bright lights, noise. He is a creature of edges.
+    Stay in the center of things. Stay loud. Stay in the light.
+  </p>
+  <p>
+    And if you feel that strange calm — that inviting warmth in his direction — run. Run toward
+    noise. Run toward people. Run toward anything that makes you feel small and ordinary and part of
+    the world, because that feeling of smallness is what he steals from you first.
+  </p>
+</Section>
+
+<Section heading="Six Rules That May Save Your Life">
+  <SixRules rules={rules} />
+</Section>
+
+<Section heading="Two Cases on the Record">
+  <p>
+    We do not just tell stories on this show. We follow the evidence. These two cases represent the
+    full range of the Slenderman record — one a real crime with court records and survivor
+    testimony, one a piece of persistent lore we present honestly as unverified.
+  </p>
+  <EncounterCard
+    id="Encounter 01 · Waukesha, Wisconsin · May 31, 2014"
+    title="The Waukesha Stabbing"
+    meta="Morgan Geyser & Anissa Weier · Age 12 · Slenderman Sacrifice Attempt"
+    verdict="verified"
+    verdictLabel="Court Verified"
+    references={[
+      {
+        text: 'BBC News — “Slender Man stabbing: What happened to the girls involved?”',
+        label: 'bbc.com',
+        href: 'https://www.bbc.com/news/world-us-canada-44115002',
+      },
+      {
+        text: 'The Guardian — “Slender Man stabbing: Wisconsin girl sentenced”',
+        label: 'theguardian.com',
+        href: 'https://www.theguardian.com/us-news/2018/feb/01/slender-man-stabbing-morgan-geyser-sentenced',
+      },
+      {
+        text: 'NBC News — “Morgan Geyser cuts off ankle monitor” (Nov 2025)',
+        label: 'nbcnews.com',
+        href: 'https://www.nbcnews.com/news/us-news/slender-man-morgan-geyser-cuts-ankle-monitor-flees-group-home-rcna180456',
+      },
+      {
+        text: 'HBO Documentary — Beware the Slenderman (2016)',
+        label: 'hbo.com',
+        href: 'https://www.hbo.com/movies/beware-the-slenderman',
+      },
+    ]}
+  >
+    <p>
+      It began as a birthday sleepover. Payton Leutner had gone to her classmate Morgan Geyser's
+      house for the night — doughnuts in the morning, a walk to the park to play hide-and-seek.
+      Nothing unusual. She was twelve years old and entirely unaware that her two friends had been
+      planning her death for months.
+    </p>
+    <p>
+      Morgan Geyser and Anissa Weier had become obsessed with Slenderman through the Creepypasta
+      Wiki. They believed he was real. They believed he would kill their families if they did not
+      prove their loyalty. They believed the way to do that was to offer him a life.
+    </p>
+    <p>
+      In Davids Park, Geyser stabbed Leutner nineteen times. One wound missed a major artery by the
+      width of a human hair. The girls left her and walked toward Interstate 94 — heading for
+      Slenderman's mansion in the Nicolet National Forest. Payton Leutner dragged herself to a road,
+      where a passing cyclist found her: <em>"Please help me. I have been stabbed."</em> She
+      survived.
+    </p>
+    <p>
+      Both girls were found not guilty by reason of insanity. Geyser was sentenced to up to 40 years
+      in a psychiatric institution. In November 2025, she cut off her GPS monitoring bracelet and
+      fled — found over 100 miles away at an Illinois truck stop. The case has never fully closed.
+    </p>
+  </EncounterCard>
+  <EncounterCard
+    id="Encounter 02 · Cardigan Mountain, New Hampshire · August 1984"
+    title="The Disappearance of Nathaniel Thrumson"
+    meta="Reported Account · Unverified · Slenderman Mythos Archive"
+    verdict="folklore"
+    verdictLabel="Alleged Folklore"
+    references={[
+      {
+        text: 'Slenderman Files Archive — original mythos entry',
+        label: 'slendermanfiles.org',
+        href: 'https://slendermanfiles.org',
+      },
+      {
+        text: 'Slender Man Wiki — “Original Mythos: Documented Accounts”',
+        label: 'slenderman.wiki',
+        href: 'https://slenderman.wiki',
+      },
+      {
+        text: 'Know Your Meme — “Slender Man” origin and lore',
+        label: 'knowyourmeme.com',
+        href: 'https://knowyourmeme.com/memes/slender-man',
+      },
+      {
+        text: 'Britannica — “Slender Man”',
+        label: 'britannica.com',
+        href: 'https://www.britannica.com/topic/Slender-Man',
+      },
+    ]}
+  >
+    <p>
+      We present this account as it was reported. We cannot verify it. What we can tell you is that
+      it has persisted in Slenderman lore for over a decade. We include it because the details are
+      specific enough — and strange enough — to warrant attention.
+    </p>
+    <p>
+      In August of 1984, a 24-year-old man named Nathaniel Thrumson set out alone to hike Cardigan
+      Mountain State Forest in New Hampshire. His diary was recovered. The early entries are
+      ordinary. Then the tone shifts — fog that does not lift, a compass behaving strangely, a
+      figure in the mist impossibly tall in a dark suit. He ran toward the figure calling out. The
+      figure dissolved into the fog.
+    </p>
+    <p>
+      The final entries grow fractured. In what may be the last coherent entry, he writes that he
+      has decided to stop recording his dreams — <em>"in case they start to make sense."</em>
+    </p>
+    <p>
+      His remains were found ten years later. Not in New Hampshire. In the Black Forest of Germany.
+      The state of decomposition suggested he had been dead for less than a week — meaning he had
+      been alive somewhere for nearly a decade. No explanation was ever offered. The diary is the
+      only record.{' '}
+      <em>
+        This account originates in the Slenderman mythos archive and has not been independently
+        verified.
+      </em>
+    </p>
+  </EncounterCard>
+</Section>
+
+<Section heading="Before You Go">
+  <Outro>
+    <p>
+      The Wendigo wanted your body. Slenderman wants something quieter. Something harder to name. He
+      wants the part of you that stands at windows at 3am, looking out at the dark, half-hoping to
+      see something looking back.
+    </p>
+    <p>Do not give it to him.</p>
+    <p>
+      Stay in the light. Stay with the living. And if you see a tall man at the edge of the woods —
+      a tall man with no face and arms like shadows — do not stop walking. Do not look back. And
+      whatever calm and warmth you feel pulling you toward him — <em>keep moving.</em>
+    </p>
+    <p>
+      This has been the Monster Survival Guide. Stay safe. Stay sceptical. And remember — just
+      because you cannot see it does not mean it is not there.
+    </p>
+  </Outro>
+</Section>

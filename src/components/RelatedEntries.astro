@@ -1,0 +1,73 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+  /** The current entry's slug — excluded from the recommendations. */
+  currentSlug: string;
+  /** Tags from the current entry — used to score relatedness. */
+  currentTags: readonly string[];
+  /** Danger of the current entry — used to break ties. */
+  currentDanger: number;
+}
+const { currentSlug, currentTags, currentDanger } = Astro.props;
+
+const others = (await getCollection('monsters', ({ data }) => data.status === 'published')).filter(
+  (m) => m.id !== currentSlug,
+);
+
+function score(entry: (typeof others)[number]): number {
+  const tagOverlap = entry.data.tags.filter((t) => currentTags.includes(t)).length;
+  const dangerProximity = 10 - Math.abs(entry.data.danger - currentDanger);
+  // Tag overlap dominates; danger proximity breaks ties.
+  return tagOverlap * 100 + dangerProximity;
+}
+
+const related = others
+  .map((entry) => ({ entry, score: score(entry) }))
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 3)
+  .map((r) => r.entry);
+---
+
+{
+  related.length > 0 && (
+    <aside class="related-entries" aria-labelledby="related-heading">
+      <h2 class="section-head" id="related-heading">
+        Related Entries
+      </h2>
+      <div class="entry-list">
+        {related.map((m) => (
+          <a class="entry-card" href={`/${m.id}`}>
+            <div class="entry-band" style={`background: ${m.data.bandColor};`} />
+            <div class="entry-body">
+              <div class="entry-label">
+                Entry {m.data.number} · {m.data.entryClass} · {m.data.region}
+              </div>
+              <h3 class="entry-title">{m.data.title}</h3>
+              <div class="entry-desc">{m.data.description}</div>
+            </div>
+            <div class="entry-right">
+              <div class="mini-index">
+                <div class="mini-label">Danger · {m.data.danger}/10</div>
+                <div class="mini-bars" aria-hidden="true">
+                  {Array.from({ length: 10 }).map((_, i) => (
+                    <div class={i < m.data.danger ? 'mbar f' : 'mbar'} />
+                  ))}
+                </div>
+              </div>
+              <div class="entry-arrow">→</div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </aside>
+  )
+}
+
+<style>
+  .related-entries {
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+  }
+</style>

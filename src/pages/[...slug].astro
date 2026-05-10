@@ -1,0 +1,65 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import FieldManual from '../layouts/FieldManual.astro';
+import BackLink from '../components/BackLink.astro';
+import RelatedEntries from '../components/RelatedEntries.astro';
+import { readingStats } from '../lib/reading-time.ts';
+
+export async function getStaticPaths() {
+  const now = new Date();
+  const monsters = await getCollection('monsters', ({ data }) => {
+    if (data.status !== 'published') return false;
+    if (data.publishDate && data.publishDate > now) return false;
+    return true;
+  });
+  return monsters.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'monsters'>;
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const data = entry.data;
+
+// Reading time computed from the raw MDX body — same heuristic as before.
+const stats = readingStats(entry.body ?? '');
+---
+
+<FieldManual
+  title={data.title}
+  description={data.description}
+  classification={data.classification}
+  bottomBar={data.bottomBar}
+  status={data.entryStatus}
+  ogImage={`/og/${entry.id}.png`}
+  article={{
+    datePublished: data.publishDate?.toISOString(),
+    dateModified: data.dateModified?.toISOString(),
+  }}
+>
+  <BackLink href="/" label="Back to Guide" />
+
+  <Content />
+
+  <p class="reading-time" aria-label="Estimated reading time">
+    Reading time · {stats.minutes} min · {stats.words.toLocaleString()} words
+  </p>
+
+  <RelatedEntries currentSlug={entry.id} currentTags={data.tags} currentDanger={data.danger} />
+</FieldManual>
+
+<style>
+  .reading-time {
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--margin);
+    text-transform: uppercase;
+    margin-top: 32px;
+    text-align: right;
+  }
+</style>
