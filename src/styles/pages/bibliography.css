@@ -1,0 +1,86 @@
+/* Theme tokens for /bibliography. Shared rules live in field-manual.css. */
+:root {
+  --paper: #f0ead8;
+  --aged: #e4dcc8;
+  --ink: #1a1610;
+  --faded: #4a4030;
+  --stamp-red: #8b1a0a;
+  --stamp-blue: #1a3a6a;
+  --accent: #6a4018;
+  --redact: #111108;
+  --margin: #6a5a3a;
+  --rule: rgba(26, 22, 16, 0.12);
+  --warn: #8b1a0a;
+}
+
+.biblio-entry {
+  margin: 28px 0;
+}
+
+.biblio-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 8px;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+
+.biblio-heading a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+}
+
+.biblio-heading a:hover,
+.biblio-heading a:focus-visible {
+  border-color: var(--ink);
+}
+
+.biblio-count {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--margin);
+}
+
+.biblio-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.biblio-list li {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.7rem;
+  line-height: 1.6;
+  color: var(--faded);
+  display: flex;
+  gap: 8px;
+}
+
+.biblio-list li::before {
+  content: '→';
+  color: var(--warn);
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.biblio-list a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  word-break: break-all;
+}
+
+.biblio-list a:hover,
+.biblio-list a:focus-visible {
+  border-color: var(--accent);
+}

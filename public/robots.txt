@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://monster-survival-guide.pages.dev/sitemap-index.xml

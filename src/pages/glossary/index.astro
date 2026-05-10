@@ -1,0 +1,68 @@
+---
+import { getCollection } from 'astro:content';
+import FieldManual from '../../layouts/FieldManual.astro';
+import StampRow from '../../components/StampRow.astro';
+import DocMeta from '../../components/DocMeta.astro';
+import DocTitle from '../../components/DocTitle.astro';
+import Section from '../../components/Section.astro';
+import '../../styles/pages/glossary.css';
+
+const terms = (await getCollection('glossary')).sort((a, b) => {
+  const ka = a.data.sortKey ?? a.data.term.toLowerCase();
+  const kb = b.data.sortKey ?? b.data.term.toLowerCase();
+  return ka.localeCompare(kb);
+});
+---
+
+<FieldManual
+  title="Glossary"
+  description="Recurring terms across the Monster Survival Guide — Algonquian, cryptid, liminal space, sleep paralysis, Yee Naaldlooshii — defined once, linked from each entry."
+  classification="monster survival guide  —  glossary"
+  bottomBar="monster survival guide  ·  recurring terms  ·  one definition each"
+>
+  <StampRow red="Glossary" faded="Reference" blue="Field Manual" />
+  <DocMeta
+    rows={[
+      { label: 'DOCUMENT TYPE', value: 'Glossary — Recurring Terms' },
+      { label: 'TERMS', value: `${terms.length} Defined` },
+      { label: 'SCOPE', value: 'Cross-entry vocabulary' },
+      { label: 'STATUS', value: 'Open Distribution — Updated as Entries Add Terms' },
+    ]}
+  />
+  <DocTitle subtitle="One canonical definition per term. Linked from every entry that uses it.">
+    Glossary
+  </DocTitle>
+
+  <Section heading="Why This Page Exists">
+    <p>
+      The Monster Survival Guide uses a small recurring vocabulary — anthropological terms (<a
+        href="/glossary/algonquian">Algonquian</a
+      >), folkloric concepts (<a href="/glossary/liminal-space">liminal space</a>), clinical
+      conditions (<a href="/glossary/sleep-paralysis">sleep paralysis</a>), and tradition-specific
+      names (<a href="/glossary/yee-naaldlooshii">Yee Naaldlooshii</a>) — that each deserve a single
+      careful definition rather than a paragraph of repeated explanation in every entry.
+    </p>
+    <p>
+      Each term has its own page. Each entry that uses the term links here. That way, the entries
+      can stay focused on the encounter record, and the definitions can be updated in one place.
+    </p>
+  </Section>
+
+  <Section heading="All Terms">
+    <div class="glossary-list">
+      {
+        terms.map((t) => (
+          <a class="glossary-row" href={`/glossary/${t.id}`}>
+            <div>
+              <div class="glossary-term">{t.data.term}</div>
+              {t.data.aliases.length > 0 && (
+                <div class="glossary-aliases">also: {t.data.aliases.join(' · ')}</div>
+              )}
+            </div>
+            <div class="glossary-summary">{t.data.summary}</div>
+          </a>
+        ))
+      }
+    </div>
+  </Section>
+</FieldManual>

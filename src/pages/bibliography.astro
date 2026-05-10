@@ -1,0 +1,96 @@
+---
+import { getCollection } from 'astro:content';
+import FieldManual from '../layouts/FieldManual.astro';
+import StampRow from '../components/StampRow.astro';
+import DocMeta from '../components/DocMeta.astro';
+import DocTitle from '../components/DocTitle.astro';
+import Section from '../components/Section.astro';
+import { extractReferences } from '../lib/references.ts';
+import '../styles/pages/bibliography.css';
+
+const now = new Date();
+const entries = (await getCollection('monsters', ({ data }) => data.status === 'published'))
+  .filter((e) => !e.data.publishDate || e.data.publishDate <= now)
+  .sort((a, b) => parseInt(a.data.number, 10) - parseInt(b.data.number, 10));
+
+const bibliography = entries.map((e) => ({
+  slug: e.id,
+  title: e.data.title,
+  refs: extractReferences(e.body ?? ''),
+}));
+
+const totalSources = bibliography.reduce((n, b) => n + b.refs.length, 0);
+---
+
+<FieldManual
+  title="Bibliography"
+  description="Every primary source cited across every Monster Survival Guide entry, organised by entry."
+  classification="monster survival guide  —  bibliography"
+  bottomBar="monster survival guide  ·  combined sources  ·  season one"
+>
+  <StampRow red="Sources" faded="Combined" blue="All Entries" />
+  <DocMeta
+    rows={[
+      { label: 'DOCUMENT TYPE', value: 'Bibliography — All Cited Sources' },
+      { label: 'ENTRIES COVERED', value: `${entries.length}` },
+      { label: 'TOTAL SOURCES', value: `${totalSources}` },
+      { label: 'STATUS', value: 'Open Distribution — Verify For Yourself' },
+    ]}
+  />
+  <DocTitle
+    subtitle="Every cited source across every entry. We did the homework — and we want you to be able to redo it."
+  >
+    Bibliography
+  </DocTitle>
+
+  <Section heading="Why This Page Exists">
+    <p>
+      Every entry in this guide ends with a <em>Sources &amp; References</em> block. Each one is a list
+      of where the claims in that entry came from — court records, academic papers, newspapers, encyclopedias,
+      primary documents — so that you can verify what we wrote without taking our word for it.
+    </p>
+    <p>
+      This page combines every one of those references into a single bibliography. The sources for
+      each entry stay grouped together; we are not pretending the corpus has a unified theme it
+      doesn't have. But you can scan the lot of them in one place.
+    </p>
+  </Section>
+
+  <Section heading="By Entry">
+    {
+      bibliography.map((b) => (
+        <div class="biblio-entry">
+          <h3 class="biblio-heading">
+            <a href={`/${b.slug}/#main-content`}>{b.title}</a>
+            <span class="biblio-count">
+              {b.refs.length} {b.refs.length === 1 ? 'source' : 'sources'}
+            </span>
+          </h3>
+          {b.refs.length === 0 ? (
+            <p>(No sources extracted.)</p>
+          ) : (
+            <ul class="biblio-list">
+              {b.refs.map((ref) => (
+                <li>
+                  {ref.href ? (
+                    <span>
+                      {ref.text}
+                      {ref.label ? ': ' : ''}
+                      {ref.label && (
+                        <a href={ref.href} target="_blank" rel="noopener noreferrer">
+                          {ref.label}
+                        </a>
+                      )}
+                    </span>
+                  ) : (
+                    <span>{ref.text}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      ))
+    }
+  </Section>
+</FieldManual>

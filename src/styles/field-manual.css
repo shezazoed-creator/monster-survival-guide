@@ -8,18 +8,19 @@
  *   --ink         Primary text color
  *   --faded       Secondary / muted text
  *   --margin      Stamp/tag muted color
- *   --rule        Ruled-line / divider color (rgba)
+ *   --rule        Ruled-line / divider color (rgba — derived from --ink)
  *   --warn        Accent (red-ish) used for arrows, danger callouts
  *   --stamp-red   "Red" stamp text/border
  *   --stamp-blue  "Blue" stamp text/border
  *   --redact      The dark bars at top/bottom of the document
- *   --bar-text    Text color inside those dark bars
+ *   --bar-text    Text color inside those dark bars (defaults to var(--paper))
  *
- * The page background (outside the document) is a shared dark-walnut
- * wood texture defined on `body` below — pages don't customize it.
- *
- * Pages may add their own palette extras (--accent, --highlight, etc.)
- * for page-specific sections.
+ * Optional palette extras a page may set:
+ *   --accent      Pull-quote bar, encounter links, lore-box top border
+ *   --highlight   Index-page emphasis
+ *   --eye         Optional alternate fill for danger bars on pages where
+ *                 --warn doesn't suit the theme
+ *   --bar-fill    Override for danger-bar fill (defaults to --warn)
  * ========================================================================== */
 
 * {
@@ -28,14 +29,37 @@
   box-sizing: border-box;
 }
 
+/* ── SKIP LINK (keyboard a11y) ────────────────────────────────────────── */
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 8px;
+  z-index: 100;
+  padding: 8px 14px;
+  background: #1a1610;
+  color: #f0ead8;
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid #f0ead8;
+  transition: top 0.15s;
+}
+
+.skip-link:focus {
+  top: 8px;
+  outline: none;
+}
+
+/* Don't show a focus ring on the main element when it's targeted by skip-link. */
+main:focus {
+  outline: none;
+}
+
 body {
-  /* Dark walnut wood-grain background.
-     Layered gradients build up the wood look:
-       1. Horizontal grain highlights (light streaks running across)
-       2. Horizontal grain shadows (deeper darker streaks)
-       3. Long vertical bands (slight color variation, like wider planks)
-       4. Base radial gradient (lighter center, darker edges)
-     Pages no longer need to define --page-bg; this background is shared. */
+  /* Dark walnut wood-grain background. */
   background-color: #251509;
   background-image:
     repeating-linear-gradient(
@@ -102,7 +126,6 @@ body::before {
   animation: docReveal 1.2s ease both;
 }
 
-/* Paper-grain texture */
 .document::before {
   content: '';
   position: absolute;
@@ -112,7 +135,6 @@ body::before {
   z-index: 0;
 }
 
-/* Horizontal ruled lines */
 .document::after {
   content: '';
   position: absolute;
@@ -134,7 +156,7 @@ body::before {
 .classification-bar,
 .bottom-bar {
   background: var(--redact);
-  color: var(--bar-text);
+  color: var(--bar-text, var(--paper));
   font-family: 'Anonymous Pro', monospace;
   text-align: center;
   text-transform: uppercase;
@@ -152,7 +174,7 @@ body::before {
   letter-spacing: 0.3em;
 }
 
-/* ── DOC INNER (the padded body of the document) ──────────────────────── */
+/* ── DOC INNER ────────────────────────────────────────────────────────── */
 
 .doc-inner {
   padding: 52px 56px 72px 120px;
@@ -160,7 +182,6 @@ body::before {
   z-index: 1;
 }
 
-/* Vertical red margin line */
 .doc-inner::before {
   content: '';
   position: absolute;
@@ -171,7 +192,27 @@ body::before {
   background: rgba(180, 60, 40, 0.5);
 }
 
-/* ── STAMP ROW (the row of stamps near the top of each page) ──────────── */
+/* ── BACK LINK ────────────────────────────────────────────────────────── */
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 18px;
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: var(--faded);
+  text-decoration: none;
+  text-transform: uppercase;
+  opacity: 0.7;
+  transition: opacity 0.18s;
+}
+
+.back-link:hover,
+.back-link:focus-visible {
+  opacity: 1;
+}
+
+/* ── STAMP ROW ────────────────────────────────────────────────────────── */
 
 .stamp-row {
   display: flex;
@@ -214,7 +255,12 @@ body::before {
   font-size: 0.6rem;
 }
 
-/* ── DOC META BLOCK (the small monospace info rows below the stamps) ──── */
+/* The "Menu" stamp on the index page is an actual link. */
+a.stamp {
+  text-decoration: none;
+}
+
+/* ── DOC META BLOCK ───────────────────────────────────────────────────── */
 
 .doc-meta {
   font-family: 'Anonymous Pro', monospace;
@@ -274,7 +320,7 @@ body::before {
   content: '';
   width: 18px;
   height: 1px;
-  background: var(--warn);
+  background: var(--warn, var(--ink));
   opacity: 0.5;
   flex-shrink: 0;
 }
@@ -286,7 +332,10 @@ body::before {
   background: var(--rule);
 }
 
-/* ── DEFAULT PARAGRAPH ────────────────────────────────────────────────── */
+.section {
+  margin-bottom: 40px;
+  animation: fadeUp 0.7s ease both;
+}
 
 p {
   font-size: 1.05rem;
@@ -295,21 +344,456 @@ p {
   margin-bottom: 18px;
 }
 
-/* ── SHARED DIVIDER (horizontal line) ─────────────────────────────────── */
+em {
+  font-style: italic;
+}
+
+strong {
+  font-weight: 600;
+}
+
+/* ── SHARED DIVIDER ───────────────────────────────────────────────────── */
 
 .divider {
   border: none;
   height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--rule),
-    transparent
-  );
+  background: linear-gradient(to right, transparent, var(--rule), transparent);
   margin: 32px 0;
 }
 
-/* ── SIGN-OFF BLOCK (footer signature row) ────────────────────────────── */
+/* ── DANGER METER ─────────────────────────────────────────────────────── */
+
+.danger-meter {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 0 18px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+
+.danger-label-col {
+  flex-shrink: 0;
+}
+
+.danger-title {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.25em;
+  color: var(--faded);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.danger-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: var(--warn);
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+
+.danger-bars {
+  display: flex;
+  gap: 3px;
+  flex: 1;
+  min-width: 140px;
+}
+
+.bar {
+  height: 14px;
+  flex: 1;
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+}
+
+.bar.filled {
+  background: var(--bar-fill, var(--warn));
+  border-color: var(--bar-fill, var(--warn));
+}
+
+.danger-desc {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.58rem;
+  color: var(--faded);
+  letter-spacing: 0.06em;
+  max-width: 160px;
+  line-height: 1.5;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+/* ── PULL QUOTE / WARNING / FIELD NOTE / LORE BOX ─────────────────────── */
+
+.pull-quote {
+  border-left: 3px solid var(--accent, var(--warn));
+  padding: 14px 22px;
+  margin: 24px 0;
+  background: color-mix(in srgb, var(--accent, var(--ink)) 5%, transparent);
+  font-style: italic;
+  font-size: 1.08rem;
+  color: var(--ink);
+  line-height: 1.75;
+}
+
+.warning-box {
+  border: 1px solid color-mix(in srgb, var(--warn) 30%, transparent);
+  padding: 16px 20px;
+  margin: 24px 0;
+  background: color-mix(in srgb, var(--warn) 4%, transparent);
+}
+
+.warning-box .warn-label {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.25em;
+  color: var(--warn);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.warning-box p {
+  margin-bottom: 0;
+  font-size: 0.97rem;
+}
+
+.lore-box {
+  background: var(--aged);
+  border-top: 2px solid var(--accent, var(--warn));
+  padding: 18px 22px;
+  margin: 24px 0;
+  position: relative;
+}
+
+.lore-box::before {
+  content: 'FIELD NOTE';
+  position: absolute;
+  top: -9px;
+  left: 14px;
+  background: var(--aged);
+  padding: 0 8px;
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  color: var(--faded);
+}
+
+.lore-box p {
+  font-size: 0.96rem;
+  margin-bottom: 0;
+  color: var(--faded);
+}
+
+.field-note {
+  border: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
+  padding: 18px 22px;
+  margin: 28px 0;
+  background: var(--aged);
+  position: relative;
+}
+
+.field-note::before {
+  content: 'FIELD NOTE';
+  position: absolute;
+  top: -9px;
+  left: 16px;
+  background: var(--aged);
+  padding: 0 8px;
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: var(--faded);
+}
+
+.field-note p {
+  font-size: 0.97rem;
+  margin-bottom: 0;
+  color: var(--faded);
+}
+
+/* Used by the Skinwalker entry to flag culturally sensitive context. */
+.cultural-note {
+  border: 2px solid var(--accent, var(--warn));
+  padding: 20px 24px;
+  margin: 28px 0;
+  background: color-mix(in srgb, var(--accent, var(--warn)) 4%, transparent);
+  position: relative;
+}
+
+.cultural-note::before {
+  content: 'CULTURAL CONTEXT — READ FIRST';
+  position: absolute;
+  top: -10px;
+  left: 16px;
+  background: var(--paper);
+  padding: 0 10px;
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  color: var(--accent, var(--warn));
+  font-weight: 700;
+}
+
+.cultural-note p {
+  font-size: 0.97rem;
+  margin-bottom: 12px;
+  line-height: 1.8;
+}
+
+.cultural-note p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── STAT ROW ─────────────────────────────────────────────────────────── */
+
+.stat-row {
+  display: flex;
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  margin: 16px 0 24px;
+  overflow: hidden;
+}
+
+.stat {
+  flex: 1;
+  padding: 14px 16px;
+  border-right: 1px solid var(--rule);
+  background: var(--aged);
+}
+
+.stat:last-child {
+  border-right: none;
+}
+
+.stat-num {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: var(--accent, var(--warn));
+  line-height: 1;
+  letter-spacing: 0.04em;
+  display: block;
+}
+
+.stat-label {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.6rem;
+  color: var(--faded);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+/* ── RULES LIST ───────────────────────────────────────────────────────── */
+
+.rules-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0;
+}
+
+.rules-list li {
+  display: flex;
+  gap: 16px;
+  padding: 13px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+.rules-list li:last-child {
+  border-bottom: none;
+}
+
+.rule-num {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  color: var(--accent, var(--warn));
+  font-size: 1.3rem;
+  min-width: 32px;
+  line-height: 1.2;
+}
+
+/* ── ENCOUNTER CARD ───────────────────────────────────────────────────── */
+
+.encounter-card {
+  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  background: var(--aged);
+  margin: 0 0 32px;
+  overflow: hidden;
+}
+
+.encounter-header {
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+  border-bottom: 1px solid var(--rule);
+  padding: 18px 22px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.encounter-id {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.24em;
+  color: var(--warn);
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.encounter-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 1.45rem;
+  color: var(--ink);
+  letter-spacing: 0.03em;
+  line-height: 1.15;
+}
+
+.encounter-meta {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.6rem;
+  color: var(--faded);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.encounter-verdict {
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.verdict-label {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
+  color: var(--margin);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.verdict-badge {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  padding: 4px 9px;
+  border: 1px solid;
+  display: inline-block;
+  text-transform: uppercase;
+}
+
+/* These verdict variants have fixed colors regardless of page theme. */
+.verdict-badge.verified,
+.verdict-badge.firsthand {
+  color: #2c5530;
+  border-color: #2c5530;
+  background: rgba(44, 85, 48, 0.08);
+}
+
+.verdict-badge.documented,
+.verdict-badge.folklore {
+  color: #5a4418;
+  border-color: #5a4418;
+  background: rgba(90, 68, 24, 0.08);
+}
+
+.verdict-badge.lore,
+.verdict-badge.cultural {
+  color: #4a4a4a;
+  border-color: #4a4a4a;
+  background: rgba(74, 74, 74, 0.08);
+}
+
+.encounter-body {
+  padding: 22px;
+}
+
+.encounter-body p {
+  font-size: 1rem;
+  line-height: 1.86;
+  margin-bottom: 16px;
+}
+
+.encounter-body p:last-of-type {
+  margin-bottom: 0;
+}
+
+.references {
+  border-top: 1px solid var(--rule);
+  padding: 14px 22px;
+  background: color-mix(in srgb, var(--ink) 2%, transparent);
+}
+
+.ref-label {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.54rem;
+  letter-spacing: 0.24em;
+  color: var(--margin);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.ref-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.ref-list li {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.62rem;
+  color: var(--faded);
+  line-height: 1.5;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.ref-list li::before {
+  content: '→';
+  color: var(--warn);
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.ref-list a {
+  color: var(--accent, var(--warn));
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent, var(--warn)) 25%, transparent);
+  transition: border-color 0.2s;
+  word-break: break-all;
+}
+
+.ref-list a:hover,
+.ref-list a:focus-visible {
+  border-color: var(--accent, var(--warn));
+}
+
+/* ── OUTRO ────────────────────────────────────────────────────────────── */
+
+.outro {
+  font-size: 1.1rem;
+  color: var(--ink);
+  line-height: 1.85;
+  margin-top: 44px;
+  padding-top: 28px;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  font-style: italic;
+}
+
+.outro p + p {
+  margin-top: 18px;
+}
+
+/* ── SIGN-OFF BLOCK ───────────────────────────────────────────────────── */
 
 .sign-off-block {
   margin-top: 44px;
@@ -339,6 +823,12 @@ p {
   margin-top: 4px;
 }
 
+.sig-tagline {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.58rem;
+  color: var(--margin);
+}
+
 .sig-right {
   font-family: 'Anonymous Pro', monospace;
   font-size: 0.58rem;
@@ -347,6 +837,10 @@ p {
   line-height: 1.8;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+}
+
+.status-badge {
+  color: var(--warn, var(--ink));
 }
 
 /* ── SOCIAL ROW ───────────────────────────────────────────────────────── */
@@ -367,7 +861,10 @@ p {
   border: 1px solid var(--rule);
   padding: 7px 9px;
   background: rgba(0, 0, 0, 0.04);
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
 }
 
 .social-btn svg {
@@ -376,13 +873,320 @@ p {
   flex-shrink: 0;
 }
 
-.social-btn:hover {
+.social-btn:hover,
+.social-btn:focus-visible {
   background: rgba(0, 0, 0, 0.08);
   color: var(--ink);
   border-color: var(--rule);
 }
 
+/* ── FORMAT TABLE / SCALE ROW (used on the index page) ────────────────── */
+
+.format-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0 28px;
+  font-size: 0.95rem;
+}
+
+.format-table th {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--faded);
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
+}
+
+.format-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  color: var(--ink);
+  vertical-align: top;
+  line-height: 1.6;
+}
+
+.format-table tr:last-child td {
+  border-bottom: none;
+}
+
+.format-table td:first-child {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.72rem;
+  color: var(--faded);
+  white-space: nowrap;
+  width: 140px;
+}
+
+.scale-row {
+  display: flex;
+  gap: 0;
+  margin: 16px 0 28px;
+  border: 1px solid color-mix(in srgb, var(--ink) 15%, transparent);
+  overflow: hidden;
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.62rem;
+}
+
+.scale-item {
+  flex: 1;
+  padding: 10px 8px;
+  text-align: center;
+  border-right: 1px solid var(--rule);
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.scale-item:last-child {
+  border-right: none;
+}
+
+.scale-num {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.scale-item.s1 {
+  background: rgba(180, 220, 180, 0.2);
+}
+.scale-item.s2 {
+  background: rgba(220, 200, 120, 0.2);
+}
+.scale-item.s3 {
+  background: rgba(220, 160, 80, 0.2);
+}
+.scale-item.s4 {
+  background: rgba(200, 80, 60, 0.2);
+}
+.scale-item.s5 {
+  background: rgba(120, 20, 10, 0.15);
+  color: var(--stamp-red);
+}
+
+/* ── ENTRY MENU CARDS (used on /entries) ──────────────────────────────── */
+
+.entry-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 8px 0 44px;
+}
+
+.entry-card {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  border-bottom: none;
+  background: var(--aged);
+  text-decoration: none;
+  color: var(--ink);
+  transition: background 0.18s;
+  position: relative;
+  overflow: hidden;
+}
+
+.entry-card:last-child {
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+}
+
+.entry-card:hover,
+.entry-card:focus-visible {
+  background: color-mix(in srgb, var(--ink) 8%, var(--aged));
+}
+
+.entry-card:hover .entry-arrow,
+.entry-card:focus-visible .entry-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.entry-band {
+  width: 5px;
+  flex-shrink: 0;
+}
+
+.entry-body {
+  flex: 1;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.entry-label {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.26em;
+  color: var(--margin);
+  text-transform: uppercase;
+}
+
+.entry-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 1.35rem;
+  letter-spacing: 0.03em;
+  color: var(--ink);
+  line-height: 1.15;
+  margin: 0;
+}
+
+.entry-desc {
+  font-family: 'Sorts Mill Goudy', Georgia, serif;
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--faded);
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+.entry-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.entry-tag {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--margin);
+  border: 1px solid color-mix(in srgb, var(--ink) 15%, transparent);
+  padding: 2px 7px;
+  background: color-mix(in srgb, var(--ink) 3%, transparent);
+}
+
+.entry-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px 20px 16px 0;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.mini-index {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.mini-label {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.5rem;
+  letter-spacing: 0.18em;
+  color: var(--margin);
+  text-transform: uppercase;
+}
+
+.mini-bars {
+  display: flex;
+  gap: 2px;
+}
+
+.mbar {
+  width: 8px;
+  height: 8px;
+  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+}
+
+.mbar.f {
+  background: var(--warn);
+  border-color: var(--warn);
+}
+
+.entry-arrow {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.85rem;
+  color: var(--warn);
+  opacity: 0.4;
+  transform: translateX(-4px);
+  transition:
+    opacity 0.18s,
+    transform 0.18s;
+  margin-top: 4px;
+}
+
+.entry-card.about {
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+  border-color: color-mix(in srgb, var(--ink) 18%, transparent);
+}
+
+.entry-card.about:hover,
+.entry-card.about:focus-visible {
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+}
+
+.entry-card.coming-soon {
+  opacity: 0.4;
+  cursor: default;
+}
+
 /* ── ANIMATIONS ───────────────────────────────────────────────────────── */
+
+.section:nth-child(1) {
+  animation-delay: 0.8s;
+}
+.section:nth-child(2) {
+  animation-delay: 0.95s;
+}
+.section:nth-child(3) {
+  animation-delay: 1.1s;
+}
+.section:nth-child(4) {
+  animation-delay: 1.25s;
+}
+.section:nth-child(5) {
+  animation-delay: 1.4s;
+}
+.section:nth-child(6) {
+  animation-delay: 1.55s;
+}
+.section:nth-child(7) {
+  animation-delay: 1.7s;
+}
+.section:nth-child(8) {
+  animation-delay: 1.85s;
+}
+
+.entry-card {
+  animation: fadeUp 0.6s ease both;
+}
+.entry-card:nth-child(1) {
+  animation-delay: 0.85s;
+}
+.entry-card:nth-child(2) {
+  animation-delay: 0.95s;
+}
+.entry-card:nth-child(3) {
+  animation-delay: 1.05s;
+}
+.entry-card:nth-child(4) {
+  animation-delay: 1.15s;
+}
+.entry-card:nth-child(5) {
+  animation-delay: 1.25s;
+}
+.entry-card:nth-child(6) {
+  animation-delay: 1.35s;
+}
+.entry-card:nth-child(7) {
+  animation-delay: 1.45s;
+}
+.entry-card:nth-child(8) {
+  animation-delay: 1.55s;
+}
 
 @keyframes docReveal {
   from {
@@ -396,8 +1200,12 @@ p {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeUp {
@@ -411,7 +1219,17 @@ p {
   }
 }
 
-/* ── MOBILE RESPONSIVE ────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── MOBILE ───────────────────────────────────────────────────────────── */
 
 @media (max-width: 600px) {
   .doc-inner {
@@ -423,5 +1241,122 @@ p {
   .stamp-row {
     flex-wrap: wrap;
     gap: 10px;
+  }
+  .encounter-header {
+    flex-direction: column;
+  }
+  .encounter-verdict {
+    text-align: left;
+  }
+  .stat-row {
+    flex-direction: column;
+  }
+  .danger-desc {
+    max-width: 100%;
+  }
+  .scale-row {
+    flex-wrap: wrap;
+  }
+  .scale-item {
+    min-width: 45%;
+  }
+  .entry-right {
+    display: none;
+  }
+}
+
+/* ── PRINT ────────────────────────────────────────────────────────────── */
+
+@media print {
+  body {
+    background: #fff !important;
+    padding: 0 !important;
+    color: #000;
+    font-family: 'Sorts Mill Goudy', Georgia, serif;
+  }
+  body::before,
+  .document::before,
+  .document::after,
+  .doc-inner::before {
+    display: none !important;
+  }
+  .document {
+    box-shadow: none !important;
+    max-width: none;
+    background: #fff;
+    animation: none !important;
+  }
+  .doc-inner {
+    padding: 0.5in 0.75in;
+    color: #000;
+  }
+  .classification-bar,
+  .bottom-bar {
+    background: #000 !important;
+    color: #fff !important;
+    padding: 5px 0;
+  }
+  .skip-link,
+  .social-row,
+  .back-link,
+  .stamp-row {
+    display: none !important;
+  }
+  a {
+    color: #000;
+    text-decoration: underline;
+  }
+  /* Show URL after each external link so the printed page is self-sufficient. */
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    word-break: break-all;
+  }
+  .pull-quote,
+  .warning-box,
+  .lore-box,
+  .field-note,
+  .cultural-note {
+    background: none !important;
+    border-color: #000 !important;
+    page-break-inside: avoid;
+    color: #000;
+  }
+  .encounter-card {
+    page-break-inside: avoid;
+    border-color: #000 !important;
+    background: none !important;
+  }
+  .danger-meter,
+  .stat-row,
+  .scale-row {
+    page-break-inside: avoid;
+  }
+  .bar.filled {
+    background: #000 !important;
+    border-color: #000 !important;
+  }
+  .section,
+  .entry-card {
+    animation: none !important;
+  }
+  .doc-title {
+    color: #000;
+    font-size: 2.4rem;
+  }
+  .section-head {
+    color: #000;
+  }
+  .section-head::before,
+  .section-head::after {
+    background: #000 !important;
+  }
+  p,
+  .stat-label,
+  .danger-desc,
+  .entry-tag,
+  .ref-list li,
+  .doc-meta {
+    color: #000 !important;
   }
 }

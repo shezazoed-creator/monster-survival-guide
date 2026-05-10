@@ -1,0 +1,177 @@
+---
+import FieldManual from '../layouts/FieldManual.astro';
+import StampRow from '../components/StampRow.astro';
+import DocMeta from '../components/DocMeta.astro';
+import DocTitle from '../components/DocTitle.astro';
+import Section from '../components/Section.astro';
+import { contact } from '../config/site.ts';
+import '../styles/pages/about.css';
+---
+
+<FieldManual
+  title="About"
+  description="Who runs the Monster Survival Guide, the editorial standards behind it, and how to contact us with corrections."
+  classification="monster survival guide  —  about"
+  bottomBar="monster survival guide  ·  editorial standards  ·  contact"
+>
+  <StampRow red="About" faded="Editorial" blue="Contact" />
+  <DocMeta
+    rows={[
+      { label: 'DOCUMENT TYPE', value: 'About — Editorial Standards & Contact' },
+      { label: 'AUTHOR', value: 'Zazu' },
+      { label: 'CONTRIBUTORS', value: 'Independent — corrections welcomed' },
+      { label: 'STATUS', value: 'Active — Open Distribution' },
+    ]}
+  />
+  <DocTitle subtitle="Who is behind the guide, how the guide is made, and how to argue with it.">
+    About<br />the Guide
+  </DocTitle>
+
+  <Section heading="Who Is Zazu?">
+    <p>
+      Zazu is the byline this guide runs under. The home page says the name is unimportant for now,
+      and that's still mostly true — what's important is what the byline does. Zazu researches
+      things that should not exist, verifies what can be verified, is honest about what cannot be,
+      and writes it down so that the next person who needs it doesn't have to assemble the field
+      manual from scratch.
+    </p>
+    <p>
+      The guide is independent. There is no media company behind it, no sponsor pressure, no editor
+      pushing toward the spookier framing because it gets more clicks. That independence is the
+      whole point. It is also why we can be honest when a record is thin, when a tradition isn't
+      ours to retell, or when the right answer to "is this real" is "we don't know, and here is what
+      the evidence does and doesn't support."
+    </p>
+  </Section>
+
+  <Section heading="Editorial Standards">
+    <p>
+      Every entry in this guide goes through the same checks before it ships. Not because we are
+      perfect at running them — we aren't — but because knowing the checks exist tells you what to
+      look for when you find one we missed.
+    </p>
+    <ol class="rules-list">
+      <li>
+        <span class="rule-num">01</span>
+        <span>
+          <strong>Two cited cases per entry.</strong> Every monster page ends with two documented encounters.
+          Each has its own
+          <em>Sources &amp; References</em> block linking to primary documents where we can: court records,
+          police reports, contemporaneous press, academic papers. Not every account is verifiable, and
+          we say so explicitly when an account is folklore rather than fact.
+        </span>
+      </li>
+      <li>
+        <span class="rule-num">02</span>
+        <span>
+          <strong>Verdict labels on every encounter.</strong> Each encounter carries one of: <em
+            >verified</em
+          >, <em>firsthand</em>,
+          <em>documented</em>, <em>folklore</em>, <em>lore</em>, or
+          <em>cultural</em>. The label is the single most important piece of metadata on the page —
+          it tells you how much weight to put on what follows.
+        </span>
+      </li>
+      <li>
+        <span class="rule-num">03</span>
+        <span>
+          <strong>Cultural sources lead, not follow.</strong> Where an entity is part of a living tradition,
+          we centre that tradition's voices first. The Wendigo entry leans on Algonquian primary scholarship.
+          The Skinwalker entry is written carefully and conservatively because the Diné themselves have
+          asked outsiders to be careful. When a tradition asks us to do less, we do less.
+        </span>
+      </li>
+      <li>
+        <span class="rule-num">04</span>
+        <span>
+          <strong>Honesty about thin records.</strong> Some of the survival rules in this guide are derived
+          from one or two accounts. We say when that's the case. We do not invent corroboration. The accumulated
+          witness record is the record we have; the record we want is irrelevant.
+        </span>
+      </li>
+      <li>
+        <span class="rule-num">05</span>
+        <span>
+          <strong>The Six Rules earn their place.</strong> Each entry ends with six specific, actionable
+          survival rules derived from the encounter record. Not folklore for folklore's sake, not generic
+          common sense — the specific things the evidence says have increased survival in documented cases.
+          Where the evidence is thin, the rules are conservative.
+        </span>
+      </li>
+      <li>
+        <span class="rule-num">06</span>
+        <span>
+          <strong>Corrections welcomed and visible.</strong> When we are wrong, we update the entry, note
+          what changed, and credit the person who told us. If the correction is from a member of the community
+          whose tradition the entry covers, their voice replaces ours rather than supplements it.
+        </span>
+      </li>
+    </ol>
+  </Section>
+
+  <Section heading="What This Guide Is Not">
+    <div class="warning-box">
+      <div class="warn-label">⚠ Disclaimer</div>
+      <p>
+        This guide is research and education. It is not survival advice for emergencies, not a
+        substitute for professional medical or psychological care, and not a substitute for safe
+        behaviour in the actual wilderness. If you are experiencing recurrent sleep paralysis or
+        distressing intrusive imagery, talk to a sleep clinic or a clinician — those things are
+        treatable. If you are lost in the boreal forest in February, please follow actual
+        search-and-rescue guidance, not the rules at the bottom of <a href="/wendigo"
+          >our Wendigo entry.</a
+        >
+      </p>
+    </div>
+  </Section>
+
+  <Section heading="Contact & Corrections">
+    <p>
+      The fastest way to reach us is email. If you've spotted a factual error, a misattribution, or
+      a culturally insensitive framing, please tell us — we'd rather get a correction than be right
+      by accident.
+    </p>
+    <ul class="contact-list">
+      {
+        contact.email && (
+          <li>
+            <strong>General:</strong>
+            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          </li>
+        )
+      }
+      {
+        contact.correctionsEmail && (
+          <li>
+            <strong>Corrections:</strong>
+            <a href={`mailto:${contact.correctionsEmail}`}>{contact.correctionsEmail}</a>
+          </li>
+        )
+      }
+      <li>
+        <strong>Repository:</strong>
+        <a
+          href="https://github.com/shezazoed-creator/monster-survival-guide"
+          target="_blank"
+          rel="noopener noreferrer">github.com/shezazoed-creator/monster-survival-guide</a
+        >
+      </li>
+    </ul>
+    <p>
+      Pull requests with citations are welcome. So are emails that just say "this is wrong, here is
+      why." Please attach a source if you have one.
+    </p>
+  </Section>
+
+  <Section heading="A Note on Tone">
+    <div class="field-note">
+      <p>
+        This guide is written in the voice of a field manual because that's the voice the material
+        asked for — not because the editor thinks the world is ending. Fear and information are
+        opposites. Our intention is, always, to leave you more capable at the end of an entry than
+        you were at the beginning. If we ever stop doing that — if an entry is scarier than it is
+        useful — please tell us.
+      </p>
+    </div>
+  </Section>
+</FieldManual>

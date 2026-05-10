@@ -1,0 +1,44 @@
+/* Theme tokens for /about. Shared rules live in field-manual.css. */
+:root {
+  --paper: #f0ead8;
+  --aged: #e4dcc8;
+  --ink: #1a1610;
+  --faded: #4a4030;
+  --stamp-red: #8b1a0a;
+  --stamp-blue: #1a3a6a;
+  --accent: #6a4018;
+  --redact: #111108;
+  --margin: #6a5a3a;
+  --highlight: #c8a020;
+  --rule: rgba(26, 22, 16, 0.15);
+  --warn: #8b1a0a;
+}
+
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.7rem;
+  color: var(--ink);
+  line-height: 1.9;
+}
+
+.contact-list strong {
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faded);
+  margin-right: 8px;
+}
+
+.contact-list a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.contact-list a:hover,
+.contact-list a:focus-visible {
+  border-color: var(--accent);
+}

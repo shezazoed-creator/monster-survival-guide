@@ -1,0 +1,25 @@
+---
+interface Rule {
+  /** Bold lead-in (e.g. "Maintain your fire at all costs."). Sentence — period included. */
+  title: string;
+  /** Body — the rule's explanation. */
+  body: string;
+}
+interface Props {
+  rules: Rule[];
+}
+const { rules } = Astro.props;
+---
+
+<ol class="rules-list">
+  {
+    rules.map((rule, i) => (
+      <li>
+        <span class="rule-num">{String(i + 1).padStart(2, '0')}</span>
+        <span>
+          <strong>{rule.title}</strong> {rule.body}
+        </span>
+      </li>
+    ))
+  }
+</ol>

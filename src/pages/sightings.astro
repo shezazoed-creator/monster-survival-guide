@@ -1,0 +1,88 @@
+---
+import { getCollection } from 'astro:content';
+import FieldManual from '../layouts/FieldManual.astro';
+import StampRow from '../components/StampRow.astro';
+import DocMeta from '../components/DocMeta.astro';
+import DocTitle from '../components/DocTitle.astro';
+import Section from '../components/Section.astro';
+import SightingsMap from '../components/SightingsMap.astro';
+import '../styles/pages/sightings.css';
+
+const now = new Date();
+const all = (await getCollection('monsters', ({ data }) => data.status === 'published'))
+  .filter((e) => !e.data.publishDate || e.data.publishDate <= now)
+  .sort((a, b) => parseInt(a.data.number, 10) - parseInt(b.data.number, 10));
+
+const mapped = all.filter((e) => e.data.coords);
+const unmapped = all.filter((e) => !e.data.coords);
+---
+
+<FieldManual
+  title="Where Reported"
+  description="A stylised map of where every Monster Survival Guide encounter has been documented — with pins linking back to each entry."
+  classification="monster survival guide  —  where reported"
+  bottomBar="monster survival guide  ·  field map  ·  season one"
+>
+  <StampRow red="Where Reported" faded="Field Map" blue="Documented Encounters" />
+  <DocMeta
+    rows={[
+      { label: 'DOCUMENT TYPE', value: 'Field Map — Reported Sighting Locations' },
+      { label: 'PINS PLACED', value: `${mapped.length} of ${all.length} entries` },
+      { label: 'NOTE', value: 'Stylised — not to scale, not a geographic projection' },
+      { label: 'STATUS', value: 'Open Distribution — Updated as Entries Add Locations' },
+    ]}
+  />
+  <DocTitle subtitle="Where the encounters are. Click a pin to read the entry.">
+    Where<br />Reported
+  </DocTitle>
+
+  <Section heading="The Field Map">
+    <p>
+      Every entry that has a single anchoring location appears below. The map is stylised — it is
+      not a geographic projection and the proportions are approximate — but the relative positions
+      are good enough to give you a sense of where the encounter record clusters.
+    </p>
+
+    <SightingsMap entries={all} />
+
+    <div class="map-legend">
+      {
+        mapped.map((entry) => (
+          <span>
+            <a href={`/${entry.id}`}>
+              <span class="legend-num">{entry.data.number}</span>
+              {entry.data.title}
+            </a>
+            {' · '}
+            {entry.data.region}
+          </span>
+        ))
+      }
+    </div>
+
+    {
+      unmapped.length > 0 && (
+        <p class="map-unmapped">
+          Not on the map: {unmapped.map((e) => e.data.title).join(' · ')}. These entries either span
+          no fixed geography or are explicitly not bound to a single place.
+        </p>
+      )
+    }
+  </Section>
+
+  <Section heading="What the Map Shows You">
+    <p>
+      Three things, mostly. First, that the documented North American encounter record is
+      geographically uneven — clusters in the upper Midwest, the Mid-Atlantic, the boreal north, the
+      Four Corners. Second, that those clusters are not random — they correlate with old ecological
+      boundaries, with reservation territory, and with thinly populated land that has had a long
+      time to develop its own folklore. Third, that the gaps between the pins are also a kind of
+      evidence: the places where, as far as we know, very little has been reported.
+    </p>
+    <p>
+      The map will grow as the guide grows. If you've encountered something in a place that isn't
+      here yet — and especially if you've encountered something in a place that has historical
+      records nobody has yet collected — <a href="/about#contact--corrections">tell us.</a>
+    </p>
+  </Section>
+</FieldManual>

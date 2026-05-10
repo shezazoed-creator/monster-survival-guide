@@ -1,0 +1,56 @@
+---
+import { giscus } from '../config/site.ts';
+
+// The script is rendered exactly once per page that includes this component.
+// Giscus handles its own iframe; nothing else to wire up.
+const enabled = giscus !== null;
+const cfg = giscus;
+---
+
+{
+  enabled && cfg && (
+    <section class="giscus-section" aria-labelledby="comments-heading">
+      <h2 class="section-head" id="comments-heading">
+        Comments
+      </h2>
+      <p class="giscus-blurb">
+        Comments are powered by Giscus, which posts to GitHub Discussions on the project repo.
+        You'll need a GitHub account to leave one.
+      </p>
+      <div class="giscus" />
+      <script
+        is:inline
+        src="https://giscus.app/client.js"
+        data-repo={cfg.repo}
+        data-repo-id={cfg.repoId}
+        data-category={cfg.category}
+        data-category-id={cfg.categoryId}
+        data-mapping={cfg.mapping ?? 'pathname'}
+        data-strict="0"
+        data-reactions-enabled={cfg.reactionsEnabled ?? '1'}
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme={cfg.theme ?? 'preferred_color_scheme'}
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async
+      />
+    </section>
+  )
+}
+
+<style>
+  .giscus-section {
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+  }
+  .giscus-blurb {
+    font-family: 'Sorts Mill Goudy', Georgia, serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--faded);
+    margin: 0 0 18px;
+  }
+</style>

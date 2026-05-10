@@ -1,0 +1,24 @@
+---
+interface Props {
+  /** 1-10 */
+  danger: number;
+  /** Big label, e.g. "CRITICAL" */
+  label: string;
+  /** Single-line description shown to the right of the bars. */
+  description: string;
+}
+const { danger, label, description } = Astro.props;
+const clamped = Math.max(0, Math.min(10, Math.round(danger)));
+const bars = Array.from({ length: 10 }, (_, i) => i < clamped);
+---
+
+<div class="danger-meter" role="img" aria-label={`Danger index ${clamped} out of 10 — ${label}`}>
+  <div class="danger-label-col">
+    <div class="danger-title">Monster Danger Index</div>
+    <div class="danger-name">{label}</div>
+  </div>
+  <div class="danger-bars" aria-hidden="true">
+    {bars.map((filled) => <div class={filled ? 'bar filled' : 'bar'} />)}
+  </div>
+  <div class="danger-desc">{description}</div>
+</div>

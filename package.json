@@ -5,13 +5,36 @@
   "engines": {
     "node": ">=22.12.0"
   },
+  "packageManager": "npm@11.5.2",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test:e2e": "playwright test",
+    "lhci": "lhci autorun"
   },
   "dependencies": {
-    "astro": "^6.2.2"
+    "@astrojs/mdx": "^5.0.4",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.6.0",
+    "@fontsource/anonymous-pro": "^5.2.8",
+    "@fontsource/rajdhani": "^5.2.7",
+    "@fontsource/sorts-mill-goudy": "^5.2.8",
+    "@resvg/resvg-js": "^2.6.2",
+    "astro": "^6.2.2",
+    "satori": "^0.26.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.59.1",
+    "fast-xml-parser": "^5.7.3",
+    "prettier": "^3.4.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "^6.0.3"
   }
 }

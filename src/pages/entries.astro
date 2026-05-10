@@ -1,120 +1,266 @@
 ---
+import { getCollection } from 'astro:content';
 import FieldManual from '../layouts/FieldManual.astro';
-import css from '../styles/pages/entries.css?raw';
+import StampRow from '../components/StampRow.astro';
+import DocMeta from '../components/DocMeta.astro';
+import DocTitle from '../components/DocTitle.astro';
+import { upcoming } from '../config/site.ts';
+import { groupBySeason, seasonRoman } from '../lib/seasons.ts';
+import '../styles/pages/entries.css';
 
-// =====================================================================
-//  AUTO-DISCOVERY OF MONSTER ENTRIES
-//  Every .astro page in src/pages/ that exports a `const entry = {...}`
-//  is automatically picked up here and rendered as a card. To add a new
-//  monster to the menu: just create the page file with that export.
-//  No edit to this file required.
-// =====================================================================
+const now = new Date();
+const entries = (await getCollection('monsters', ({ data }) => data.status === 'published'))
+  .filter((e) => !e.data.publishDate || e.data.publishDate <= now)
+  .sort((a, b) => parseInt(a.data.number, 10) - parseInt(b.data.number, 10));
 
-// import.meta.glob runs at build time and pulls in every sibling .astro file.
-// `eager: true` returns the modules synchronously instead of as promises.
-const allModules: Record<string, any> = import.meta.glob('./*.astro', { eager: true });
+const seasonGroups = groupBySeason(entries);
 
-// Filter to pages that export a card-shaped `entry` object, then sort by number.
-const entries = Object.values(allModules)
-  .map((mod: any) => mod.entry)
-  .filter((e) => e && typeof e === 'object' && e.title && e.url)
-  .sort((a: any, b: any) => parseInt(a.number, 10) - parseInt(b.number, 10));
+// Build the unique tag list for the filter UI.
+const allTags = Array.from(new Set(entries.flatMap((e) => e.data.tags))).sort();
+
+// Danger bands shown in the filter UI.
+const dangerBands = [
+  { label: '1–4', min: 1, max: 4 },
+  { label: '5–6', min: 5, max: 6 },
+  { label: '7–8', min: 7, max: 8 },
+  { label: '9–10', min: 9, max: 10 },
+];
 ---
 
-<FieldManual title="Monster Index" classification="monster survival guide &nbsp;—&nbsp; menu" bottomBar="monster survival guide &nbsp;·&nbsp; all entries &nbsp;·&nbsp; season one">
-  <style is:inline set:html={css}></style>
+<FieldManual
+  title="Monster Index"
+  description="Every Monster Survival Guide entry filed so far. Start anywhere. Read everything."
+  classification="monster survival guide  —  menu"
+  bottomBar="monster survival guide  ·  all entries  ·  season one"
+>
+  <StampRow red="All Entries" faded="Season One" blue="Field Manual" />
+  <DocMeta
+    rows={[
+      { label: 'DOCUMENT TYPE', value: 'Index — All Survival Guide Journal Entries' },
+      { label: 'SEASON', value: 'One — Currently Active' },
+      { label: 'ENTRIES', value: `${entries.length} Filed — More Incoming` },
+      { label: 'STATUS', value: 'Open Distribution — Read Before You Need To' },
+    ]}
+  />
+  <DocTitle subtitle="Every survival guide filed so far. Start anywhere. Read everything.">
+    All<br />Entries
+  </DocTitle>
 
-    <div class="stamp-row">
-      <div class="stamp red">All Entries</div>
-      <div class="stamp faded">Season One</div>
-      <div class="stamp blue">Field Manual</div>
-    </div>
-
-    <div class="doc-meta">
-      <div>DOCUMENT TYPE: &nbsp;<span>Index — All Survival Guide Journal Entries</span></div>
-      <div>SEASON: &nbsp;<span>One — Currently Active</span></div>
-      <div>ENTRIES: &nbsp;<span>{entries.length} Filed — More Incoming</span></div>
-      <div>STATUS: &nbsp;<span>Open Distribution — Read Before You Need To</span></div>
-    </div>
-
-    <div class="doc-title">All<br/>Entries</div>
-    <p class="doc-subtitle"><em>Every survival guide filed so far. Start anywhere. Read everything.</em></p>
-
-    <!-- START HERE (manual — points at the pilot/about page) -->
-    <div class="section-head">Start Here</div>
-    <div class="entry-list">
-      <a class="entry-card about" href="/">
-        <div class="entry-band" style="background: rgba(26,22,16,0.25);"></div>
-        <div class="entry-body">
-          <div class="entry-label">Introduction · Field Manual</div>
-          <div class="entry-title">About This Guide</div>
-          <div class="entry-desc">What this is, how it works, and why you should read it before you need it.</div>
-          <div class="entry-meta">
-            <span class="entry-tag">How to use</span>
-            <span class="entry-tag">Danger index explained</span>
-            <span class="entry-tag">Season one overview</span>
-          </div>
+  <h2 class="section-head">Start Here</h2>
+  <div class="entry-list">
+    <a class="entry-card about" href="/">
+      <div class="entry-band" style="background: rgba(26,22,16,0.25);"></div>
+      <div class="entry-body">
+        <div class="entry-label">Introduction · Field Manual</div>
+        <h3 class="entry-title">About This Guide</h3>
+        <div class="entry-desc">
+          What this is, how it works, and why you should read it before you need it.
         </div>
-        <div class="entry-right">
-          <div class="mini-index">
-            <div class="mini-label">No threat entity</div>
-          </div>
-          <div class="entry-arrow">→</div>
+        <div class="entry-meta">
+          <span class="entry-tag">How to use</span>
+          <span class="entry-tag">Danger index explained</span>
+          <span class="entry-tag">Season one overview</span>
         </div>
-      </a>
-    </div>
+      </div>
+      <div class="entry-right">
+        <div class="mini-index">
+          <div class="mini-label">No threat entity</div>
+        </div>
+        <div class="entry-arrow">→</div>
+      </div>
+    </a>
+  </div>
 
-    <hr class="divider"/>
+  <hr class="divider" />
 
-    {/* SEASON ONE ENTRIES — auto-generated from each monster page's `entry` export */}
-    <div class="section-head">Season One — Survival Entries</div>
-    <div class="entry-list">
-      {entries.map((e: any) => (
-        <a class="entry-card" href={e.url}>
-          <div class="entry-band" style={`background: ${e.bandColor};`}></div>
+  <p class="season-nav-row" aria-label="Browse by season">
+    <span class="season-nav-label">Browse by season:</span>
+    {
+      seasonGroups.map((g) => (
+        <a class="season-nav-chip" href={`/seasons/${g.season}`}>
+          Season {seasonRoman(g.season)} ({g.entries.length})
+        </a>
+      ))
+    }
+  </p>
+
+  <h2 class="section-head">All Survival Entries</h2>
+
+  <div class="filter-bar" data-filter-bar>
+    <fieldset class="filter-group">
+      <legend class="filter-legend">Danger</legend>
+      <button type="button" class="filter-chip is-active" data-filter="danger" data-value="all">
+        All
+      </button>
+      {
+        dangerBands.map((band) => (
+          <button
+            type="button"
+            class="filter-chip"
+            data-filter="danger"
+            data-min={band.min}
+            data-max={band.max}
+          >
+            {band.label}
+          </button>
+        ))
+      }
+    </fieldset>
+
+    <fieldset class="filter-group">
+      <legend class="filter-legend">Tag</legend>
+      <button type="button" class="filter-chip is-active" data-filter="tag" data-value="all">
+        All
+      </button>
+      {
+        allTags.map((tag) => (
+          <button type="button" class="filter-chip" data-filter="tag" data-value={tag}>
+            {tag}
+          </button>
+        ))
+      }
+    </fieldset>
+
+    <button type="button" class="filter-clear" data-filter-clear>Reset</button>
+  </div>
+
+  <p class="filter-empty" data-filter-empty hidden>No entries match this combination of filters.</p>
+
+  <div class="entry-list" data-entry-list>
+    {
+      entries.map((e) => (
+        <a
+          class="entry-card"
+          href={`/${e.id}`}
+          data-card
+          data-danger={e.data.danger}
+          data-tags={e.data.tags.join('|')}
+        >
+          <div class="entry-band" style={`background: ${e.data.bandColor};`} />
           <div class="entry-body">
-            <div class="entry-label">Entry {e.number} · {e.entryClass} · {e.region}</div>
-            <div class="entry-title">{e.title}</div>
-            <div class="entry-desc">{e.description}</div>
+            <div class="entry-label">
+              Entry {e.data.number} · {e.data.entryClass} · {e.data.region}
+            </div>
+            <h3 class="entry-title">{e.data.title}</h3>
+            <div class="entry-desc">{e.data.description}</div>
             <div class="entry-meta">
-              {e.tags.map((t: string) => <span class="entry-tag">{t}</span>)}
+              {e.data.tags.map((t) => (
+                <span class="entry-tag">{t}</span>
+              ))}
             </div>
           </div>
           <div class="entry-right">
             <div class="mini-index">
-              <div class="mini-label">Danger · {e.danger}/10</div>
-              <div class="mini-bars">
+              <div class="mini-label">Danger · {e.data.danger}/10</div>
+              <div class="mini-bars" role="img" aria-label={`Danger ${e.data.danger} out of 10`}>
                 {Array.from({ length: 10 }).map((_, i) => (
-                  <div class={`mbar ${i < e.danger ? 'f' : ''}`}></div>
+                  <div class={i < e.data.danger ? 'mbar f' : 'mbar'} aria-hidden="true" />
                 ))}
               </div>
             </div>
             <div class="entry-arrow">→</div>
           </div>
         </a>
-      ))}
+      ))
+    }
 
-      {/* Coming Soon placeholder — kept manual; remove or edit as you like */}
-      <div class="entry-card" style="opacity:0.4; cursor:default; pointer-events:none;">
-        <div class="entry-band" style="background: rgba(26,22,16,0.2);"></div>
-        <div class="entry-body">
-          <div class="entry-label">Next Entry · Coming Soon</div>
-          <div class="entry-title">Unknown Entity</div>
-          <div class="entry-desc">The next entry is being prepared. Check back soon.</div>
-          <div class="entry-meta">
-            <span class="entry-tag">Pending</span>
-          </div>
-        </div>
-        <div class="entry-right">
-          <div class="mini-index">
-            <div class="mini-label">Classified</div>
-            <div class="mini-bars">
-              <div class="mbar"></div><div class="mbar"></div><div class="mbar"></div><div class="mbar"></div><div class="mbar"></div>
-              <div class="mbar"></div><div class="mbar"></div><div class="mbar"></div><div class="mbar"></div><div class="mbar"></div>
+    {
+      upcoming && (
+        <div class="entry-card coming-soon" data-coming-soon>
+          <div class="entry-band" style="background: rgba(26,22,16,0.2);" />
+          <div class="entry-body">
+            <div class="entry-label">{upcoming.label}</div>
+            <h3 class="entry-title">{upcoming.title}</h3>
+            <div class="entry-desc">{upcoming.description}</div>
+            <div class="entry-meta">
+              <span class="entry-tag">Pending</span>
             </div>
           </div>
-          <div class="entry-arrow" style="opacity:0.2;">→</div>
+          <div class="entry-right">
+            <div class="mini-index">
+              <div class="mini-label">Classified</div>
+              <div class="mini-bars" aria-hidden="true">
+                {Array.from({ length: 10 }).map(() => (
+                  <div class="mbar" />
+                ))}
+              </div>
+            </div>
+            <div class="entry-arrow" style="opacity:0.2;">
+              →
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )
+    }
+  </div>
 </FieldManual>
+
+<script>
+  // Tag + danger filtering. No build-time dependency — operates on data
+  // attributes baked into each card.
+  const bar = document.querySelector<HTMLElement>('[data-filter-bar]');
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-card]'));
+  const comingSoon = document.querySelector<HTMLElement>('[data-coming-soon]');
+  const empty = document.querySelector<HTMLElement>('[data-filter-empty]');
+
+  const state: {
+    danger: { min: number; max: number } | null;
+    tag: string | null;
+  } = { danger: null, tag: null };
+
+  function applyFilters() {
+    let visible = 0;
+    for (const card of cards) {
+      const danger = Number(card.dataset.danger);
+      const tags = (card.dataset.tags ?? '').split('|');
+      const matchDanger =
+        !state.danger || (danger >= state.danger.min && danger <= state.danger.max);
+      const matchTag = !state.tag || tags.includes(state.tag);
+      const show = matchDanger && matchTag;
+      card.toggleAttribute('hidden', !show);
+      if (show) visible++;
+    }
+    if (comingSoon) {
+      // Hide the upcoming-entry card whenever any filter is active.
+      const filterActive = state.danger !== null || state.tag !== null;
+      comingSoon.toggleAttribute('hidden', filterActive);
+    }
+    if (empty) empty.toggleAttribute('hidden', visible > 0);
+  }
+
+  bar?.addEventListener('click', (event) => {
+    const target = (event.target as HTMLElement).closest<HTMLElement>('[data-filter]');
+    if (!target) return;
+
+    const filter = target.dataset.filter as 'danger' | 'tag';
+    const value = target.dataset.value;
+
+    if (filter === 'danger') {
+      if (value === 'all') {
+        state.danger = null;
+      } else {
+        state.danger = {
+          min: Number(target.dataset.min),
+          max: Number(target.dataset.max),
+        };
+      }
+    } else if (filter === 'tag') {
+      state.tag = value === 'all' ? null : (value ?? null);
+    }
+
+    bar.querySelectorAll<HTMLElement>(`[data-filter="${filter}"]`).forEach((chip) => {
+      chip.classList.toggle('is-active', chip === target);
+    });
+
+    applyFilters();
+  });
+
+  document.querySelector('[data-filter-clear]')?.addEventListener('click', () => {
+    state.danger = null;
+    state.tag = null;
+    bar?.querySelectorAll<HTMLElement>('[data-filter]').forEach((chip) => {
+      chip.classList.toggle('is-active', chip.dataset.value === 'all');
+    });
+    applyFilters();
+  });
+</script>
