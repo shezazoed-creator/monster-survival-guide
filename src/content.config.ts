@@ -51,6 +51,13 @@ const monsters = defineCollection({
           year: z.union([z.number(), z.string()]).optional(),
           /** Optional descriptor shown in the tooltip / legend. */
           label: z.string().optional(),
+          /**
+           * URL to the primary article / record for this specific encounter.
+           * When set, the map pin and legend entry link out to it (in a new
+           * tab). When omitted, the pin renders as a non-link with a
+           * tooltip only.
+           */
+          sourceUrl: z.string().url().optional(),
         }),
       )
       .default([]),

@@ -13,6 +13,7 @@ interface Sighting {
   lon: number;
   year?: number | string;
   label?: string;
+  sourceUrl?: string;
 }
 
 interface Props {
@@ -79,17 +80,30 @@ const projected = sightings
       }
 
       {
-        projected.map((s) => (
-          <g class="monster-map-pin-group">
-            <circle class="monster-map-halo" cx={s.x} cy={s.y} r={9} />
-            <circle class="monster-map-pin" cx={s.x} cy={s.y} r={5} />
-            <title>
-              {s.year ? `${s.year} · ` : ''}
-              {s.name}
-              {s.label ? ` — ${s.label}` : ''}
-            </title>
-          </g>
-        ))
+        projected.map((s) => {
+          const tooltip =
+            (s.year ? `${s.year} · ` : '') + s.name + (s.label ? ` — ${s.label}` : '');
+          const pin = (
+            <>
+              <circle class="monster-map-halo" cx={s.x} cy={s.y} r={9} />
+              <circle class="monster-map-pin" cx={s.x} cy={s.y} r={5} />
+              <title>{tooltip}</title>
+            </>
+          );
+          return s.sourceUrl ? (
+            <a
+              class="monster-map-pin-group"
+              href={s.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${tooltip} — open source article in a new tab`}
+            >
+              {pin}
+            </a>
+          ) : (
+            <g class="monster-map-pin-group">{pin}</g>
+          );
+        })
       }
     </svg>
   </div>
@@ -97,14 +111,30 @@ const projected = sightings
   {
     legend && projected.length > 0 && (
       <ol class="monster-map-legend">
-        {projected.map((s) => (
-          <li>
-            <span class="legend-dot" aria-hidden="true" />
-            <span class="legend-name">{s.name}</span>
-            {s.year && <span class="legend-year"> · {s.year}</span>}
-            {s.label && <span class="legend-label"> · {s.label}</span>}
-          </li>
-        ))}
+        {projected.map((s) => {
+          const inner = (
+            <>
+              <span class="legend-dot" aria-hidden="true" />
+              <span class="legend-name">{s.name}</span>
+              {s.year && <span class="legend-year"> · {s.year}</span>}
+              {s.label && <span class="legend-label"> · {s.label}</span>}
+            </>
+          );
+          return (
+            <li>
+              {s.sourceUrl ? (
+                <a href={s.sourceUrl} target="_blank" rel="noopener noreferrer">
+                  {inner}
+                  <span class="legend-external" aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              ) : (
+                inner
+              )}
+            </li>
+          );
+        })}
       </ol>
     )
   }
@@ -199,6 +229,38 @@ const projected = sightings
     display: flex;
     align-items: baseline;
     gap: 8px;
+  }
+
+  .monster-map-legend a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  }
+
+  .monster-map-legend a:hover,
+  .monster-map-legend a:focus-visible {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  .legend-external {
+    color: var(--margin);
+    margin-left: 2px;
+    font-size: 0.85em;
+  }
+
+  .monster-map-pin-group {
+    cursor: pointer;
+  }
+  .monster-map-pin-group:focus-visible {
+    outline: none;
+  }
+  .monster-map-pin-group:focus-visible .monster-map-pin {
+    stroke: var(--ink);
+    stroke-width: 2;
   }
 
   .legend-dot {

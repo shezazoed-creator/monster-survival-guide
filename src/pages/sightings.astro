@@ -27,6 +27,7 @@ interface PinnedSighting {
   name: string;
   year?: number | string;
   label?: string;
+  sourceUrl?: string;
   x: number;
   y: number;
 }
@@ -44,6 +45,7 @@ for (const entry of all) {
       name: s.name,
       year: s.year,
       label: s.label,
+      sourceUrl: s.sourceUrl,
       x: point.x,
       y: point.y,
     });
@@ -112,23 +114,38 @@ const unmapped = all.filter((e) => e.data.sightings.length === 0);
         <path class="combined-map-land" d={WORLD_LAND_PATH}></path>
 
         {
-          pins.map((p) => (
-            <a class="combined-map-pin-link" href={`/${p.monsterId}`}>
-              <circle class="combined-map-halo" cx={p.x} cy={p.y} r={9} />
-              <circle
-                class="combined-map-pin"
-                cx={p.x}
-                cy={p.y}
-                r={5}
-                style={`fill: ${p.monsterColor};`}
-              />
-              <title>
-                {p.monsterTitle} — {p.name}
-                {p.year ? ` (${p.year})` : ''}
-                {p.label ? ` · ${p.label}` : ''}
-              </title>
-            </a>
-          ))
+          pins.map((p) => {
+            const tooltip =
+              `${p.monsterTitle} — ${p.name}` +
+              (p.year ? ` (${p.year})` : '') +
+              (p.label ? ` · ${p.label}` : '');
+            const dot = (
+              <>
+                <circle class="combined-map-halo" cx={p.x} cy={p.y} r={9} />
+                <circle
+                  class="combined-map-pin"
+                  cx={p.x}
+                  cy={p.y}
+                  r={5}
+                  style={`fill: ${p.monsterColor};`}
+                />
+                <title>{tooltip}</title>
+              </>
+            );
+            return p.sourceUrl ? (
+              <a
+                class="combined-map-pin-link"
+                href={p.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${tooltip} — open source article in a new tab`}
+              >
+                {dot}
+              </a>
+            ) : (
+              <g class="combined-map-pin-link">{dot}</g>
+            );
+          })
         }
       </svg>
     </div>
