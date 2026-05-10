@@ -46,8 +46,8 @@ const pinned = entries.filter((e) => e.data.coords);
             href={`/${entry.id}`}
             aria-label={`${entry.data.title} — ${entry.data.region}`}
           >
-            <circle class="map-pin" cx={x} cy={y} r={11} />
-            <text class="map-pin-label" x={x + 18} y={y + 4} dominant-baseline="middle">
+            <circle class="map-pin" cx={x} cy={y} r={14} />
+            <text class="map-pin-label" x={x + 22} y={y + 5} dominant-baseline="middle">
               {`${entry.data.number} ${entry.data.title}`}
             </text>
             <title>{`${entry.data.title} — ${text}`}</title>
