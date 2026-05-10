@@ -18,56 +18,60 @@
   margin: 16px 0 32px;
   padding: 14px;
   border: 1px solid var(--rule);
-  background: color-mix(in srgb, var(--ink) 3%, transparent);
+  /* Slightly aged-paper inset so the map sits on something distinct. */
+  background: var(--aged);
 }
 
 .map-svg {
   width: 100%;
   height: auto;
   display: block;
+  aspect-ratio: 1000 / 600;
 }
 
 .map-land {
-  fill: color-mix(in srgb, var(--ink) 8%, transparent);
+  /* Strong-enough fill to read against cream paper without overwhelming the pins. */
+  fill: color-mix(in srgb, var(--ink) 22%, transparent);
   stroke: var(--ink);
-  stroke-width: 1.5;
+  stroke-width: 2;
   stroke-linejoin: round;
+  stroke-linecap: round;
 }
 
 .map-grid {
-  stroke: color-mix(in srgb, var(--ink) 8%, transparent);
+  stroke: color-mix(in srgb, var(--ink) 14%, transparent);
   stroke-width: 1;
+  stroke-dasharray: 4 6;
 }
 
 .map-pin {
   fill: var(--warn);
-  stroke: var(--ink);
-  stroke-width: 1.5;
+  stroke: var(--paper);
+  stroke-width: 3;
   cursor: pointer;
   transition:
     fill 0.18s,
-    transform 0.18s;
+    r 0.18s;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
 }
 
-.map-pin:hover,
-.map-pin:focus-visible {
+.map-pin-link:hover .map-pin,
+.map-pin-link:focus-visible .map-pin {
   fill: var(--ink);
-  outline: none;
+  stroke: var(--paper);
 }
 
 .map-pin-label {
   font-family: 'Anonymous Pro', monospace;
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   fill: var(--ink);
   pointer-events: none;
-}
-
-.map-pin-link:focus-visible .map-pin {
-  fill: var(--ink);
-  stroke: var(--paper);
-  stroke-width: 2.5;
+  paint-order: stroke;
+  stroke: var(--aged);
+  stroke-width: 3;
 }
 
 .map-legend {
