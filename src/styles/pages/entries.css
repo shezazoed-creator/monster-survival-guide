@@ -12,6 +12,106 @@
   --warn: #8b1a0a;
 }
 
+/* Search input. Sits above the chip filter bar. */
+.filter-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  position: relative;
+}
+
+.filter-search:focus-within {
+  border-color: var(--ink);
+}
+
+.filter-search-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--margin);
+}
+
+.filter-search input[type='search'] {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  padding: 4px 0;
+  min-width: 0;
+}
+
+.filter-search input[type='search']:focus {
+  outline: none;
+}
+
+.filter-search input[type='search']::placeholder {
+  color: var(--margin);
+  font-style: italic;
+}
+
+.filter-search-clear {
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: transparent;
+  color: var(--margin);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.filter-search-clear:hover,
+.filter-search-clear:focus-visible {
+  color: var(--ink);
+  outline: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Collapsible tag list — Show all / Show fewer toggle. */
+.filter-tag-rest {
+  display: contents;
+}
+
+.filter-toggle {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--warn);
+  background: none;
+  border: none;
+  padding: 4px 6px;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+.filter-toggle:hover,
+.filter-toggle:focus-visible {
+  color: var(--ink);
+  outline: none;
+  text-decoration: underline;
+}
+
 /* Tag + danger filter UI on the entries menu. */
 .filter-bar {
   display: flex;

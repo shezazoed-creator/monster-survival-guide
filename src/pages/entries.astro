@@ -86,6 +86,37 @@ const dangerBands = [
 
   <h2 class="section-head">All Survival Entries</h2>
 
+  <label class="filter-search" for="entries-search">
+    <span class="visually-hidden">Search entries</span>
+    <svg viewBox="0 0 24 24" aria-hidden="true" class="filter-search-icon">
+      <circle cx="11" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="2"></circle>
+      <line
+        x1="15.5"
+        y1="15.5"
+        x2="20"
+        y2="20"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"></line>
+    </svg>
+    <input
+      id="entries-search"
+      type="search"
+      placeholder="Search by name, region, tag, or description…"
+      autocomplete="off"
+      data-search
+    />
+    <button
+      type="button"
+      class="filter-search-clear"
+      data-search-clear
+      aria-label="Clear search"
+      hidden
+    >
+      ×
+    </button>
+  </label>
+
   <div class="filter-bar" data-filter-bar>
     <fieldset class="filter-group">
       <legend class="filter-legend">Danger</legend>
@@ -107,17 +138,34 @@ const dangerBands = [
       }
     </fieldset>
 
-    <fieldset class="filter-group">
+    <fieldset class="filter-group filter-group--tags">
       <legend class="filter-legend">Tag</legend>
       <button type="button" class="filter-chip is-active" data-filter="tag" data-value="all">
         All
       </button>
       {
-        allTags.map((tag) => (
-          <button type="button" class="filter-chip" data-filter="tag" data-value={tag}>
+        allTags.map((tag, i) => (
+          <button
+            type="button"
+            class="filter-chip"
+            data-filter="tag"
+            data-value={tag}
+            data-tag-rest={i >= 5 ? '' : null}
+            hidden={i >= 5 ? true : null}
+          >
             {tag}
           </button>
         ))
+      }
+      {
+        allTags.length > 5 && (
+          <button type="button" class="filter-toggle" data-tag-toggle aria-expanded="false">
+            <span data-tag-toggle-show>Show all {allTags.length}</span>
+            <span data-tag-toggle-hide hidden>
+              Show fewer
+            </span>
+          </button>
+        )
       }
     </fieldset>
 
@@ -135,6 +183,15 @@ const dangerBands = [
           data-card
           data-danger={e.data.danger}
           data-tags={e.data.tags.join('|')}
+          data-search-text={[
+            e.data.title,
+            e.data.description,
+            e.data.entryClass,
+            e.data.region,
+            e.data.tags.join(' '),
+          ]
+            .join(' ')
+            .toLowerCase()}
         >
           <div class="entry-band" style={`background: ${e.data.bandColor};`} />
           <div class="entry-body">
@@ -196,33 +253,43 @@ const dangerBands = [
 </FieldManual>
 
 <script>
-  // Tag + danger filtering. No build-time dependency — operates on data
-  // attributes baked into each card.
+  // Search + tag + danger filtering. No build-time dependency — operates on
+  // data attributes baked into each card. All three filters AND together.
   const bar = document.querySelector<HTMLElement>('[data-filter-bar]');
   const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-card]'));
   const comingSoon = document.querySelector<HTMLElement>('[data-coming-soon]');
   const empty = document.querySelector<HTMLElement>('[data-filter-empty]');
+  const searchInput = document.querySelector<HTMLInputElement>('[data-search]');
+  const searchClear = document.querySelector<HTMLButtonElement>('[data-search-clear]');
+  const tagRestChips = Array.from(document.querySelectorAll<HTMLElement>('[data-tag-rest]'));
+  const tagToggle = document.querySelector<HTMLButtonElement>('[data-tag-toggle]');
+  const tagToggleShow = document.querySelector<HTMLElement>('[data-tag-toggle-show]');
+  const tagToggleHide = document.querySelector<HTMLElement>('[data-tag-toggle-hide]');
 
   const state: {
     danger: { min: number; max: number } | null;
     tag: string | null;
-  } = { danger: null, tag: null };
+    search: string;
+  } = { danger: null, tag: null, search: '' };
 
   function applyFilters() {
     let visible = 0;
     for (const card of cards) {
       const danger = Number(card.dataset.danger);
       const tags = (card.dataset.tags ?? '').split('|');
+      const text = card.dataset.searchText ?? '';
+
       const matchDanger =
         !state.danger || (danger >= state.danger.min && danger <= state.danger.max);
       const matchTag = !state.tag || tags.includes(state.tag);
-      const show = matchDanger && matchTag;
+      const matchSearch = !state.search || text.includes(state.search);
+      const show = matchDanger && matchTag && matchSearch;
       card.toggleAttribute('hidden', !show);
       if (show) visible++;
     }
     if (comingSoon) {
       // Hide the upcoming-entry card whenever any filter is active.
-      const filterActive = state.danger !== null || state.tag !== null;
+      const filterActive = state.danger !== null || state.tag !== null || state.search.length > 0;
       comingSoon.toggleAttribute('hidden', filterActive);
     }
     if (empty) empty.toggleAttribute('hidden', visible > 0);
@@ -236,14 +303,10 @@ const dangerBands = [
     const value = target.dataset.value;
 
     if (filter === 'danger') {
-      if (value === 'all') {
-        state.danger = null;
-      } else {
-        state.danger = {
-          min: Number(target.dataset.min),
-          max: Number(target.dataset.max),
-        };
-      }
+      state.danger =
+        value === 'all'
+          ? null
+          : { min: Number(target.dataset.min), max: Number(target.dataset.max) };
     } else if (filter === 'tag') {
       state.tag = value === 'all' ? null : (value ?? null);
     }
@@ -255,9 +318,38 @@ const dangerBands = [
     applyFilters();
   });
 
+  // Tag-list expand/collapse — toggle hidden on every "rest" chip at once.
+  tagToggle?.addEventListener('click', () => {
+    if (tagRestChips.length === 0) return;
+    const wasHidden = tagRestChips[0].hasAttribute('hidden');
+    tagRestChips.forEach((chip) => chip.toggleAttribute('hidden', !wasHidden));
+    tagToggle.setAttribute('aria-expanded', String(wasHidden));
+    tagToggleShow?.toggleAttribute('hidden', wasHidden);
+    tagToggleHide?.toggleAttribute('hidden', !wasHidden);
+  });
+
+  // Search input.
+  searchInput?.addEventListener('input', () => {
+    state.search = searchInput.value.trim().toLowerCase();
+    searchClear?.toggleAttribute('hidden', state.search.length === 0);
+    applyFilters();
+  });
+
+  searchClear?.addEventListener('click', () => {
+    if (!searchInput) return;
+    searchInput.value = '';
+    state.search = '';
+    searchClear.toggleAttribute('hidden', true);
+    applyFilters();
+    searchInput.focus();
+  });
+
   document.querySelector('[data-filter-clear]')?.addEventListener('click', () => {
     state.danger = null;
     state.tag = null;
+    state.search = '';
+    if (searchInput) searchInput.value = '';
+    searchClear?.toggleAttribute('hidden', true);
     bar?.querySelectorAll<HTMLElement>('[data-filter]').forEach((chip) => {
       chip.classList.toggle('is-active', chip.dataset.value === 'all');
     });
