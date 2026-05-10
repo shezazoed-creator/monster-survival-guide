@@ -5,12 +5,15 @@ import StampRow from '../components/StampRow.astro';
 import DocMeta from '../components/DocMeta.astro';
 import DocTitle from '../components/DocTitle.astro';
 import { upcoming } from '../config/site.ts';
+import { groupBySeason, seasonRoman } from '../lib/seasons.ts';
 import '../styles/pages/entries.css';
 
 const now = new Date();
 const entries = (await getCollection('monsters', ({ data }) => data.status === 'published'))
   .filter((e) => !e.data.publishDate || e.data.publishDate <= now)
   .sort((a, b) => parseInt(a.data.number, 10) - parseInt(b.data.number, 10));
+
+const seasonGroups = groupBySeason(entries);
 
 // Build the unique tag list for the filter UI.
 const allTags = Array.from(new Set(entries.flatMap((e) => e.data.tags))).sort();
@@ -70,7 +73,18 @@ const dangerBands = [
 
   <hr class="divider" />
 
-  <h2 class="section-head">Season One — Survival Entries</h2>
+  <p class="season-nav-row" aria-label="Browse by season">
+    <span class="season-nav-label">Browse by season:</span>
+    {
+      seasonGroups.map((g) => (
+        <a class="season-nav-chip" href={`/seasons/${g.season}`}>
+          Season {seasonRoman(g.season)} ({g.entries.length})
+        </a>
+      ))
+    }
+  </p>
+
+  <h2 class="section-head">All Survival Entries</h2>
 
   <div class="filter-bar" data-filter-bar>
     <fieldset class="filter-group">

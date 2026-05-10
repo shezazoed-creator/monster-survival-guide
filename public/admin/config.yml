@@ -1,0 +1,104 @@
+# Decap CMS configuration.
+#
+# Two backends are configured below — you only run one in production.
+#
+#   * git-gateway: needs a Netlify-Identity-compatible auth proxy. Easiest
+#     setup; works on Netlify out of the box. On Cloudflare Pages you need
+#     a tiny OAuth Worker (see the Decap docs for "External OAuth Clients").
+#   * github: requires a GitHub OAuth app + a backend that exchanges the
+#     OAuth code for a token. The Cloudflare community has free Workers
+#     for this; the URL goes in `auth_endpoint`.
+#
+# For local content editing without provisioning either, comment out the
+# `backend` block and uncomment `local_backend`. Then run:
+#   npx decap-server
+#   npm run dev
+# and visit /admin in the dev server.
+
+backend:
+  name: git-gateway
+  branch: main
+
+# local_backend: true
+
+# Where Decap commits binary uploads (none yet, but reserved).
+media_folder: 'public/uploads'
+public_folder: '/uploads'
+
+# Where to land after login.
+display_url: https://monster-survival-guide.pages.dev
+site_url: https://monster-survival-guide.pages.dev
+logo_url: /favicon.svg
+
+collections:
+  - name: 'monsters'
+    label: 'Monsters'
+    label_singular: 'Monster Entry'
+    folder: 'src/content/monsters'
+    create: true
+    extension: 'mdx'
+    format: 'frontmatter'
+    slug: '{{slug}}'
+    summary: '#{{number}} — {{title}} (Danger {{danger}})'
+    sortable_fields: ['number', 'danger', 'publishDate']
+    fields:
+      - { label: 'Number', name: 'number', widget: 'string', hint: 'Two-digit string, e.g., 09.' }
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Description (one-line hook)', name: 'description', widget: 'text' }
+      - { label: 'Entry Class', name: 'entryClass', widget: 'string' }
+      - { label: 'Region', name: 'region', widget: 'string' }
+      - { label: 'Tags', name: 'tags', widget: 'list', allow_add: true }
+      - { label: 'Danger', name: 'danger', widget: 'number', min: 1, max: 10, value_type: 'int' }
+      - {
+          label: 'Band Color (hex)',
+          name: 'bandColor',
+          widget: 'string',
+          pattern: ['^#[0-9a-fA-F]{6}$', 'Use #RRGGBB'],
+        }
+      - { label: 'Classification (top bar)', name: 'classification', widget: 'string' }
+      - { label: 'Bottom Bar (optional)', name: 'bottomBar', widget: 'string', required: false }
+      - {
+          label: 'Entry Status (badge)',
+          name: 'entryStatus',
+          widget: 'string',
+          default: 'Active Entry',
+        }
+      - label: 'Publish Status'
+        name: 'status'
+        widget: 'select'
+        options: ['draft', 'published']
+        default: 'draft'
+      - { label: 'Publish Date', name: 'publishDate', widget: 'datetime', required: false }
+      - { label: 'Date Modified', name: 'dateModified', widget: 'datetime', required: false }
+      - { label: 'Season', name: 'season', widget: 'number', value_type: 'int', default: 1, min: 1 }
+      - label: 'Map Pin (optional)'
+        name: 'coords'
+        widget: 'object'
+        required: false
+        fields:
+          - { label: 'X (0–1000)', name: 'x', widget: 'number', value_type: 'float' }
+          - { label: 'Y (0–600)', name: 'y', widget: 'number', value_type: 'float' }
+          - { label: 'Label', name: 'label', widget: 'string', required: false }
+      - label: 'Body (MDX)'
+        name: 'body'
+        widget: 'markdown'
+        hint: 'Section / EncounterCard / SixRules / Outro components are available — see existing entries for examples.'
+
+  - name: 'glossary'
+    label: 'Glossary'
+    label_singular: 'Glossary Term'
+    folder: 'src/content/glossary'
+    create: true
+    extension: 'mdx'
+    format: 'frontmatter'
+    slug: '{{slug}}'
+    summary: '{{term}}'
+    fields:
+      - { label: 'Term', name: 'term', widget: 'string' }
+      - { label: 'Aliases', name: 'aliases', widget: 'list', allow_add: true, required: false }
+      - { label: 'Summary (one line)', name: 'summary', widget: 'text' }
+      - { label: 'Tags', name: 'tags', widget: 'list', allow_add: true, required: false }
+      - { label: 'Sort Key', name: 'sortKey', widget: 'string', required: false }
+      - label: 'Definition (Markdown / MDX)'
+        name: 'body'
+        widget: 'markdown'

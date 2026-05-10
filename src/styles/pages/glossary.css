@@ -1,0 +1,106 @@
+/* Theme tokens for /glossary. Shared rules live in field-manual.css. */
+:root {
+  --paper: #ece6d6;
+  --aged: #ddd5c0;
+  --ink: #1a1810;
+  --faded: #4a4030;
+  --stamp-red: #8b1a0a;
+  --stamp-blue: #4a3818;
+  --accent: #6a4018;
+  --redact: #100c08;
+  --margin: #5a4a30;
+  --rule: rgba(26, 24, 16, 0.12);
+  --warn: #8b1a0a;
+}
+
+.glossary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--rule);
+  background: var(--aged);
+  margin: 8px 0 32px;
+}
+
+.glossary-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 0;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: var(--ink);
+  transition: background 0.15s;
+}
+
+.glossary-row:last-child {
+  border-bottom: none;
+}
+
+.glossary-row:hover,
+.glossary-row:focus-visible {
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+}
+
+.glossary-term {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  text-transform: uppercase;
+}
+
+.glossary-summary {
+  font-family: 'Sorts Mill Goudy', Georgia, serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--faded);
+}
+
+.glossary-aliases {
+  display: block;
+  font-family: 'Anonymous Pro', monospace;
+  font-style: normal;
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  color: var(--margin);
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+@media (max-width: 600px) {
+  .glossary-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+/* Per-term page */
+.term-aliases {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--margin);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.term-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 18px 0 28px;
+}
+
+.term-tag {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--margin);
+  border: 1px solid var(--rule);
+  padding: 2px 7px;
+  background: color-mix(in srgb, var(--ink) 3%, transparent);
+}

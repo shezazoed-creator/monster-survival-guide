@@ -13,6 +13,7 @@ import '@fontsource/anonymous-pro/400-italic.css';
 
 import { site, cloudflareAnalyticsToken } from '../config/site.ts';
 import SocialRow from '../components/SocialRow.astro';
+import NewsletterForm from '../components/NewsletterForm.astro';
 import { siteGraph, articleGraph, type ArticleSchemaInput } from '../lib/structured-data.ts';
 
 interface Props {
@@ -115,6 +116,7 @@ const jsonLd = article
             <span class="sig-name">{site.signature}</span>
             <span class="sig-tagline">{site.tagline}</span>
             <SocialRow />
+            <NewsletterForm />
           </div>
 
           <div class="sig-right">

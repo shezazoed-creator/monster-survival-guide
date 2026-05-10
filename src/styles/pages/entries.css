@@ -94,3 +94,42 @@
   border: 1px dashed var(--rule);
   background: color-mix(in srgb, var(--ink) 2%, transparent);
 }
+
+.season-nav-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 24px;
+}
+
+.season-nav-label {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  color: var(--margin);
+  text-transform: uppercase;
+  margin-right: 4px;
+}
+
+.season-nav-chip {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faded);
+  text-decoration: none;
+  border: 1px solid var(--rule);
+  padding: 4px 10px;
+  background: var(--paper);
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s;
+}
+
+.season-nav-chip:hover,
+.season-nav-chip:focus-visible {
+  border-color: var(--ink);
+  color: var(--ink);
+}

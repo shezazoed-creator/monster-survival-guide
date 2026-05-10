@@ -1,0 +1,60 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import FieldManual from '../../layouts/FieldManual.astro';
+import BackLink from '../../components/BackLink.astro';
+import StampRow from '../../components/StampRow.astro';
+import DocMeta from '../../components/DocMeta.astro';
+import DocTitle from '../../components/DocTitle.astro';
+import Section from '../../components/Section.astro';
+import '../../styles/pages/glossary.css';
+
+export async function getStaticPaths() {
+  const terms = await getCollection('glossary');
+  return terms.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'glossary'>;
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const data = entry.data;
+---
+
+<FieldManual
+  title={`${data.term} — Glossary`}
+  description={data.summary}
+  classification={`monster survival guide  —  glossary  —  ${data.term.toLowerCase()}`}
+  bottomBar="monster survival guide  ·  glossary  ·  recurring terms"
+>
+  <BackLink href="/glossary" label="Back to Glossary" />
+  <StampRow red="Glossary" faded="Term" blue="Reference" />
+  <DocMeta
+    rows={[
+      { label: 'TERM', value: data.term },
+      ...(data.aliases.length > 0
+        ? [{ label: 'ALSO KNOWN AS', value: data.aliases.join(' · ') }]
+        : []),
+      { label: 'TAGS', value: data.tags.length > 0 ? data.tags.join(' · ') : '—' },
+      { label: 'STATUS', value: 'Defined' },
+    ]}
+  />
+  <DocTitle subtitle={data.summary}>{data.term}</DocTitle>
+
+  <Section heading="Definition">
+    <Content />
+  </Section>
+
+  {
+    data.tags.length > 0 && (
+      <div class="term-tags">
+        {data.tags.map((tag) => (
+          <span class="term-tag">{tag}</span>
+        ))}
+      </div>
+    )
+  }
+</FieldManual>

@@ -1,0 +1,106 @@
+/* Theme tokens for /sightings. Shared rules live in field-manual.css. */
+:root {
+  --paper: #ece6d6;
+  --aged: #ddd5c0;
+  --ink: #1a1810;
+  --faded: #4a4030;
+  --stamp-red: #8b1a0a;
+  --stamp-blue: #2a4a3a;
+  --accent: #6a4018;
+  --redact: #100c08;
+  --margin: #5a4a30;
+  --rule: rgba(26, 24, 16, 0.12);
+  --warn: #8b1a0a;
+}
+
+.map-frame {
+  position: relative;
+  margin: 16px 0 32px;
+  padding: 14px;
+  border: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--ink) 3%, transparent);
+}
+
+.map-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.map-land {
+  fill: color-mix(in srgb, var(--ink) 8%, transparent);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.map-grid {
+  stroke: color-mix(in srgb, var(--ink) 8%, transparent);
+  stroke-width: 1;
+}
+
+.map-pin {
+  fill: var(--warn);
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  cursor: pointer;
+  transition:
+    fill 0.18s,
+    transform 0.18s;
+}
+
+.map-pin:hover,
+.map-pin:focus-visible {
+  fill: var(--ink);
+  outline: none;
+}
+
+.map-pin-label {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  fill: var(--ink);
+  pointer-events: none;
+}
+
+.map-pin-link:focus-visible .map-pin {
+  fill: var(--ink);
+  stroke: var(--paper);
+  stroke-width: 2.5;
+}
+
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 16px 0 32px;
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.65rem;
+  color: var(--faded);
+  letter-spacing: 0.08em;
+}
+
+.map-legend a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
+}
+
+.map-legend a:hover,
+.map-legend a:focus-visible {
+  border-color: var(--ink);
+}
+
+.map-legend .legend-num {
+  font-weight: 700;
+  color: var(--warn);
+  margin-right: 6px;
+}
+
+.map-unmapped {
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.7rem;
+  color: var(--margin);
+  margin-top: 8px;
+}

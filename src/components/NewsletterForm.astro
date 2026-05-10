@@ -1,0 +1,141 @@
+---
+import { newsletter } from '../config/site.ts';
+
+// Both providers expose plain HTML POST endpoints — no JS bundle needed.
+// Buttondown opens its own embed-subscribe page on submit; Beehiiv redirects
+// back to the publication. Either way, no third-party script runs unless the
+// user submits.
+let action: string | null = null;
+let providerName = '';
+if (newsletter?.provider === 'buttondown') {
+  action = `https://buttondown.com/api/emails/embed-subscribe/${newsletter.handle}`;
+  providerName = 'Buttondown';
+} else if (newsletter?.provider === 'beehiiv') {
+  action = `https://embeds.beehiiv.com/${newsletter.publicationId}`;
+  providerName = 'beehiiv';
+}
+---
+
+{
+  action && (
+    <form
+      class="newsletter-form"
+      action={action}
+      method="post"
+      target="_blank"
+      aria-labelledby="newsletter-heading"
+    >
+      <div class="newsletter-heading" id="newsletter-heading">
+        Subscribe — New Entries by Email
+      </div>
+      <p class="newsletter-blurb">
+        One email when a new entry ships. No marketing. Unsubscribe in any of them.
+      </p>
+      <label class="newsletter-row">
+        <span class="visually-hidden">Email address</span>
+        <input
+          type="email"
+          name="email"
+          required
+          autocomplete="email"
+          placeholder="you@example.com"
+        />
+        <button type="submit">Subscribe</button>
+      </label>
+      <p class="newsletter-fine">
+        Submitting opens {providerName} in a new tab to confirm — your email isn't sent until you
+        click confirm there.
+      </p>
+    </form>
+  )
+}
+
+<style>
+  .newsletter-form {
+    margin-top: 18px;
+    padding: 14px 16px;
+    border: 1px solid var(--rule);
+    background: color-mix(in srgb, var(--ink) 3%, transparent);
+    max-width: 420px;
+  }
+
+  .newsletter-heading {
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--faded);
+    margin-bottom: 6px;
+  }
+
+  .newsletter-blurb {
+    font-family: 'Sorts Mill Goudy', Georgia, serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--faded);
+    line-height: 1.5;
+    margin: 0 0 10px;
+  }
+
+  .newsletter-row {
+    display: flex;
+    gap: 6px;
+    align-items: stretch;
+  }
+
+  .newsletter-row input[type='email'] {
+    flex: 1;
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.7rem;
+    padding: 6px 10px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--ink);
+    min-width: 0;
+  }
+
+  .newsletter-row input[type='email']:focus-visible {
+    outline: 2px solid var(--warn);
+    outline-offset: 1px;
+  }
+
+  .newsletter-row button {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 6px 14px;
+    cursor: pointer;
+  }
+
+  .newsletter-row button:hover,
+  .newsletter-row button:focus-visible {
+    background: var(--warn);
+    border-color: var(--warn);
+    outline: none;
+  }
+
+  .newsletter-fine {
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.55rem;
+    color: var(--margin);
+    margin: 8px 0 0;
+    letter-spacing: 0.05em;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

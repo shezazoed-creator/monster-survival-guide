@@ -28,6 +28,50 @@ export const site = {
 export const cloudflareAnalyticsToken: string | null = null;
 
 /**
+ * Contact details surfaced on the About page (and used as `mailto:` links).
+ */
+export const contact: {
+  email: string | null;
+  correctionsEmail: string | null;
+} = {
+  email: 'hello@monstersurvivalguide.show',
+  correctionsEmail: 'corrections@monstersurvivalguide.show',
+};
+
+/**
+ * Newsletter sign-up. Set `provider` and the matching identifier to wire up
+ * the signup form in the sign-off block. Both providers expose simple POST
+ * embed endpoints — no JavaScript bundle required.
+ *
+ *   { provider: 'buttondown', handle: 'your-buttondown-username' }
+ *   { provider: 'beehiiv',    publicationId: 'pub_xxxxxxxx' }
+ *
+ * Leave as `null` to hide the form.
+ */
+export type NewsletterConfig =
+  | { provider: 'buttondown'; handle: string }
+  | { provider: 'beehiiv'; publicationId: string };
+
+export const newsletter: NewsletterConfig | null = null;
+
+/**
+ * Giscus comments — GitHub Discussions powered. Fill these in after running
+ * the configurator at https://giscus.app/ and enabling Discussions on the
+ * repo. Set to `null` to hide the comment widget.
+ */
+export type GiscusConfig = {
+  repo: `${string}/${string}`;
+  repoId: string;
+  category: string;
+  categoryId: string;
+  mapping?: 'pathname' | 'url' | 'title' | 'og:title';
+  reactionsEnabled?: '0' | '1';
+  theme?: string;
+};
+
+export const giscus: GiscusConfig | null = null;
+
+/**
  * Social links shown in the footer. Set a real URL to render the icon;
  * leave a value as `null` (or empty) to hide that icon entirely.
  * No more `href="#"` placeholder links.

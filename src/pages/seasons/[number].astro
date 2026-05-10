@@ -1,0 +1,132 @@
+---
+import { getCollection } from 'astro:content';
+import FieldManual from '../../layouts/FieldManual.astro';
+import StampRow from '../../components/StampRow.astro';
+import DocMeta from '../../components/DocMeta.astro';
+import DocTitle from '../../components/DocTitle.astro';
+import { groupBySeason, seasonRoman, seasonWord } from '../../lib/seasons.ts';
+import '../../styles/pages/entries.css';
+
+export async function getStaticPaths() {
+  const now = new Date();
+  const all = (await getCollection('monsters', ({ data }) => data.status === 'published')).filter(
+    (e) => !e.data.publishDate || e.data.publishDate <= now,
+  );
+  return groupBySeason(all).map((group) => ({
+    params: { number: String(group.season) },
+    props: { group, allSeasons: groupBySeason(all).map((g) => g.season) },
+  }));
+}
+
+const { group, allSeasons } = Astro.props;
+const seasonLabel = `Season ${seasonWord(group.season)}`;
+---
+
+<FieldManual
+  title={`${seasonLabel} — Entries`}
+  description={`All ${group.entries.length} Monster Survival Guide entries from ${seasonLabel}.`}
+  classification={`monster survival guide  —  season ${seasonRoman(group.season).toLowerCase()}`}
+  bottomBar={`monster survival guide  ·  season ${seasonWord(group.season).toLowerCase()}  ·  ${group.entries.length} entries`}
+>
+  <StampRow
+    red={`Season ${seasonRoman(group.season)}`}
+    faded={`${group.entries.length} Entries`}
+    blue="Field Manual"
+  />
+  <DocMeta
+    rows={[
+      { label: 'DOCUMENT TYPE', value: `Index — ${seasonLabel}` },
+      { label: 'ENTRIES', value: `${group.entries.length} Filed` },
+      {
+        label: 'SEASONS AVAILABLE',
+        value: allSeasons.map((n) => seasonRoman(n)).join(' · '),
+      },
+      { label: 'STATUS', value: 'Open Distribution' },
+    ]}
+  />
+  <DocTitle subtitle={`Every entry filed under ${seasonLabel}.`}>
+    Season<br />{seasonRoman(group.season)}
+  </DocTitle>
+
+  <p class="season-nav-row">
+    {
+      allSeasons.map((n) => (
+        <a
+          href={n === group.season ? undefined : `/seasons/${n}`}
+          aria-current={n === group.season ? 'page' : undefined}
+          class={`season-nav-chip${n === group.season ? ' is-active' : ''}`}
+        >
+          Season {seasonRoman(n)}
+        </a>
+      ))
+    }
+    <a class="season-nav-chip" href="/entries">All Entries →</a>
+  </p>
+
+  <div class="entry-list">
+    {
+      group.entries.map((e) => (
+        <a class="entry-card" href={`/${e.id}`}>
+          <div class="entry-band" style={`background: ${e.data.bandColor};`} />
+          <div class="entry-body">
+            <div class="entry-label">
+              Entry {e.data.number} · {e.data.entryClass} · {e.data.region}
+            </div>
+            <h3 class="entry-title">{e.data.title}</h3>
+            <div class="entry-desc">{e.data.description}</div>
+            <div class="entry-meta">
+              {e.data.tags.map((t) => (
+                <span class="entry-tag">{t}</span>
+              ))}
+            </div>
+          </div>
+          <div class="entry-right">
+            <div class="mini-index">
+              <div class="mini-label">Danger · {e.data.danger}/10</div>
+              <div class="mini-bars" role="img" aria-label={`Danger ${e.data.danger} out of 10`}>
+                {Array.from({ length: 10 }).map((_, i) => (
+                  <div class={i < e.data.danger ? 'mbar f' : 'mbar'} aria-hidden="true" />
+                ))}
+              </div>
+            </div>
+            <div class="entry-arrow">→</div>
+          </div>
+        </a>
+      ))
+    }
+  </div>
+</FieldManual>
+
+<style>
+  .season-nav-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 24px;
+    align-items: center;
+  }
+  .season-nav-chip {
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--faded);
+    text-decoration: none;
+    border: 1px solid var(--rule);
+    padding: 4px 10px;
+    background: var(--paper);
+  }
+  .season-nav-chip:not([href]) {
+    cursor: default;
+  }
+  .season-nav-chip:hover[href],
+  .season-nav-chip:focus-visible[href] {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+  .season-nav-chip.is-active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+</style>
