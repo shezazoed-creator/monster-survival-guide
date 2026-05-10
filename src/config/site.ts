@@ -69,7 +69,15 @@ export type GiscusConfig = {
   theme?: string;
 };
 
-export const giscus: GiscusConfig | null = null;
+export const giscus: GiscusConfig | null = {
+  repo: 'shezazoed-creator/monster-survival-guide',
+  repoId: 'R_kgDOSUxqyQ',
+  category: 'General',
+  categoryId: 'DIC_kwDOSUxqyc4C8u9S',
+  mapping: 'pathname',
+  reactionsEnabled: '1',
+  theme: 'preferred_color_scheme',
+};
 
 /**
  * Social links shown in the footer. Set a real URL to render the icon;
