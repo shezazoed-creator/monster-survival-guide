@@ -26,11 +26,11 @@ export const site = {
  */
 export const social: Record<'youtube' | 'facebook' | 'instagram' | 'x' | 'tiktok', string | null> =
   {
-    youtube: null,
+    youtube: 'https://www.youtube.com/@ZazuDoes',
     facebook: null,
     instagram: null,
-    x: null,
-    tiktok: null,
+    x: 'https://x.com/zazudoes',
+    tiktok: 'https://www.tiktok.com/@zazudoes',
   };
 
 /**
