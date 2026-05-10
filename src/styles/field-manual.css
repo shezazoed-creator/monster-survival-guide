@@ -29,6 +29,35 @@
   box-sizing: border-box;
 }
 
+/* ── SKIP LINK (keyboard a11y) ────────────────────────────────────────── */
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 8px;
+  z-index: 100;
+  padding: 8px 14px;
+  background: #1a1610;
+  color: #f0ead8;
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid #f0ead8;
+  transition: top 0.15s;
+}
+
+.skip-link:focus {
+  top: 8px;
+  outline: none;
+}
+
+/* Don't show a focus ring on the main element when it's targeted by skip-link. */
+main:focus {
+  outline: none;
+}
+
 body {
   /* Dark walnut wood-grain background. */
   background-color: #251509;
@@ -1233,5 +1262,101 @@ strong {
   }
   .entry-right {
     display: none;
+  }
+}
+
+/* ── PRINT ────────────────────────────────────────────────────────────── */
+
+@media print {
+  body {
+    background: #fff !important;
+    padding: 0 !important;
+    color: #000;
+    font-family: 'Sorts Mill Goudy', Georgia, serif;
+  }
+  body::before,
+  .document::before,
+  .document::after,
+  .doc-inner::before {
+    display: none !important;
+  }
+  .document {
+    box-shadow: none !important;
+    max-width: none;
+    background: #fff;
+    animation: none !important;
+  }
+  .doc-inner {
+    padding: 0.5in 0.75in;
+    color: #000;
+  }
+  .classification-bar,
+  .bottom-bar {
+    background: #000 !important;
+    color: #fff !important;
+    padding: 5px 0;
+  }
+  .skip-link,
+  .social-row,
+  .back-link,
+  .stamp-row {
+    display: none !important;
+  }
+  a {
+    color: #000;
+    text-decoration: underline;
+  }
+  /* Show URL after each external link so the printed page is self-sufficient. */
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    word-break: break-all;
+  }
+  .pull-quote,
+  .warning-box,
+  .lore-box,
+  .field-note,
+  .cultural-note {
+    background: none !important;
+    border-color: #000 !important;
+    page-break-inside: avoid;
+    color: #000;
+  }
+  .encounter-card {
+    page-break-inside: avoid;
+    border-color: #000 !important;
+    background: none !important;
+  }
+  .danger-meter,
+  .stat-row,
+  .scale-row {
+    page-break-inside: avoid;
+  }
+  .bar.filled {
+    background: #000 !important;
+    border-color: #000 !important;
+  }
+  .section,
+  .entry-card {
+    animation: none !important;
+  }
+  .doc-title {
+    color: #000;
+    font-size: 2.4rem;
+  }
+  .section-head {
+    color: #000;
+  }
+  .section-head::before,
+  .section-head::after {
+    background: #000 !important;
+  }
+  p,
+  .stat-label,
+  .danger-desc,
+  .entry-tag,
+  .ref-list li,
+  .doc-meta {
+    color: #000 !important;
   }
 }

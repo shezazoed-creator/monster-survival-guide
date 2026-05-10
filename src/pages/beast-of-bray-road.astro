@@ -12,6 +12,8 @@ import EncounterCard from '../components/EncounterCard.astro';
 import Outro from '../components/Outro.astro';
 import type { MonsterEntry } from '../lib/monsters.ts';
 import '../styles/pages/beast-of-bray-road.css';
+import pageSource from './beast-of-bray-road.astro?raw';
+import { readingStats } from '../lib/reading-time.ts';
 
 export const entry: MonsterEntry = {
   number: '05',
@@ -52,11 +54,14 @@ const rules = [
     body: 'Witnesses universally describe the creature as making sustained, deliberate eye contact. This is not animal behaviour. Treat it as the warning it almost certainly is, and remove yourself from the situation.',
   },
 ];
+
+const stats = readingStats(pageSource);
 ---
 
 <FieldManual
   title={entry.title}
   description={entry.description}
+  article={{}}
   classification="monster survival guide  —  the beast of bray road"
   status="Active Entry"
 >
@@ -68,6 +73,10 @@ const rules = [
       { label: 'ORIGIN', value: 'Bray Road, Elkhorn, Wisconsin — first reported sightings 1936' },
       { label: 'THREAT GUIDE TYPE', value: 'Identification · Behaviour · Survival Protocol' },
       { label: 'STATUS', value: 'Active — Sightings Across Upper Midwest Ongoing' },
+      {
+        label: 'READING TIME',
+        value: `${stats.minutes} min · ${stats.words.toLocaleString()} words`,
+      },
     ]}
   />
   <DocTitle subtitle={entry.description}>The Beast of Bray Road</DocTitle>

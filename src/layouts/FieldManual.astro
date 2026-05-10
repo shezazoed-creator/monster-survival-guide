@@ -1,7 +1,19 @@
 ---
 import '../styles/field-manual.css';
-import { site } from '../config/site.ts';
+
+// Self-hosted fonts via @fontsource — no Google Fonts CDN, no preconnect needed.
+import '@fontsource/rajdhani/400.css';
+import '@fontsource/rajdhani/500.css';
+import '@fontsource/rajdhani/600.css';
+import '@fontsource/rajdhani/700.css';
+import '@fontsource/sorts-mill-goudy/400.css';
+import '@fontsource/sorts-mill-goudy/400-italic.css';
+import '@fontsource/anonymous-pro/400.css';
+import '@fontsource/anonymous-pro/400-italic.css';
+
+import { site, cloudflareAnalyticsToken } from '../config/site.ts';
 import SocialRow from '../components/SocialRow.astro';
+import { siteGraph, articleGraph, type ArticleSchemaInput } from '../lib/structured-data.ts';
 
 interface Props {
   /** Browser tab title (used in <title>) */
@@ -21,6 +33,11 @@ interface Props {
   pathname?: string;
   /** Open Graph image. Defaults to the site's default OG image. */
   ogImage?: string;
+  /**
+   * When set, the page emits Article structured data (in addition to the
+   * site-wide Person + WebSite graph). Pass on monster entry pages.
+   */
+  article?: Pick<ArticleSchemaInput, 'datePublished' | 'dateModified'>;
 }
 
 const {
@@ -31,12 +48,23 @@ const {
   status = 'Active',
   pathname,
   ogImage = site.defaultOgImage,
+  article,
 } = Astro.props;
 
 const bottomText = bottomBar ?? classification;
 const canonical = new URL(pathname ?? Astro.url.pathname, site.url).toString();
 const ogImageUrl = new URL(ogImage, site.url).toString();
 const fullTitle = title === site.name ? title : `${title} — ${site.name}`;
+
+const jsonLd = article
+  ? articleGraph({
+      headline: title,
+      description,
+      url: canonical,
+      image: ogImageUrl,
+      ...article,
+    })
+  : siteGraph();
 ---
 
 <!doctype html>
@@ -50,7 +78,7 @@ const fullTitle = title === site.name ? title : `${title} — ${site.name}`;
     <meta name="generator" content={Astro.generator} />
 
     {/* Open Graph */}
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -67,21 +95,18 @@ const fullTitle = title === site.name ? title : `${title} — ${site.name}`;
     <link rel="alternate icon" href="/favicon.ico" />
     <meta name="theme-color" content="#1a1610" />
 
-    {/* Fonts — preconnect saves a round-trip on first paint */}
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Sorts+Mill+Goudy:ital@0;1&family=Anonymous+Pro:ital@0;1&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="alternate" type="application/rss+xml" title={`${site.name} — RSS`} href="/rss.xml" />
+
+    <script is:inline type="application/ld+json" set:html={jsonLd} />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <div class="document">
-      <div class="classification-bar">
+      <div class="classification-bar" aria-hidden="true">
         ◆ &nbsp; <Fragment set:html={classification} /> &nbsp; ◆
       </div>
 
-      <main class="doc-inner">
+      <main id="main-content" class="doc-inner" tabindex="-1">
         <slot />
 
         <footer class="sign-off-block">
@@ -100,9 +125,20 @@ const fullTitle = title === site.name ? title : `${title} — ${site.name}`;
         </footer>
       </main>
 
-      <div class="bottom-bar">
+      <div class="bottom-bar" aria-hidden="true">
         ◆ &nbsp; <Fragment set:html={bottomText} /> &nbsp; ◆
       </div>
     </div>
+
+    {
+      cloudflareAnalyticsToken && (
+        <script
+          is:inline
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={`{"token": "${cloudflareAnalyticsToken}"}`}
+        />
+      )
+    }
   </body>
 </html>

@@ -12,6 +12,8 @@ import EncounterCard from '../components/EncounterCard.astro';
 import Outro from '../components/Outro.astro';
 import type { MonsterEntry } from '../lib/monsters.ts';
 import '../styles/pages/the-rake.css';
+import pageSource from './the-rake.astro?raw';
+import { readingStats } from '../lib/reading-time.ts';
 
 export const entry: MonsterEntry = {
   number: '08',
@@ -52,11 +54,14 @@ const rules = [
     body: 'Whether you accept the legend or the neuroscience, this rule holds. The legend says recording escalates proximity. The neuroscience says reviewing footage of your bedroom at 3am is a near-perfect protocol for entrenching the anxiety that drives the episodes. Both are reasons not to do it.',
   },
 ];
+
+const stats = readingStats(pageSource);
 ---
 
 <FieldManual
   title={entry.title}
   description={entry.description}
+  article={{}}
   classification="monster survival guide  —  the rake"
   status="Active Entry"
 >
@@ -68,6 +73,10 @@ const rules = [
       { label: 'ORIGIN', value: 'Internet Folklore — First Codified 4chan /b/, 2005' },
       { label: 'THREAT GUIDE TYPE', value: 'Identification · Behaviour · Survival Protocol' },
       { label: 'STATUS', value: 'Active in Reported Lore — Bedroom & Wooded-Edge Encounters' },
+      {
+        label: 'READING TIME',
+        value: `${stats.minutes} min · ${stats.words.toLocaleString()} words`,
+      },
     ]}
   />
   <DocTitle subtitle={entry.description}>The Rake</DocTitle>

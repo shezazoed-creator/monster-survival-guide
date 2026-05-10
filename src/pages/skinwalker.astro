@@ -12,6 +12,8 @@ import EncounterCard from '../components/EncounterCard.astro';
 import Outro from '../components/Outro.astro';
 import type { MonsterEntry } from '../lib/monsters.ts';
 import '../styles/pages/skinwalker.css';
+import pageSource from './skinwalker.astro?raw';
+import { readingStats } from '../lib/reading-time.ts';
 
 export const entry: MonsterEntry = {
   number: '07',
@@ -52,11 +54,14 @@ const rules = [
     body: 'If a Diné friend, neighbour, or stranger asks you to drop a topic, drop the topic. The teaching is not yours to negotiate. It is theirs to maintain, and they have been maintaining it for an extremely long time.',
   },
 ];
+
+const stats = readingStats(pageSource);
 ---
 
 <FieldManual
   title={entry.title}
   description={entry.description}
+  article={{}}
   classification="monster survival guide  —  the skinwalker"
   status="Active Entry — Sensitive"
 >
@@ -68,6 +73,10 @@ const rules = [
       { label: 'ORIGIN', value: 'Diné (Navajo) Tradition — American Southwest' },
       { label: 'THREAT GUIDE TYPE', value: 'Identification · Behaviour · Survival Protocol' },
       { label: 'STATUS', value: 'Critical — Active Reports From Four Corners Region' },
+      {
+        label: 'READING TIME',
+        value: `${stats.minutes} min · ${stats.words.toLocaleString()} words`,
+      },
     ]}
   />
   <DocTitle subtitle={entry.description}>The Skinwalker</DocTitle>

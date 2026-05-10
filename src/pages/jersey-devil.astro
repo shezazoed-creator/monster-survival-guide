@@ -12,6 +12,8 @@ import EncounterCard from '../components/EncounterCard.astro';
 import Outro from '../components/Outro.astro';
 import type { MonsterEntry } from '../lib/monsters.ts';
 import '../styles/pages/jersey-devil.css';
+import pageSource from './jersey-devil.astro?raw';
+import { readingStats } from '../lib/reading-time.ts';
 
 export const entry: MonsterEntry = {
   number: '06',
@@ -52,11 +54,14 @@ const rules = [
     body: 'Multiple historical accounts describe the creature settling onto cabin roofs, screaming once, and leaving when not engaged. The witnesses who survived the experience are without exception the ones who stayed inside.',
   },
 ];
+
+const stats = readingStats(pageSource);
 ---
 
 <FieldManual
   title={entry.title}
   description={entry.description}
+  article={{}}
   classification="monster survival guide  —  the jersey devil"
   status="Active Entry"
 >
@@ -68,6 +73,10 @@ const rules = [
       { label: 'ORIGIN', value: 'Pine Barrens, New Jersey — first reports c. 1735' },
       { label: 'THREAT GUIDE TYPE', value: 'Identification · Behaviour · Survival Protocol' },
       { label: 'STATUS', value: 'Active — Sightings Continuous Since 18th Century' },
+      {
+        label: 'READING TIME',
+        value: `${stats.minutes} min · ${stats.words.toLocaleString()} words`,
+      },
     ]}
   />
   <DocTitle subtitle={entry.description}>The Jersey Devil</DocTitle>

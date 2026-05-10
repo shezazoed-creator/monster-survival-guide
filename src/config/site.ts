@@ -20,6 +20,14 @@ export const site = {
 } as const;
 
 /**
+ * Cloudflare Web Analytics beacon token. When set, the layout injects the
+ * privacy-respecting beacon script on every page. Get a token from
+ * Cloudflare Dashboard → Analytics & Logs → Web Analytics → Add a site.
+ * Leave as `null` to disable analytics entirely.
+ */
+export const cloudflareAnalyticsToken: string | null = null;
+
+/**
  * Social links shown in the footer. Set a real URL to render the icon;
  * leave a value as `null` (or empty) to hide that icon entirely.
  * No more `href="#"` placeholder links.

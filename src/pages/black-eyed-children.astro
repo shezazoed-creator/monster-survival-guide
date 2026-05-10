@@ -11,6 +11,8 @@ import EncounterCard from '../components/EncounterCard.astro';
 import Outro from '../components/Outro.astro';
 import type { MonsterEntry } from '../lib/monsters.ts';
 import '../styles/pages/black-eyed-children.css';
+import pageSource from './black-eyed-children.astro?raw';
+import { readingStats } from '../lib/reading-time.ts';
 
 export const entry: MonsterEntry = {
   number: '03',
@@ -50,11 +52,14 @@ const rules = [
     body: 'If you gave the invitation before you understood what you were giving it to — do not stay to find out what happens next. Every account of what follows an invitation is secondhand, because the people who gave it are not the ones who told the story afterward.',
   },
 ];
+
+const stats = readingStats(pageSource);
 ---
 
 <FieldManual
   title={entry.title}
   description={entry.description}
+  article={{}}
   classification="monster survival guide  —  black-eyed children"
   status="Active Entry"
 >
@@ -66,6 +71,10 @@ const rules = [
       { label: 'ORIGIN', value: 'First Documented — Abilene, Texas, 1996' },
       { label: 'THREAT GUIDE TYPE', value: 'Identification · Behaviour · Survival Protocol' },
       { label: 'STATUS', value: 'Active — Global Reports Ongoing — Coastal Pattern Noted' },
+      {
+        label: 'READING TIME',
+        value: `${stats.minutes} min · ${stats.words.toLocaleString()} words`,
+      },
     ]}
   />
   <DocTitle subtitle={entry.description}>Black-Eyed Children</DocTitle>

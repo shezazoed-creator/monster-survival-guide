@@ -12,6 +12,8 @@ import EncounterCard from '../components/EncounterCard.astro';
 import Outro from '../components/Outro.astro';
 import type { MonsterEntry } from '../lib/monsters.ts';
 import '../styles/pages/wendigo.css';
+import pageSource from './wendigo.astro?raw';
+import { readingStats } from '../lib/reading-time.ts';
 
 export const entry: MonsterEntry = {
   number: '01',
@@ -51,11 +53,14 @@ const rules = [
     body: 'The Algonquian nations have lived alongside this danger for thousands of years. Their warnings are not superstition. They are accumulated wisdom paid for in survival.',
   },
 ];
+
+const stats = readingStats(pageSource);
 ---
 
 <FieldManual
   title={entry.title}
   description={entry.description}
+  article={{}}
   classification="monster survival guide  —  the wendigo"
   status="Active Entry"
 >
@@ -67,6 +72,10 @@ const rules = [
       { label: 'ORIGIN', value: 'Algonquian Tradition — Northern Boreal Forests' },
       { label: 'THREAT GUIDE TYPE', value: 'Identification · Behaviour · Survival Protocol' },
       { label: 'STATUS', value: 'Active Threat — Seasonal / Winter Months' },
+      {
+        label: 'READING TIME',
+        value: `${stats.minutes} min · ${stats.words.toLocaleString()} words`,
+      },
     ]}
   />
   <DocTitle subtitle={entry.description}>The Wendigo</DocTitle>

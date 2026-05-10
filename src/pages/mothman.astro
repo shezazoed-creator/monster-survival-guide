@@ -12,6 +12,8 @@ import EncounterCard from '../components/EncounterCard.astro';
 import Outro from '../components/Outro.astro';
 import type { MonsterEntry } from '../lib/monsters.ts';
 import '../styles/pages/mothman.css';
+import pageSource from './mothman.astro?raw';
+import { readingStats } from '../lib/reading-time.ts';
 
 export const entry: MonsterEntry = {
   number: '04',
@@ -51,11 +53,14 @@ const rules = [
     body: 'Every witness in Point Pleasant described a feeling of deep wrongness in the areas where the Mothman appeared — a heaviness, an oppressive atmosphere. That feeling is information. If a place feels wrong, leave the place.',
   },
 ];
+
+const stats = readingStats(pageSource);
 ---
 
 <FieldManual
   title={entry.title}
   description={entry.description}
+  article={{}}
   classification="monster survival guide  —  the mothman"
   status="Active Entry"
 >
@@ -67,6 +72,10 @@ const rules = [
       { label: 'ORIGIN', value: 'Point Pleasant, West Virginia — November 1966' },
       { label: 'THREAT GUIDE TYPE', value: 'Identification · Behaviour · Survival Protocol' },
       { label: 'STATUS', value: 'Dormant at Origin — Active Reports Globally Ongoing' },
+      {
+        label: 'READING TIME',
+        value: `${stats.minutes} min · ${stats.words.toLocaleString()} words`,
+      },
     ]}
   />
   <DocTitle subtitle={entry.description}>The Mothman</DocTitle>

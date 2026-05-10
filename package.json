@@ -16,7 +16,11 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.6.0",
+    "@fontsource/anonymous-pro": "^5.2.8",
+    "@fontsource/rajdhani": "^5.2.7",
+    "@fontsource/sorts-mill-goudy": "^5.2.8",
     "astro": "^6.2.2"
   },
   "devDependencies": {

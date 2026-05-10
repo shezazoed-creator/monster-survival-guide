@@ -11,6 +11,8 @@ import EncounterCard from '../components/EncounterCard.astro';
 import Outro from '../components/Outro.astro';
 import type { MonsterEntry } from '../lib/monsters.ts';
 import '../styles/pages/slenderman.css';
+import pageSource from './slenderman.astro?raw';
+import { readingStats } from '../lib/reading-time.ts';
 
 export const entry: MonsterEntry = {
   number: '02',
@@ -50,11 +52,14 @@ const rules = [
     body: 'He cannot follow you there. Or perhaps he has simply chosen not to, yet. Either way, that is where you go. That is where you stay.',
   },
 ];
+
+const stats = readingStats(pageSource);
 ---
 
 <FieldManual
   title={entry.title}
   description={entry.description}
+  article={{}}
   classification="monster survival guide  —  slenderman"
   status="Active Entry"
 >
@@ -66,6 +71,10 @@ const rules = [
       { label: 'ORIGIN', value: 'Internet — Something Awful Forums, June 2009' },
       { label: 'THREAT GUIDE TYPE', value: 'Identification · Behaviour · Survival Protocol' },
       { label: 'STATUS', value: 'Active — No Geographic Boundary Confirmed' },
+      {
+        label: 'READING TIME',
+        value: `${stats.minutes} min · ${stats.words.toLocaleString()} words`,
+      },
     ]}
   />
   <DocTitle subtitle={entry.description}>Slenderman</DocTitle>
