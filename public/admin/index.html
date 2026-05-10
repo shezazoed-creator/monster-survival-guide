@@ -5,11 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <title>Monster Survival Guide — Editor</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      }
+      .boot {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        text-align: center;
+        padding: 32px;
+        color: #444;
+      }
+      .boot h1 {
+        font-weight: 600;
+        font-size: 18px;
+        margin: 0 0 6px;
+      }
+      .boot p {
+        font-size: 14px;
+        margin: 4px 0;
+        max-width: 420px;
+      }
+      .boot a {
+        color: #0a66c2;
+      }
+      /* Decap mounts itself into <body> on boot; once it does, hide the
+         loading message. */
+      body:has(#nc-root) .boot,
+      body[data-mounted='true'] .boot {
+        display: none;
+      }
+    </style>
   </head>
   <body>
-    <!-- Decap CMS — gives non-engineer authors a GUI for editing the
-         monsters and glossary collections. Loaded from the official CDN.
-         Configuration is in /admin/config.yml. -->
+    <div class="boot" id="boot">
+      <div>
+        <h1>Loading editor…</h1>
+        <p>
+          If this message stays visible, the page may be opened from the file system. The editor
+          needs to be served over HTTP. Run <code>npm run dev</code> and open
+          <a href="/admin/">/admin/</a> on the dev server, or visit
+          <a href="/admin/">/admin/</a> on the live site.
+        </p>
+        <p style="margin-top: 24px; font-size: 12px; color: #888">
+          Authentication uses git-gateway (Netlify Identity) by default — see
+          <code>public/admin/config.yml</code> for backend options.
+        </p>
+      </div>
+    </div>
+
+    <!-- Netlify Identity widget — required for the git-gateway backend.
+         Renders nothing until the user opens a login dialog. Safe to load
+         even if you switch to a different backend later. -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+    <!-- Decap CMS bundle. Auto-mounts on load and reads /admin/config.yml. -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+    <script>
+      // Once Decap mounts (it inserts a #nc-root element into <body>), flag
+      // the body so the boot message hides on browsers without :has().
+      const observer = new MutationObserver(() => {
+        if (document.querySelector('#nc-root')) {
+          document.body.dataset.mounted = 'true';
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+
+      // Netlify Identity redirect handler — without this the user lands on
+      // a stuck /#login page after authenticating.
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on('init', (user) => {
+          if (!user) {
+            window.netlifyIdentity.on('login', () => {
+              document.location.href = '/admin/';
+            });
+          }
+        });
+      }
+    </script>
   </body>
 </html>
