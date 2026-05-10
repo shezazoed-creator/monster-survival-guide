@@ -26,7 +26,7 @@ sightings:
       lat: 52.74,
       lon: -2.0,
       year: 2014,
-      label: 'Brickley research cluster',
+      label: 'Brickley research cluster · Daily Star coverage',
       sourceUrl: 'https://en.wikipedia.org/wiki/Black-eyed_children',
     }
   - {
@@ -45,6 +45,30 @@ sightings:
       label: 'Lifeboat-station knock · tide-line approach',
       sourceUrl: 'https://www.atlasobscura.com/articles/black-eyed-children-urban-legend',
     }
+  - {
+      name: 'Vermont, USA',
+      lat: 44.0,
+      lon: -72.7,
+      year: 2013,
+      label: 'BEK approach to remote farmhouse (Daily Star international coverage)',
+      sourceUrl: 'https://www.atlasobscura.com/articles/black-eyed-children-urban-legend',
+    }
+  - {
+      name: 'Portsmouth, Ohio',
+      lat: 38.73,
+      lon: -82.99,
+      year: 2012,
+      label: 'Apartment-knock account — parking-lot witness',
+      sourceUrl: 'https://en.wikipedia.org/wiki/Black-eyed_children',
+    }
+  - {
+      name: 'Yass, NSW, Australia',
+      lat: -34.84,
+      lon: 148.91,
+      year: 2017,
+      label: 'Roadside BEK report — Australian paranormal archive',
+      sourceUrl: 'https://en.wikipedia.org/wiki/Black-eyed_children',
+    }
 ---
 
 import StampRow from '../../components/StampRow.astro';
@@ -55,6 +79,7 @@ import Section from '../../components/Section.astro';
 import SixRules from '../../components/SixRules.astro';
 import EncounterCard from '../../components/EncounterCard.astro';
 import Outro from '../../components/Outro.astro';
+import MonsterMap from '../../components/MonsterMap.astro';
 import '../../styles/pages/black-eyed-children.css';
 
 export const rules = [
@@ -338,6 +363,8 @@ export const rules = [
     </p>
   </EncounterCard>
 </Section>
+
+<MonsterMap title={frontmatter.title} sightings={frontmatter.sightings} />
 
 <Section heading="Before You Go">
   <Outro>

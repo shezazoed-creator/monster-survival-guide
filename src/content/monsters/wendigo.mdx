@@ -30,6 +30,22 @@ sightings:
       sourceUrl: 'https://en.wikipedia.org/wiki/Jack_Fiddler',
     }
   - {
+      name: 'Roseau, Minnesota',
+      lat: 48.85,
+      lon: -95.76,
+      year: 1888,
+      label: 'Documented Wendigo psychosis case · Ojibwe community',
+      sourceUrl: 'https://en.wikipedia.org/wiki/Wendigo_psychosis',
+    }
+  - {
+      name: 'Trout Lake, Ontario',
+      lat: 51.27,
+      lon: -93.3,
+      year: 1899,
+      label: 'Sucker River Anishinaabe — recorded by anthropologists',
+      sourceUrl: 'https://en.wikipedia.org/wiki/Wendigo',
+    }
+  - {
       name: 'Algonquian boreal cluster',
       lat: 49.5,
       lon: -82.0,
@@ -47,6 +63,7 @@ import StatRow from '../../components/StatRow.astro';
 import SixRules from '../../components/SixRules.astro';
 import EncounterCard from '../../components/EncounterCard.astro';
 import Outro from '../../components/Outro.astro';
+import MonsterMap from '../../components/MonsterMap.astro';
 import '../../styles/pages/wendigo.css';
 
 export const rules = [
@@ -349,6 +366,8 @@ export const rules = [
     </p>
   </EncounterCard>
 </Section>
+
+<MonsterMap title={frontmatter.title} sightings={frontmatter.sightings} />
 
 <Section heading="Before You Go">
   <Outro>

@@ -24,6 +24,7 @@ import StatRow from '../../components/StatRow.astro';
 import SixRules from '../../components/SixRules.astro';
 import EncounterCard from '../../components/EncounterCard.astro';
 import Outro from '../../components/Outro.astro';
+import MonsterMap from '../../components/MonsterMap.astro';
 import '../../styles/pages/the-rake.css';
 
 export const rules = [
@@ -357,6 +358,8 @@ export const rules = [
     </p>
   </EncounterCard>
 </Section>
+
+<MonsterMap title={frontmatter.title} sightings={frontmatter.sightings} />
 
 <Section heading="Before You Go">
   <Outro>

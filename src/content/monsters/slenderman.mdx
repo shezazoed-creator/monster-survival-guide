@@ -38,12 +38,36 @@ sightings:
       sourceUrl: 'https://knowyourmeme.com/memes/slender-man',
     }
   - {
-      name: 'Something Awful forums',
+      name: 'Something Awful forums (Dallas, TX)',
       lat: 32.78,
       lon: -96.8,
       year: 2009,
-      label: 'Codified origin (host Something Awful HQ at the time, Dallas TX)',
+      label: 'Codified origin · Victor Surge "Slender Man" photographs',
       sourceUrl: 'https://www.britannica.com/topic/Slender-Man',
+    }
+  - {
+      name: 'Hamilton County, Florida',
+      lat: 30.55,
+      lon: -82.95,
+      year: 2014,
+      label: 'Mother–daughter house fire attack (linked to Slenderman lore)',
+      sourceUrl: 'https://en.wikipedia.org/wiki/Slender_Man_stabbing',
+    }
+  - {
+      name: 'Pasco County, Florida',
+      lat: 28.3,
+      lon: -82.43,
+      year: 2014,
+      label: 'Slenderman-inspired knife threat at school',
+      sourceUrl: 'https://en.wikipedia.org/wiki/Slender_Man',
+    }
+  - {
+      name: 'YouTube — Marble Hornets ARG',
+      lat: 33.75,
+      lon: -84.39,
+      year: 2009,
+      label: 'Long-running ARG seeded a generation of online sightings (Atlanta-based)',
+      sourceUrl: 'https://en.wikipedia.org/wiki/Marble_Hornets',
     }
 ---
 
@@ -55,6 +79,7 @@ import Section from '../../components/Section.astro';
 import SixRules from '../../components/SixRules.astro';
 import EncounterCard from '../../components/EncounterCard.astro';
 import Outro from '../../components/Outro.astro';
+import MonsterMap from '../../components/MonsterMap.astro';
 import '../../styles/pages/slenderman.css';
 
 export const rules = [
@@ -323,6 +348,8 @@ export const rules = [
     </p>
   </EncounterCard>
 </Section>
+
+<MonsterMap title={frontmatter.title} sightings={frontmatter.sightings} />
 
 <Section heading="Before You Go">
   <Outro>

@@ -37,6 +37,30 @@ sightings:
       label: 'Bridge collapse · 46 dead · sightings cease',
       sourceUrl: 'https://en.wikipedia.org/wiki/Silver_Bridge',
     }
+  - {
+      name: 'Chicago, Illinois',
+      lat: 41.881,
+      lon: -87.629,
+      year: 2017,
+      label: 'Chicago Mothman flap · 50+ independent witnesses',
+      sourceUrl: 'https://en.wikipedia.org/wiki/Mothman',
+    }
+  - {
+      name: 'Pripyat, Ukraine (Chernobyl)',
+      lat: 51.405,
+      lon: 30.057,
+      year: 1986,
+      label: '"Black Bird of Chernobyl" sightings before the disaster',
+      sourceUrl: 'https://en.wikipedia.org/wiki/Mothman',
+    }
+  - {
+      name: 'Freiburg, Germany',
+      lat: 47.99,
+      lon: 7.85,
+      year: 1962,
+      label: '"Springheel Jack" / Mothman-form sighting predating Point Pleasant',
+      sourceUrl: 'https://en.wikipedia.org/wiki/Mothman',
+    }
 ---
 
 import StampRow from '../../components/StampRow.astro';
@@ -48,6 +72,7 @@ import StatRow from '../../components/StatRow.astro';
 import SixRules from '../../components/SixRules.astro';
 import EncounterCard from '../../components/EncounterCard.astro';
 import Outro from '../../components/Outro.astro';
+import MonsterMap from '../../components/MonsterMap.astro';
 import '../../styles/pages/mothman.css';
 
 export const rules = [
@@ -356,6 +381,8 @@ export const rules = [
     </p>
   </EncounterCard>
 </Section>
+
+<MonsterMap title={frontmatter.title} sightings={frontmatter.sightings} />
 
 <Section heading="Before You Go">
   <Outro>

@@ -17,15 +17,14 @@ interface Sighting {
 }
 
 interface Props {
-  /** URL slug — used to build a stable id for the figcaption. */
-  monster: string;
-  /** Display name of the monster — used in the map caption. */
+  /** Display name of the monster — leads each pin's tooltip + drives the figcaption id. */
   title: string;
   sightings: Sighting[];
   /** Whether to show the legend below the map. Default true. */
   legend?: boolean;
 }
-const { monster, title, sightings, legend = true } = Astro.props;
+const { title, sightings, legend = true } = Astro.props;
+const captionId = `monster-map-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
 const projected = sightings
   .map((s) => {
@@ -35,10 +34,8 @@ const projected = sightings
   .filter((p): p is Sighting & { x: number; y: number } => p !== null);
 ---
 
-<figure class="monster-map" aria-labelledby={`monster-map-${monster}`}>
-  <figcaption class="monster-map-caption" id={`monster-map-${monster}`}>
-    Documented sighting locations
-  </figcaption>
+<figure class="monster-map" aria-labelledby={captionId}>
+  <figcaption class="monster-map-caption" id={captionId}>Documented sighting locations</figcaption>
 
   <div class="monster-map-frame">
     <svg

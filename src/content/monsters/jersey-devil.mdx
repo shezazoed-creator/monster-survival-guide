@@ -53,6 +53,22 @@ sightings:
       label: 'Trolley-car attacks during the Phenomenon',
       sourceUrl: 'https://www.smithsonianmag.com/history/real-story-jersey-devil-180959299/',
     }
+  - {
+      name: 'Galloway Township, NJ',
+      lat: 39.49,
+      lon: -74.45,
+      year: 2015,
+      label: 'Photograph posted to social media; widely circulated',
+      sourceUrl: 'https://en.wikipedia.org/wiki/Jersey_Devil',
+    }
+  - {
+      name: 'Wharton State Forest, NJ',
+      lat: 39.76,
+      lon: -74.61,
+      year: 1957,
+      label: 'Forest service investigation of livestock kills',
+      sourceUrl: 'https://en.wikipedia.org/wiki/Jersey_Devil',
+    }
 ---
 
 import StampRow from '../../components/StampRow.astro';
@@ -64,6 +80,7 @@ import StatRow from '../../components/StatRow.astro';
 import SixRules from '../../components/SixRules.astro';
 import EncounterCard from '../../components/EncounterCard.astro';
 import Outro from '../../components/Outro.astro';
+import MonsterMap from '../../components/MonsterMap.astro';
 import '../../styles/pages/jersey-devil.css';
 
 export const rules = [
@@ -365,6 +382,8 @@ export const rules = [
     </p>
   </EncounterCard>
 </Section>
+
+<MonsterMap title={frontmatter.title} sightings={frontmatter.sightings} />
 
 <Section heading="Before You Go">
   <Outro>

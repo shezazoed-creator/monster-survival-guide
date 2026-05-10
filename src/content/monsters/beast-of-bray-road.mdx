@@ -37,6 +37,30 @@ sightings:
       label: 'Schackelman — earliest sighting on record',
       sourceUrl: 'https://en.wikipedia.org/wiki/Beast_of_Bray_Road',
     }
+  - {
+      name: 'Wexford County, Michigan',
+      lat: 44.34,
+      lon: -85.59,
+      year: 1887,
+      label: 'Michigan Dogman — earliest related sighting in the Upper Midwest',
+      sourceUrl: 'https://en.wikipedia.org/wiki/Michigan_Dogman',
+    }
+  - {
+      name: 'Manitowoc, Wisconsin',
+      lat: 44.088,
+      lon: -87.658,
+      year: 2006,
+      label: 'Wisconsin Dogman roadside report (Linda Godfrey archive)',
+      sourceUrl: 'https://www.lindagodfrey.com/',
+    }
+  - {
+      name: "Land O'Lakes, Wisconsin",
+      lat: 46.155,
+      lon: -89.207,
+      year: 1991,
+      label: 'Northern Wisconsin Dogman cluster',
+      sourceUrl: 'https://en.wikipedia.org/wiki/Beast_of_Bray_Road',
+    }
 ---
 
 import StampRow from '../../components/StampRow.astro';
@@ -48,6 +72,7 @@ import StatRow from '../../components/StatRow.astro';
 import SixRules from '../../components/SixRules.astro';
 import EncounterCard from '../../components/EncounterCard.astro';
 import Outro from '../../components/Outro.astro';
+import MonsterMap from '../../components/MonsterMap.astro';
 import '../../styles/pages/beast-of-bray-road.css';
 
 export const rules = [
@@ -352,6 +377,8 @@ export const rules = [
     </p>
   </EncounterCard>
 </Section>
+
+<MonsterMap title={frontmatter.title} sightings={frontmatter.sightings} />
 
 <Section heading="Before You Go">
   <Outro>

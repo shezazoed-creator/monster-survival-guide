@@ -2,7 +2,6 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import FieldManual from '../layouts/FieldManual.astro';
 import BackLink from '../components/BackLink.astro';
-import MonsterMap from '../components/MonsterMap.astro';
 import RelatedEntries from '../components/RelatedEntries.astro';
 import GiscusComments from '../components/GiscusComments.astro';
 import { readingStats } from '../lib/reading-time.ts';
@@ -46,8 +45,6 @@ const stats = readingStats(entry.body ?? '');
   <BackLink href="/" label="Back to Guide" />
 
   <Content />
-
-  <MonsterMap monster={entry.id} title={data.title} sightings={data.sightings} />
 
   <p class="reading-time" aria-label="Estimated reading time">
     Reading time · {stats.minutes} min · {stats.words.toLocaleString()} words
