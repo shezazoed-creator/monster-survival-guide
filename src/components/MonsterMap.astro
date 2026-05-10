@@ -17,12 +17,15 @@ interface Sighting {
 }
 
 interface Props {
+  /** URL slug — used to build a stable id for the figcaption. */
   monster: string;
+  /** Display name of the monster — used in the map caption. */
+  title: string;
   sightings: Sighting[];
   /** Whether to show the legend below the map. Default true. */
   legend?: boolean;
 }
-const { monster, sightings, legend = true } = Astro.props;
+const { monster, title, sightings, legend = true } = Astro.props;
 
 const projected = sightings
   .map((s) => {
@@ -81,8 +84,13 @@ const projected = sightings
 
       {
         projected.map((s) => {
+          // Pin title leads with the monster's name so it's clear in
+          // tooltips and screen-reader announcements which entry the pin
+          // belongs to (matches the combined /sightings map's behaviour).
           const tooltip =
-            (s.year ? `${s.year} · ` : '') + s.name + (s.label ? ` — ${s.label}` : '');
+            `${title} — ${s.name}` +
+            (s.year ? ` (${s.year})` : '') +
+            (s.label ? ` · ${s.label}` : '');
           const pin = (
             <>
               <circle class="monster-map-halo" cx={s.x} cy={s.y} r={9} />

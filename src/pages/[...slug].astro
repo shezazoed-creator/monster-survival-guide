@@ -47,7 +47,7 @@ const stats = readingStats(entry.body ?? '');
 
   <Content />
 
-  <MonsterMap monster={entry.id} sightings={data.sightings} />
+  <MonsterMap monster={entry.id} title={data.title} sightings={data.sightings} />
 
   <p class="reading-time" aria-label="Estimated reading time">
     Reading time · {stats.minutes} min · {stats.words.toLocaleString()} words
