@@ -30,19 +30,30 @@ const monsters = defineCollection({
     season: z.number().int().min(1).default(1),
 
     /**
-     * Optional pin coordinates for the /sightings map. Coordinates are in the
-     * stylized 1000×600 SVG space — see src/data/map.ts for the projection.
-     * Entries without coords (no clear single location) just don't appear on
-     * the map.
+     * Documented sighting locations for this monster. Each gets a pin on
+     * the world map shown at the bottom of the entry page (and on the
+     * combined /sightings page).
+     *
+     * Entries with an empty array (or only one location) still get a map —
+     * but if the lore is explicitly placeless (Slenderman, the Rake), pass
+     * `[]` and the map renders a "no fixed geography" overlay instead.
      */
-    coords: z
-      .object({
-        x: z.number(),
-        y: z.number(),
-        /** Optional short label shown next to the pin. Defaults to title. */
-        label: z.string().optional(),
-      })
-      .optional(),
+    sightings: z
+      .array(
+        z.object({
+          /** Short location name, e.g. "Point Pleasant, WV". */
+          name: z.string(),
+          /** Decimal latitude (-90..90, positive = north). */
+          lat: z.number().min(-90).max(90),
+          /** Decimal longitude (-180..180, positive = east). */
+          lon: z.number().min(-180).max(180),
+          /** Optional year — used in tooltip + sort order. */
+          year: z.union([z.number(), z.string()]).optional(),
+          /** Optional descriptor shown in the tooltip / legend. */
+          label: z.string().optional(),
+        }),
+      )
+      .default([]),
   }),
 });
 

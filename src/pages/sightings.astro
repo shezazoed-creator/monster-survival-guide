@@ -5,7 +5,13 @@ import StampRow from '../components/StampRow.astro';
 import DocMeta from '../components/DocMeta.astro';
 import DocTitle from '../components/DocTitle.astro';
 import Section from '../components/Section.astro';
-import SightingsMap from '../components/SightingsMap.astro';
+import {
+  WORLD_LAND_PATH,
+  WORLD_VIEWBOX,
+  WORLD_WIDTH,
+  WORLD_HEIGHT,
+  projectLatLon,
+} from '../lib/world-map.ts';
 import '../styles/pages/sightings.css';
 
 const now = new Date();
@@ -13,58 +19,146 @@ const all = (await getCollection('monsters', ({ data }) => data.status === 'publ
   .filter((e) => !e.data.publishDate || e.data.publishDate <= now)
   .sort((a, b) => parseInt(a.data.number, 10) - parseInt(b.data.number, 10));
 
-const mapped = all.filter((e) => e.data.coords);
-const unmapped = all.filter((e) => !e.data.coords);
+interface PinnedSighting {
+  monsterId: string;
+  monsterTitle: string;
+  monsterColor: string;
+  number: string;
+  name: string;
+  year?: number | string;
+  label?: string;
+  x: number;
+  y: number;
+}
+
+const pins: PinnedSighting[] = [];
+for (const entry of all) {
+  for (const s of entry.data.sightings) {
+    const point = projectLatLon(s.lat, s.lon);
+    if (!point) continue;
+    pins.push({
+      monsterId: entry.id,
+      monsterTitle: entry.data.title,
+      monsterColor: entry.data.bandColor,
+      number: entry.data.number,
+      name: s.name,
+      year: s.year,
+      label: s.label,
+      x: point.x,
+      y: point.y,
+    });
+  }
+}
+
+const mapped = all.filter((e) => e.data.sightings.length > 0);
+const unmapped = all.filter((e) => e.data.sightings.length === 0);
 ---
 
 <FieldManual
   title="Where Reported"
-  description="A stylised map of where every Monster Survival Guide encounter has been documented — with pins linking back to each entry."
+  description="Every documented sighting in the Monster Survival Guide, plotted on a world map. Each pin is colour-coded by monster."
   classification="monster survival guide  —  where reported"
   bottomBar="monster survival guide  ·  field map  ·  season one"
 >
-  <StampRow red="Where Reported" faded="Field Map" blue="Documented Encounters" />
+  <StampRow red="Where Reported" faded="World Map" blue="Documented Encounters" />
   <DocMeta
     rows={[
-      { label: 'DOCUMENT TYPE', value: 'Field Map — Reported Sighting Locations' },
-      { label: 'PINS PLACED', value: `${mapped.length} of ${all.length} entries` },
-      { label: 'NOTE', value: 'Stylised — not to scale, not a geographic projection' },
+      { label: 'DOCUMENT TYPE', value: 'Field Map — All Reported Sightings' },
+      { label: 'PINS PLACED', value: `${pins.length} across ${mapped.length} entries` },
+      { label: 'PROJECTION', value: 'Equirectangular · world land outline (Natural Earth 110m)' },
       { label: 'STATUS', value: 'Open Distribution — Updated as Entries Add Locations' },
     ]}
   />
-  <DocTitle subtitle="Where the encounters are. Click a pin to read the entry.">
+  <DocTitle subtitle="Every documented sighting, on one map. Colour-coded by monster.">
     Where<br />Reported
   </DocTitle>
 
   <Section heading="The Field Map">
     <p>
-      Every entry that has a single anchoring location appears below. The map is stylised — it is
-      not a geographic projection and the proportions are approximate — but the relative positions
-      are good enough to give you a sense of where the encounter record clusters.
+      Every entry in the guide carries a list of documented locations. They are plotted below —
+      colour-coded by monster — so you can see where the encounter record clusters across the world.
     </p>
 
-    <SightingsMap entries={all} />
+    <div class="combined-map-frame">
+      <svg
+        class="combined-map-svg"
+        viewBox={WORLD_VIEWBOX}
+        role="img"
+        aria-label={`World map with ${pins.length} pins.`}
+      >
+        <g class="combined-map-grid" aria-hidden="true">
+          {
+            Array.from({ length: 7 }, (_, i) => (
+              <line
+                x1={0}
+                y1={(i * WORLD_HEIGHT) / 6}
+                x2={WORLD_WIDTH}
+                y2={(i * WORLD_HEIGHT) / 6}
+              />
+            ))
+          }
+          {
+            Array.from({ length: 13 }, (_, i) => (
+              <line
+                x1={(i * WORLD_WIDTH) / 12}
+                y1={0}
+                x2={(i * WORLD_WIDTH) / 12}
+                y2={WORLD_HEIGHT}
+              />
+            ))
+          }
+        </g>
 
-    <div class="map-legend">
+        <path class="combined-map-land" d={WORLD_LAND_PATH}></path>
+
+        {
+          pins.map((p) => (
+            <a class="combined-map-pin-link" href={`/${p.monsterId}`}>
+              <circle class="combined-map-halo" cx={p.x} cy={p.y} r={9} />
+              <circle
+                class="combined-map-pin"
+                cx={p.x}
+                cy={p.y}
+                r={5}
+                style={`fill: ${p.monsterColor};`}
+              />
+              <title>
+                {p.monsterTitle} — {p.name}
+                {p.year ? ` (${p.year})` : ''}
+                {p.label ? ` · ${p.label}` : ''}
+              </title>
+            </a>
+          ))
+        }
+      </svg>
+    </div>
+
+    <ol class="combined-map-legend" aria-label="Legend">
       {
         mapped.map((entry) => (
-          <span>
+          <li>
             <a href={`/${entry.id}`}>
+              <span
+                class="legend-swatch"
+                aria-hidden="true"
+                style={`background: ${entry.data.bandColor};`}
+              />
               <span class="legend-num">{entry.data.number}</span>
-              {entry.data.title}
+              <span class="legend-name">{entry.data.title}</span>
+              <span class="legend-count">
+                {entry.data.sightings.length} {entry.data.sightings.length === 1 ? 'pin' : 'pins'}
+              </span>
             </a>
-            {' · '}
-            {entry.data.region}
-          </span>
+          </li>
         ))
       }
-    </div>
+    </ol>
 
     {
       unmapped.length > 0 && (
-        <p class="map-unmapped">
-          Not on the map: {unmapped.map((e) => e.data.title).join(' · ')}. These entries either span
-          no fixed geography or are explicitly not bound to a single place.
+        <p class="combined-map-unmapped">
+          Not on the map: {unmapped.map((e) => e.data.title).join(' · ')}. These entries are
+          explicitly placeless — modern folklore with no anchoring geography.
         </p>
       )
     }
@@ -72,17 +166,18 @@ const unmapped = all.filter((e) => !e.data.coords);
 
   <Section heading="What the Map Shows You">
     <p>
-      Three things, mostly. First, that the documented North American encounter record is
-      geographically uneven — clusters in the upper Midwest, the Mid-Atlantic, the boreal north, the
-      Four Corners. Second, that those clusters are not random — they correlate with old ecological
-      boundaries, with reservation territory, and with thinly populated land that has had a long
-      time to develop its own folklore. Third, that the gaps between the pins are also a kind of
-      evidence: the places where, as far as we know, very little has been reported.
+      The pins cluster heavily in North America — a function of which traditions this Season has
+      covered, not a claim about the underlying record. The Wendigo lineage extends from Alberta
+      across the boreal forest. The Mothman lights up the Ohio River valley. The Black-Eyed Children
+      show the coastal-threshold pattern that runs from Texas to the English east coast. The
+      Skinwalker pins are placed in the Diné homeland and at the Uintah Basin property the press has
+      tied to it — a connection many Diné people contest, and we have flagged accordingly.
     </p>
     <p>
-      The map will grow as the guide grows. If you've encountered something in a place that isn't
-      here yet — and especially if you've encountered something in a place that has historical
-      records nobody has yet collected — <a href="/about#contact--corrections">tell us.</a>
+      As the guide grows the map will too. If you have an account anchored to a place that isn't
+      here yet, <a href="/about#contact--corrections"
+        >tell us — we'd rather get the record right than be right by accident.</a
+      >
     </p>
   </Section>
 </FieldManual>

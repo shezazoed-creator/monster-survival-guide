@@ -26,12 +26,17 @@
     "@fontsource/sorts-mill-goudy": "^5.2.8",
     "@resvg/resvg-js": "^2.6.2",
     "astro": "^6.2.2",
-    "satori": "^0.26.0"
+    "d3-geo": "^3.1.1",
+    "satori": "^0.26.0",
+    "topojson-client": "^3.1.0",
+    "world-atlas": "^2.0.2"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.59.1",
+    "@types/d3-geo": "^3.1.0",
+    "@types/topojson-client": "^3.1.5",
     "fast-xml-parser": "^5.7.3",
     "prettier": "^3.4.2",
     "prettier-plugin-astro": "^0.14.1",

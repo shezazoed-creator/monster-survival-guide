@@ -13,96 +13,108 @@
   --warn: #8b1a0a;
 }
 
-.map-frame {
-  position: relative;
-  margin: 16px 0 32px;
-  padding: 14px;
+/* Combined world map (every monster's pins, colour-coded). */
+
+.combined-map-frame {
   border: 1px solid var(--rule);
-  /* Slightly aged-paper inset so the map sits on something distinct. */
   background: var(--aged);
+  padding: 12px;
+  margin: 16px 0 24px;
 }
 
-.map-svg {
+.combined-map-svg {
   width: 100%;
   height: auto;
   display: block;
-  aspect-ratio: 1000 / 600;
+  aspect-ratio: 1000 / 500;
 }
 
-.map-land {
-  /* Strong-enough fill to read against cream paper without overwhelming the pins. */
-  fill: color-mix(in srgb, var(--ink) 22%, transparent);
+.combined-map-land {
+  fill: color-mix(in srgb, var(--ink) 18%, transparent);
   stroke: var(--ink);
-  stroke-width: 2;
+  stroke-width: 1.2;
   stroke-linejoin: round;
-  stroke-linecap: round;
 }
 
-.map-grid {
-  stroke: color-mix(in srgb, var(--ink) 14%, transparent);
-  stroke-width: 1;
-  stroke-dasharray: 4 6;
+.combined-map-grid {
+  stroke: color-mix(in srgb, var(--ink) 10%, transparent);
+  stroke-width: 0.5;
+  stroke-dasharray: 3 5;
 }
 
-.map-pin {
-  fill: var(--warn);
+.combined-map-halo {
+  fill: var(--paper);
+  opacity: 0.85;
+}
+
+.combined-map-pin {
   stroke: var(--paper);
-  stroke-width: 3;
+  stroke-width: 1.2;
   cursor: pointer;
-  transition:
-    fill 0.18s,
-    r 0.18s;
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+  transition: r 0.18s;
 }
 
-.map-pin-link:hover .map-pin,
-.map-pin-link:focus-visible .map-pin {
-  fill: var(--ink);
-  stroke: var(--paper);
+.combined-map-pin-link:hover .combined-map-pin,
+.combined-map-pin-link:focus-visible .combined-map-pin {
+  r: 7;
 }
 
-.map-pin-label {
-  font-family: 'Anonymous Pro', monospace;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  fill: var(--ink);
-  pointer-events: none;
-  paint-order: stroke;
-  stroke: var(--aged);
-  stroke-width: 3;
+.combined-map-pin-link:focus-visible .combined-map-halo {
+  stroke: var(--ink);
+  stroke-width: 1;
 }
 
-.map-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 16px;
-  margin: 16px 0 32px;
+.combined-map-legend {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px 16px;
+}
+
+.combined-map-legend li {
   font-family: 'Anonymous Pro', monospace;
   font-size: 0.65rem;
-  color: var(--faded);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
 }
 
-.map-legend a {
+.combined-map-legend a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
   color: var(--ink);
   text-decoration: none;
-  border-bottom: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
 }
 
-.map-legend a:hover,
-.map-legend a:focus-visible {
-  border-color: var(--ink);
-}
-
-.map-legend .legend-num {
-  font-weight: 700;
+.combined-map-legend a:hover,
+.combined-map-legend a:focus-visible {
   color: var(--warn);
-  margin-right: 6px;
 }
 
-.map-unmapped {
+.legend-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--paper);
+  flex-shrink: 0;
+  transform: translateY(2px);
+}
+
+.legend-num {
+  color: var(--margin);
+  font-weight: 700;
+}
+
+.legend-name {
+  font-weight: 600;
+}
+
+.legend-count {
+  color: var(--margin);
+}
+
+.combined-map-unmapped {
   font-family: 'Anonymous Pro', monospace;
   font-size: 0.7rem;
   color: var(--margin);

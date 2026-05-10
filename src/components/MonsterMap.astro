@@ -1,0 +1,223 @@
+---
+import {
+  WORLD_LAND_PATH,
+  WORLD_VIEWBOX,
+  WORLD_WIDTH,
+  WORLD_HEIGHT,
+  projectLatLon,
+} from '../lib/world-map.ts';
+
+interface Sighting {
+  name: string;
+  lat: number;
+  lon: number;
+  year?: number | string;
+  label?: string;
+}
+
+interface Props {
+  monster: string;
+  sightings: Sighting[];
+  /** Whether to show the legend below the map. Default true. */
+  legend?: boolean;
+}
+const { monster, sightings, legend = true } = Astro.props;
+
+const projected = sightings
+  .map((s) => {
+    const point = projectLatLon(s.lat, s.lon);
+    return point ? { ...s, ...point } : null;
+  })
+  .filter((p): p is Sighting & { x: number; y: number } => p !== null);
+---
+
+<figure class="monster-map" aria-labelledby={`monster-map-${monster}`}>
+  <figcaption class="monster-map-caption" id={`monster-map-${monster}`}>
+    Documented sighting locations
+  </figcaption>
+
+  <div class="monster-map-frame">
+    <svg
+      class="monster-map-svg"
+      viewBox={WORLD_VIEWBOX}
+      role="img"
+      aria-label={`World map with ${projected.length} pin${projected.length === 1 ? '' : 's'} marking sighting locations.`}
+    >
+      {/* Latitude/longitude graticule */}
+      <g class="monster-map-grid" aria-hidden="true">
+        {
+          Array.from({ length: 7 }, (_, i) => (
+            <line x1={0} y1={(i * WORLD_HEIGHT) / 6} x2={WORLD_WIDTH} y2={(i * WORLD_HEIGHT) / 6} />
+          ))
+        }
+        {
+          Array.from({ length: 13 }, (_, i) => (
+            <line
+              x1={(i * WORLD_WIDTH) / 12}
+              y1={0}
+              x2={(i * WORLD_WIDTH) / 12}
+              y2={WORLD_HEIGHT}
+            />
+          ))
+        }
+      </g>
+
+      <path class="monster-map-land" d={WORLD_LAND_PATH}></path>
+
+      {
+        projected.length === 0 && (
+          <text
+            class="monster-map-empty"
+            x={WORLD_WIDTH / 2}
+            y={WORLD_HEIGHT / 2}
+            text-anchor="middle"
+            dominant-baseline="middle"
+          >
+            NO FIXED GEOGRAPHY · REPORTED EVERYWHERE / NOWHERE
+          </text>
+        )
+      }
+
+      {
+        projected.map((s) => (
+          <g class="monster-map-pin-group">
+            <circle class="monster-map-halo" cx={s.x} cy={s.y} r={9} />
+            <circle class="monster-map-pin" cx={s.x} cy={s.y} r={5} />
+            <title>
+              {s.year ? `${s.year} · ` : ''}
+              {s.name}
+              {s.label ? ` — ${s.label}` : ''}
+            </title>
+          </g>
+        ))
+      }
+    </svg>
+  </div>
+
+  {
+    legend && projected.length > 0 && (
+      <ol class="monster-map-legend">
+        {projected.map((s) => (
+          <li>
+            <span class="legend-dot" aria-hidden="true" />
+            <span class="legend-name">{s.name}</span>
+            {s.year && <span class="legend-year"> · {s.year}</span>}
+            {s.label && <span class="legend-label"> · {s.label}</span>}
+          </li>
+        ))}
+      </ol>
+    )
+  }
+</figure>
+
+<style>
+  .monster-map {
+    margin: 32px 0;
+  }
+
+  .monster-map-caption {
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--margin);
+    margin-bottom: 8px;
+  }
+
+  .monster-map-frame {
+    border: 1px solid var(--rule);
+    background: var(--aged);
+    padding: 10px;
+  }
+
+  .monster-map-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 1000 / 500;
+  }
+
+  .monster-map-land {
+    fill: color-mix(in srgb, var(--ink) 18%, transparent);
+    stroke: var(--ink);
+    stroke-width: 1.2;
+    stroke-linejoin: round;
+  }
+
+  .monster-map-grid {
+    stroke: color-mix(in srgb, var(--ink) 10%, transparent);
+    stroke-width: 0.5;
+    stroke-dasharray: 3 5;
+  }
+
+  .monster-map-halo {
+    fill: var(--paper);
+    stroke: none;
+    opacity: 0.85;
+  }
+
+  .monster-map-pin {
+    fill: var(--warn);
+    stroke: var(--paper);
+    stroke-width: 1.2;
+    transition: r 0.18s;
+  }
+
+  .monster-map-pin-group:hover .monster-map-pin,
+  .monster-map-pin-group:focus-within .monster-map-pin {
+    r: 7;
+    fill: var(--ink);
+  }
+
+  .monster-map-empty {
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    fill: var(--margin);
+    paint-order: stroke;
+    stroke: var(--aged);
+    stroke-width: 4;
+  }
+
+  .monster-map-legend {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 18px;
+    row-gap: 6px;
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.65rem;
+    color: var(--faded);
+    line-height: 1.5;
+    counter-reset: pin;
+  }
+
+  .monster-map-legend li {
+    counter-increment: pin;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .legend-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--warn);
+    flex-shrink: 0;
+    transform: translateY(1px);
+  }
+
+  .legend-name {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .legend-year,
+  .legend-label {
+    color: var(--margin);
+  }
+</style>
