@@ -1,141 +1,337 @@
 # Monster Survival Guide
 
-A field-manual-themed website cataloguing cryptids and folklore entities — origins,
-behaviour, documented encounters, and six rules per entry. Built with [Astro](https://astro.build).
+A field-manual-themed website cataloguing cryptids and folklore entities —
+origins, behaviour, documented encounters, and six survival rules per entry.
+Built with [Astro](https://astro.build) and hosted on Cloudflare Pages.
+
+Production: [monster-survival-guide.pages.dev](https://monster-survival-guide.pages.dev)
+
+---
 
 ## Stack
 
-- **Astro 6** — static site generator
-- **Vanilla CSS** with `color-mix()` — no Tailwind, no frameworks
-- **TypeScript** — strict mode, typed monster entries
-- `@astrojs/sitemap` — automatic `sitemap-index.xml`
+- **Astro 6** — static site generator with MDX content collections
+- **TypeScript** — strict mode end-to-end; frontmatter validated by Zod at build
+- **Vanilla CSS** with `color-mix()` — no Tailwind, no UI framework
+- **Cloudflare Pages** — hosting + automated deploys from `main`
+- **Cloudflare Pages Functions + D1** — self-hosted comments backend, no third-party widget
+- **Satori + @resvg/resvg-js** — per-entry social cards generated at build time
+- **d3-geo + topojson-client + world-atlas** — equirectangular world maps with per-monster pins
+- **@fontsource/...** — self-hosted Rajdhani / Sorts Mill Goudy / Anonymous Pro
+- **Decap CMS** — optional GUI editor at `/admin/`
 
 ## Project layout
 
 ```
 src/
-├── components/         # Reusable Astro components (DangerMeter, Section, EncounterCard, …)
-├── config/site.ts      # Site name, URL, social links, upcoming-entry teaser
-├── layouts/
-│   └── FieldManual.astro   # Page chrome: head, classification bars, footer, SEO meta
-├── lib/monsters.ts     # MonsterEntry type + auto-discovery loader
+├── components/                # Reusable Astro components
+│   ├── BackLink.astro
+│   ├── CommentSection.astro     # Comments form + list (D1-backed)
+│   ├── DangerMeter.astro
+│   ├── DocMeta.astro
+│   ├── DocTitle.astro
+│   ├── EncounterCard.astro
+│   ├── MonsterMap.astro         # Per-entry world map
+│   ├── NewsletterForm.astro     # Buttondown / Beehiiv
+│   ├── Outro.astro
+│   ├── RelatedEntries.astro
+│   ├── Section.astro
+│   ├── SixRules.astro
+│   ├── SocialRow.astro
+│   ├── StampRow.astro
+│   └── StatRow.astro
+├── config/site.ts             # Site name, URL, social, newsletter, contact, analytics
+├── content/
+│   ├── monsters/              # MDX entries — frontmatter Zod-validated
+│   │   └── <slug>.mdx
+│   └── glossary/              # MDX glossary terms
+│       └── <slug>.mdx
+├── content.config.ts          # Zod schemas for both collections
+├── layouts/FieldManual.astro  # Page chrome, SEO meta, JSON-LD, fonts, footer
+├── lib/
+│   ├── og-image.ts            # Satori + resvg PNG generator
+│   ├── reading-time.ts        # Word-count heuristic
+│   ├── references.ts          # Extracts encounter references from MDX bodies
+│   ├── seasons.ts             # Season grouping helpers
+│   ├── structured-data.ts     # JSON-LD builders
+│   └── world-map.ts           # Land-mass SVG path + lat/lon projector
 ├── pages/
-│   ├── index.astro     # Home — “About this guide”
-│   ├── entries.astro   # Auto-generated index of all monster pages
+│   ├── [...slug].astro        # Dynamic route — renders any published monster
+│   ├── about.astro            # Editorial standards + contact
+│   ├── bibliography.astro     # Aggregated sources across all entries
+│   ├── entries.astro          # Index with search + danger + tag filter
+│   ├── glossary/[slug].astro  # Per-term glossary page
+│   ├── glossary/index.astro
+│   ├── og/[slug].png.ts       # Per-entry OG image route
+│   ├── rss.xml.ts             # RSS feed (auto-discovered from collection)
+│   ├── seasons/[number].astro # Per-season index
+│   ├── sightings.astro        # Combined world map (every monster, colour-coded)
 │   ├── 404.astro
-│   └── <monster>.astro # One file per entry, exporting `entry: MonsterEntry`
+│   └── index.astro
 └── styles/
-    ├── field-manual.css       # Shared layout + components (~700 lines, used by every page)
-    └── pages/<page>.css       # Per-page :root color tokens only (~15 lines each)
+    ├── field-manual.css       # Shared layout + components (≈1000 lines)
+    └── pages/<page>.css       # Per-page :root color tokens (~15 lines each)
+
+functions/
+└── api/posts/[slug]/comments.ts   # Cloudflare Pages Function: GET + POST
+
+migrations/
+└── 0001_init.sql               # D1 schema for the comments table
+
+public/
+├── admin/                      # Decap CMS GUI editor
+│   ├── index.html
+│   └── config.yml
+└── robots.txt                  # Sitemap reference for crawlers
+
+tests/
+└── smoke.spec.ts               # Playwright: crawls sitemap, asserts H1 + meta
+
+.github/workflows/ci.yml        # check / build / format / e2e / Lighthouse
+.lighthouserc.json              # Lighthouse CI thresholds
+playwright.config.ts            # E2E config
 ```
 
 ## Commands
 
-| Command           | Action                               |
-| :---------------- | :----------------------------------- |
-| `npm install`     | Install dependencies                 |
-| `npm run dev`     | Local dev server at `localhost:4321` |
-| `npm run build`   | Build to `./dist/`                   |
-| `npm run preview` | Preview the production build         |
-| `npm run check`   | Run `astro check` (TypeScript)       |
-| `npm run format`  | Format all files with Prettier       |
+| Command                | Action                                       |
+| :--------------------- | :------------------------------------------- |
+| `npm install`          | Install dependencies                         |
+| `npm run dev`          | Local dev server at `localhost:4321`         |
+| `npm run build`        | Build to `./dist/`                           |
+| `npm run preview`      | Preview the production build                 |
+| `npm run check`        | `astro check` — TypeScript across the site   |
+| `npm run format`       | Format all files with Prettier               |
+| `npm run format:check` | Verify formatting (CI uses this)             |
+| `npm run test:e2e`     | Run Playwright smoke tests against the build |
+| `npm run lhci`         | Run Lighthouse CI                            |
 
 ## Adding a new monster entry
 
-1. Create `src/pages/<slug>.astro`. The simplest way is to copy an existing entry like
-   `wendigo.astro` as a template.
-2. Export a typed `entry` const at the top:
+1. Create `src/content/monsters/<slug>.mdx`. Copy `wendigo.mdx` as the template — same component imports, same section structure.
+2. Fill in the frontmatter (validated by Zod at build time):
 
-   ```ts
-   import type { MonsterEntry } from '../lib/monsters.ts';
-
-   export const entry: MonsterEntry = {
-     number: '09',
-     entryClass: 'Whatever Threat',
-     region: 'Where It Lives',
-     title: 'The Thing',
-     description: 'One-sentence hook.',
-     tags: ['tag one', 'tag two', 'tag three'],
-     danger: 7,
-     bandColor: '#6a4018',
-     url: '/the-thing',
-   };
+   ```yaml
+   ---
+   number: '09'
+   entryClass: 'Whatever Threat'
+   region: 'Where It Lives'
+   title: 'The Thing'
+   description: 'One-sentence hook.'
+   tags: ['tag one', 'tag two']
+   danger: 7
+   bandColor: '#6a4018'
+   classification: 'monster survival guide  —  the thing'
+   entryStatus: 'Active Entry'
+   status: 'published' # 'draft' hides it from build
+   publishDate: '2026-06-01' # future dates exclude it from build
+   season: 1
+   sightings:
+     - {
+         name: 'Place, Region',
+         lat: 38.85,
+         lon: -82.13,
+         year: 1966,
+         label: 'Description',
+         sourceUrl: 'https://primary-source.example/',
+       }
+   ---
    ```
 
-3. Create `src/styles/pages/<slug>.css` with theme tokens in `:root` (paper, ink,
-   warn, accent, etc. — see any existing file for the full set).
-4. The `/entries` index picks up the new entry automatically via `import.meta.glob`.
-   Nothing else to wire up.
+3. Create `src/styles/pages/<slug>.css` with theme tokens in `:root` (paper, ink, warn, accent, etc.). Copy from any existing file.
+4. The `/entries` index, `/sightings` map, RSS feed, sitemap, and per-entry OG image all auto-discover the new entry. Nothing else to wire up.
+
+To **draft** an entry: set `status: 'draft'`. To **schedule** publication: set `status: 'published'` plus a future `publishDate:`. Both cases keep the entry out of the built site.
+
+## Adding a glossary term
+
+1. Create `src/content/glossary/<slug>.mdx` with frontmatter:
+   ```yaml
+   ---
+   term: 'Algonquian'
+   aliases: ['Algonkian']
+   summary: 'One-line definition shown on the index.'
+   tags: ['indigenous', 'language']
+   ---
+   ```
+2. Body is plain MDX/Markdown. Link to monster entries with `[The Wendigo](/wendigo)`.
 
 ## Configuration
 
-Update `src/config/site.ts` for:
+`src/config/site.ts` is the single source of truth for site-wide settings:
 
-- The public production URL (used for canonical, OG, sitemap)
-- Social links (set a value to render the icon, leave `null` to hide it)
-- The "coming soon" teaser shown at the bottom of `/entries` (set to `null` to hide)
+| Field                                                        | Purpose                                                                                               |
+| :----------------------------------------------------------- | :---------------------------------------------------------------------------------------------------- |
+| `site.url`                                                   | Public canonical URL — drives canonical, OG, sitemap, RSS                                             |
+| `site.name` / `site.signature` / `site.tagline`              | Branding shown in title, footer, JSON-LD                                                              |
+| `social.youtube` / `x` / `tiktok` / `instagram` / `facebook` | Footer icons render only when a URL is set                                                            |
+| `newsletter`                                                 | `null`, or `{ provider: 'buttondown' \| 'beehiiv', handle / publicationId }` — drives the signup form |
+| `contact.email` / `correctionsEmail`                         | Surfaced on the `/about` page                                                                         |
+| `cloudflareAnalyticsToken`                                   | When set, injects the privacy-respecting beacon script                                                |
+| `upcoming`                                                   | Optional "coming soon" card at the bottom of `/entries`                                               |
 
-If you change the production URL, also update `astro.config.mjs` — actually, no:
-`astro.config.mjs` reads from `src/config/site.ts`, so just the one edit.
+If you change `site.url`, that's all you change — `astro.config.mjs` reads from this file.
 
-## Comments (Cloudflare Pages Function + D1)
+## Comments — Cloudflare Pages Function + D1
 
-Each monster page renders a comment form backed by a Cloudflare Pages Function
-at `functions/api/posts/[slug]/comments.ts`, storing comments in a D1 SQLite
-database. No third-party widget, no GitHub login.
+Each monster page renders a comment form backed by a Pages Function at
+`functions/api/posts/[slug]/comments.ts`, storing comments in a Cloudflare D1
+SQLite database. No third-party widget, no GitHub login.
 
 ### One-time setup
 
 ```sh
-# 1. Sign in.
 npx wrangler login
-
-# 2. Create the D1 database. Note the `database_id` it prints — you'll bind it
-#    in the Cloudflare dashboard in step 4.
 npx wrangler d1 create monster-survival-guide-comments
-
-# 3. Apply the schema to the production database.
 npx wrangler d1 execute monster-survival-guide-comments \
   --file=migrations/0001_init.sql --remote
 ```
 
-4. In the Cloudflare dashboard → **Pages** → your project → **Settings** →
-   **Bindings** → **Add D1 database**:
-   - Variable name: `COMMENTS_DB`
-   - D1 database: `monster-survival-guide-comments`
-5. (Optional) In the same dashboard, add an environment variable
-   `COMMENTS_REQUIRE_APPROVAL=1` to gate every comment behind moderation.
-   Comments stay invisible until you flip `approved=1` in D1.
-6. Push — the next deploy includes the Pages Function.
+Then in the Cloudflare dashboard → **Pages** → project → **Settings** → **Bindings** → **Add D1 database**:
 
-### Local dev
+- Variable name: `COMMENTS_DB`
+- D1 database: `monster-survival-guide-comments`
 
-```sh
-# Apply schema to your local D1.
-npx wrangler d1 execute monster-survival-guide-comments \
-  --file=migrations/0001_init.sql --local
+Click **Save**, then redeploy from the **Deployments** tab.
 
-# Run the static site + Pages Functions together.
-npm run build && npx wrangler pages dev dist
-```
+### Optional moderation gate
 
-### Moderation
-
-Comments are stored in the D1 `comments` table. To list pending or remove abusive
-ones:
+Add a Pages env variable `COMMENTS_REQUIRE_APPROVAL=1` in the dashboard. Every comment then stays hidden until you flip `approved=1` in D1:
 
 ```sh
-# List all comments awaiting approval (when COMMENTS_REQUIRE_APPROVAL=1).
+# List pending.
 npx wrangler d1 execute monster-survival-guide-comments --remote \
   --command "SELECT id, post_slug, author, body FROM comments WHERE approved = 0;"
 
-# Approve one.
+# Approve.
 npx wrangler d1 execute monster-survival-guide-comments --remote \
   --command "UPDATE comments SET approved = 1 WHERE id = 42;"
 
-# Delete one.
+# Delete.
 npx wrangler d1 execute monster-survival-guide-comments --remote \
   --command "DELETE FROM comments WHERE id = 42;"
 ```
 
-A small admin UI is the natural next step if moderation volume grows.
+### Built-in protections
+
+- **Slug allowlist** — POSTs to unknown post slugs return 400
+- **Per-IP rate limit** — 5 comments per 5 minutes; IPs are SHA-256 hashed before storage
+- **Honeypot field** — bot submissions absorbed silently
+- **Length validation** — 1–80 chars for author, 1–5000 for body
+- **No raw IPs stored** — only hashed for rate limiting
+
+## Decap CMS at `/admin/`
+
+`public/admin/` ships a Decap CMS bundle that lets non-engineers edit MDX
+entries through a GUI. By default it expects Netlify Identity / git-gateway;
+swap to a GitHub OAuth proxy for Cloudflare Pages, or flip `local_backend: true`
+in `public/admin/config.yml` and run `npx decap-server` next to `npm run dev`
+for offline authoring.
+
+## CI
+
+`.github/workflows/ci.yml` runs on every PR + push to `main`:
+
+1. **build** — `npm run check`, `npm run build`, `npm run format:check`. Uploads `dist/` as an artifact.
+2. **e2e** — downloads the artifact, runs `npx playwright test`. The smoke test crawls every URL in the sitemap and asserts every page returns 200 with a non-empty `<h1>` and a meta description ≥10 chars.
+3. **lighthouse** — runs `npm run lhci` against the built `dist/`. Asserts ≥0.9 on accessibility + SEO (error) and ≥0.9 on perf + best practices (warn).
+
+---
+
+## Changelog — what changed and why
+
+This site started as a hand-authored Astro Minimal starter with eight monster
+pages, each duplicating ~130 lines of CSS, hand-written component markup, and
+no SEO, accessibility, search, comments, or maps. The refactor that brought it
+to its current state landed in a series of merges to `main`. Highlights, in
+roughly the order they shipped:
+
+### Architecture refactor
+
+- **CSS deduplication.** ~1,200 lines of duplicated per-page CSS consolidated into a single shared `field-manual.css` using `color-mix()` and CSS variables. Per-page files dropped from ~130 lines to ~15 lines — they contain only the page's `:root` color tokens now.
+- **Restored Astro CSS bundling.** Replaced the `import css from '...css?raw'` + `<style is:inline set:html={css}>` pattern with plain CSS imports, so Vite can dedupe and cache.
+- **Reusable components.** Page chrome extracted into ~15 components (`BackLink`, `StampRow`, `DocMeta`, `DocTitle`, `DangerMeter`, `StatRow`, `SixRules`, `EncounterCard`, `Outro`, `SocialRow`, `NewsletterForm`, `MonsterMap`, `RelatedEntries`, `CommentSection`). Each monster entry's body went from ~150 lines of repeated markup to plain MDX with section components.
+- **Typed monster entries.** Old `.astro` pages exporting a `const entry` were replaced with **MDX content collections** validated by Zod at build time. Drafts (`status: 'draft'`) and future-dated posts (`publishDate:`) are excluded from the build.
+- **Dynamic route.** `src/pages/[...slug].astro` renders every monster from the collection; the eight per-page `.astro` files were retired.
+- **Prettier + `prettier-plugin-astro`.** `npm run format` and `format:check`.
+- **`astro check`** for TypeScript.
+- **`packageManager`** pinned in `package.json` so collaborators don't end up with mismatched lockfiles.
+
+### SEO + metadata
+
+- **Site URL** set in `astro.config.mjs`; **`@astrojs/sitemap`** generates `sitemap-index.xml` covering all routes on every build.
+- **`@astrojs/rss`** feed at `/rss.xml`, auto-discovered from the content collection.
+- **JSON-LD structured data.** Layout emits a single `@graph` with `Person` + `WebSite` schemas on every page, plus an `Article` schema on monster pages. What Google rich results and AI search citations key off of.
+- **Open Graph + Twitter cards** with canonical URLs.
+- **Per-entry OG PNGs.** `src/lib/og-image.ts` uses Satori + `@resvg/resvg-js` to generate a 1200×630 social card per monster at build time, each showing the entry's class / region / title / hook / danger meter / bandColor rail. Fonts (Rajdhani Bold + Sorts Mill Goudy Italic) fetched once from Google Fonts on first build, cached in module scope.
+- **`robots.txt`** in `public/` with sitemap reference.
+- **Home-page typo fix** ("This show guide not tell you" → "This guide does not tell you").
+
+### Performance
+
+- **Self-hosted fonts via `@fontsource`.** Dropped the Google Fonts CDN. Vite bundles all woff2 into `/_astro/` with `font-display: swap`. No third-party request on first paint.
+- **`prefers-reduced-motion`** honored.
+- **Print stylesheet.** A field manual that prints like a field manual is on-brand. `@media print` hides the chrome, expands external links inline (URL appended after the text), forces page-break-inside: avoid on encounter cards.
+
+### Accessibility
+
+- **Semantic headings.** `.doc-title` → `<h1>`, `.section-head` → `<h2>`, card titles → `<h3>`. Pages had no `<h1>` before; they do now.
+- **Landmarks.** Real `<main>`, `<footer>`, and `<section>` elements throughout.
+- **Skip-to-main-content link.** First focusable element on every page, hidden until focused.
+- **`:focus-visible`** outlines on every interactive element.
+- **DangerMeter** exposed as `role="img"` with an aria-label; decorative bars hidden from AT.
+- **Decorative SVGs** marked `aria-hidden`.
+- **Social icons** render only when a real URL is configured — no more `href="#"` placeholder links.
+- **Contrast bump** on muted-text tokens to clear WCAG AA on small text against the cream paper.
+
+### Content features
+
+- **`/entries` menu** got search + danger-band filter + tag filter. The search input matches across title, hook, entry class, region, and tags — purely client-side, ~80 lines of inline JS, no fetch / no index. Tag filter is collapsible (show first 5, expand to all). Filters AND together; an empty-state announces when nothing matches.
+- **Per-monster world maps.** Each monster page renders an equirectangular world map (Natural Earth 110m land outline) with pins for that monster's documented sightings. Map sits directly below the "Two Cases on the Record" section, anchored to the encounter record it visualises. Pins link out to a real article about the sighting (BBC News for the Waukesha stabbing, Smithsonian Folklife for Point Pleasant, Linda Godfrey's archive for the Beast of Bray Road, etc.). 51 pins total across the 8 entries.
+- **Combined `/sightings` map.** Every monster's pins on a single world map, colour-coded by `bandColor` with a colour-keyed legend.
+- **Related entries.** Bottom of each monster page surfaces 3 other entries scored by tag overlap + danger proximity.
+- **Reading time + word count badge** under each entry, computed from the rendered MDX body.
+- **`/about`** — Zazu byline page with six editorial standards, a research-not-survival-advice disclaimer, and the corrections email surfaced from `site.ts`.
+- **`/bibliography`** — every cited reference across every entry, grouped by entry. Extracted at build time from each MDX body's `<EncounterCard references={[...]}>` blocks via `src/lib/references.ts`.
+- **`/glossary`** — typed content collection with index + per-term pages. Starter terms: Algonquian, Cryptid, Liminal space, Sleep paralysis, Wendigo psychosis, Yee Naaldlooshii.
+- **`/seasons/[number]`** — dynamic per-season route. `/entries` opens with a Browse-by-Season chip row. Adding Season II is a content-only change: write entries with `season: 2`.
+- **`/404`** — field-manual styled "entry not on file" page.
+
+### Editorial sourcing
+
+- **Every Wikipedia URL removed** from pin sourceUrls and encounter card references. Replacements lean on primary / non-Wiki sources: Dictionary of Canadian Biography for Jack Fiddler, Smithsonian Folklife for Point Pleasant, Historic Mysteries Network for the Silver Bridge collapse, WBEZ "Curious City" for the 2017 Chicago Mothman flap, Linda Godfrey's archive for the Beast of Bray Road, the Tetrapod Zoology blog for the Michigan Dogman, Spooky Isles + HuffPost UK for the Black-Eyed Children, Britannica for the Skinwalker entry, Legends of America for Skinwalker Ranch, Atlas Obscura for the international BEK cases.
+
+### Engagement
+
+- **YouTube / X / TikTok** social links wired into the footer's `SocialRow`.
+- **Newsletter signup** (`NewsletterForm`) in the sign-off block. Supports Buttondown and Beehiiv via a single `newsletter` config slot. No JS bundle — plain HTML POST to the provider's embed endpoint. Hidden when not configured.
+- **Comments.** Started as Giscus (GitHub Discussions). Replaced with a **custom Cloudflare Pages Function + D1** backend — no third-party widget, no GitHub login required for commenters. Per-IP rate limiting (hashed), honeypot field, optional moderation gate.
+- **Cloudflare Web Analytics** config slot in `site.ts` (off by default — paste a beacon token to enable).
+
+### Authoring tooling
+
+- **Decap CMS at `/admin/`** with the monsters + glossary collection schemas mapped to GUI form fields. Configured with the Netlify Identity widget for git-gateway auth + a boot-loading fallback so the page never appears blank.
+
+### Quality
+
+- **Playwright smoke tests** (`tests/smoke.spec.ts`). The test reads the sitemap, fetches every URL, and asserts each returns 200 with a non-empty `<h1>` and a meaningful meta description.
+- **Lighthouse CI** (`.lighthouserc.json`) runs against the built `dist/` on home + entries + wendigo + bibliography. Asserts ≥0.9 on accessibility and SEO (error), ≥0.9 on perf and best practices (warn).
+- **GitHub Actions CI** runs `check`, `build`, `format:check`, e2e, and Lighthouse on every PR + push to `main`.
+
+### Deployment
+
+- **Cloudflare Pages**, deploys from `main` on every push. Build command `npm run build`, output `dist/`.
+- **Cloudflare Pages Function** at `functions/api/posts/[slug]/comments.ts` deploys alongside the static site — no separate Worker project to manage.
+- **Cloudflare D1** SQLite database `monster-survival-guide-comments` bound to the Pages project as `COMMENTS_DB` for the comments backend.
+
+---
+
+## Credits
+
+Built collaboratively over many iterations with [Claude Code](https://claude.com/claude-code).
+The prose of every entry — and the editorial framing — is by Zazu.
+
+## License
+
+Code: MIT. Prose: see individual entries — most are CC BY-NC-SA 4.0 by default
+unless an entry's footer says otherwise.
