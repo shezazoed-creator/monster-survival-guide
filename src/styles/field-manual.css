@@ -195,21 +195,42 @@ body::before {
 /* ── BACK LINK ────────────────────────────────────────────────────────── */
 
 .back-link {
+  /* Sticky so it remains reachable on tall pages without scrolling back to
+     the top. Sits just below the dark classification bar (which is itself
+     above the .document so doesn't intersect the sticky offset). */
+  position: sticky;
+  top: 8px;
+  z-index: 10;
   display: inline-block;
-  margin-bottom: 18px;
+  margin: 0 0 22px -10px;
+  padding: 6px 12px;
   font-family: 'Anonymous Pro', monospace;
-  font-size: 0.62rem;
-  letter-spacing: 0.2em;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
   color: var(--faded);
   text-decoration: none;
   text-transform: uppercase;
-  opacity: 0.7;
-  transition: opacity 0.18s;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  box-shadow: 0 1px 0 var(--rule);
+  transition:
+    color 0.18s,
+    border-color 0.18s,
+    background 0.18s;
 }
 
 .back-link:hover,
 .back-link:focus-visible {
-  opacity: 1;
+  color: var(--ink);
+  border-color: var(--ink);
+  background: color-mix(in srgb, var(--paper) 95%, var(--ink));
+  outline: none;
+}
+
+@media print {
+  .back-link {
+    display: none !important;
+  }
 }
 
 /* ── STAMP ROW ────────────────────────────────────────────────────────── */
