@@ -326,6 +326,83 @@ roughly the order they shipped:
 
 ---
 
+## Rejected directions
+
+Things that were built, suggested, or partially shipped during the refactor and
+then **deliberately rolled back** at the editor's direction. Recorded here so
+that if any of these come up again in future iterations, the previous decision
+is on the record with the reasoning.
+
+### Stylised North-America-only map
+
+- **What was built first.** A hand-drawn SVG outline of North America (~30 polygon vertices) inside a 1000×600 viewBox, with one pin per monster placed at hand-tuned x/y coordinates relative to that outline. Lived at `/sightings` and was embedded at the bottom of each monster page.
+- **Why it was rejected.** Stylised continent shape didn't read as geography, the proportions were rough, and the encounter record isn't North-America-only.
+- **What replaced it.** Real equirectangular world map driven by `d3-geo` + the `world-atlas` 110m TopoJSON dataset. Pins now use real `lat` / `lon` and project through a shared function (`src/lib/world-map.ts`), so they line up correctly on any continent.
+
+### Map at the bottom of the page
+
+- **What was tried first.** `<MonsterMap>` was invoked from the dynamic route (`[...slug].astro`) **after** the entire MDX body — so it appeared below the outro on every entry page.
+- **Why it was rejected.** Disconnected from the encounter record it visualises; readers scrolled past the outro and missed it.
+- **What replaced it.** The component is now invoked from inside each MDX file, anchored directly between the "Two Cases on the Record" section and "Before You Go." Adding a new entry means dropping `<MonsterMap title={frontmatter.title} sightings={frontmatter.sightings} />` between those sections.
+
+### Pin tooltips without the monster name
+
+- **What was tried first.** Per-monster map pins showed `<year> · <place> — <label>` on hover. Reader had to know which page they were on.
+- **Why it was rejected.** Tooltips and screen-reader announcements lacked the entity name; the combined `/sightings` map handled this correctly but the per-entry map didn't match.
+- **What replaced it.** Pin titles now lead with the monster's name: `The Wendigo — Fort Saskatchewan, Alberta (1879) · Swift Runner case…`. Same shape as the combined map, consistent across the site.
+
+### Map figcaption with the monster name on top
+
+- **Briefly considered.** When the editor said "titled name of monster," the first interpretation was a big figcaption rendering the entry's name above the map (an "eyebrow + display title" treatment).
+- **Why it was rejected.** Not what was meant — the editor wanted the monster's name in each pin's hover title, not a duplicated heading above the map (the entry's `<h1>` already shows the name above the fold).
+- **What replaced it.** Figcaption stays as the small `DOCUMENTED SIGHTING LOCATIONS` eyebrow only; the monster name lives in pin tooltips.
+
+### Map pins linking back to the entry page
+
+- **What was tried first.** Each pin was an `<a href="/{monsterId}">` — clicking returned to the entry's own page.
+- **Why it was rejected.** A pin on the Wendigo page linking back to the Wendigo page is a dead loop; it gave readers no new information.
+- **What replaced it.** Every pin links out (in a new tab, `rel="noopener noreferrer"`) to a real article about that specific sighting — BBC News for Waukesha, Linda Godfrey's archive for Bray Road, Smithsonian Magazine for the Phenomenon of 1909, etc.
+
+### Wikipedia as a primary source
+
+- **What was tried first.** Many pin `sourceUrl` fields and encounter card references pointed at Wikipedia articles (`en.wikipedia.org/wiki/Mothman`, `…/Skinwalker_Ranch`, etc.).
+- **Why it was rejected.** Wikipedia is a tertiary source, not a primary one — and an editorial guide that takes its sourcing standards seriously shouldn't lean on it as the citation of record.
+- **What replaced it.** **Zero Wikipedia URLs anywhere on the site.** Replacement sources lean primary / scholarly: Dictionary of Canadian Biography for Jack Fiddler; Smithsonian Folklife Magazine for Point Pleasant; Smithsonian Magazine for the Phenomenon of 1909; Historic Mysteries Network for the Silver Bridge collapse and the Blackbird of Chernobyl; WBEZ "Curious City" for the 2017 Chicago Mothman flap; Linda Godfrey's archive for the Beast of Bray Road; Tetrapod Zoology (Darren Naish) for the Michigan Dogman; Spooky Isles + HuffPost UK for the Black-Eyed Children; Britannica for the Skinwalker entry; Legends of America for Skinwalker Ranch; Atlas Obscura for the international BEK cases.
+
+### Giscus comments
+
+- **What was tried first.** Comments + reactions via Giscus, backed by GitHub Discussions. Discussions were enabled on the repo via the GitHub API, the giscus IDs were resolved, and the widget was wired in.
+- **Why it was rejected.** Giscus requires every commenter to sign in with a GitHub account. For a content site aimed at general readers, that's a high signup barrier and most of the audience won't have an account. Also: Giscus needs the repo to be public for unauthenticated visitors to read existing comments, which created an unrelated visibility decision.
+- **What replaced it.** A small **Cloudflare Pages Function + D1** comments backend at `/api/posts/<slug>/comments`. No login required, no third-party widget, no JavaScript framework — just `<form>` POSTs to a same-origin endpoint, with per-IP rate limiting (hashed IPs), a honeypot field, and an optional moderation gate.
+
+### Comments paths that weren't taken
+
+When picking a comment system, four other paths were considered and dropped:
+
+- **Hyvor Talk** ($5/mo hosted, polished UX) — rejected because a custom Pages Function + D1 is free, owned, and integrates with the Cloudflare account already hosting the site.
+- **Webmentions + Mastodon replies** (decentralised, indie-web) — rejected as too niche for the target audience and operationally fiddly.
+- **No comments, point at email instead** — rejected; comments were wanted, just not via Giscus.
+- **Cusdis hosted SaaS** — rejected once the Cloudflare-native custom backend was on the table.
+
+### Decap CMS with GitHub auth
+
+- **What was tried first.** The Decap CMS `config.yml` defaults to `backend: git-gateway` (Netlify Identity).
+- **Why it was partially rejected.** The site is hosted on Cloudflare Pages, not Netlify — git-gateway works there only with a separate Identity provider, and that's extra ops work.
+- **Current state.** `config.yml` ships with both backends documented (git-gateway + github), and a one-line toggle (`local_backend: true`) for offline authoring via `npx decap-server`. A proper Cloudflare-native auth proxy for Decap is a future task if/when non-engineer authoring becomes important.
+
+### Hamilton County, Florida (Slenderman)
+
+- **What was tried first.** A pin for the 2014 Slenderman-inspired house fire was placed in **Hamilton County, FL** at coords (30.55, -82.95).
+- **Why it was wrong.** Factually inaccurate — the actual fire was in **Pasco County** (Port Richey), Florida. The Hamilton County pin was based on a hallucinated detail and the news source confirms Pasco.
+- **What replaced it.** The Hamilton County pin was removed entirely. The Pasco County pin was kept and its label updated to point at the correct AJC.com news article about the Port Richey case.
+
+### Slenderman, the Rake — fictional encounter pins
+
+- **What was almost rejected.** The Rake has no documented real-world encounters — the entire compendium is constructed lore from a 2005 forum thread. Pinning the fictional 1691 mariner's log, 1880 Spanish journal, and 2003 Niagara Falls "central case" felt like dressing fiction up as fact.
+- **What we did instead.** Pins **kept**, but every fictional pin's label is explicitly flagged as `lore · constructed` and links to the original creepypasta.com compendium. Self-reported sightings (Reddit sleep-paralysis cluster, etc.) are flagged `self-report`. The map's editorial honesty stays intact because the labels do.
+
+---
+
 ## Credits
 
 Built collaboratively over many iterations with [Claude Code](https://claude.com/claude-code).
