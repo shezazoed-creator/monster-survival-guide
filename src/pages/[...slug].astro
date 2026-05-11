@@ -3,7 +3,7 @@ import { getCollection, render, type CollectionEntry } from 'astro:content';
 import FieldManual from '../layouts/FieldManual.astro';
 import BackLink from '../components/BackLink.astro';
 import RelatedEntries from '../components/RelatedEntries.astro';
-import GiscusComments from '../components/GiscusComments.astro';
+import CommentSection from '../components/CommentSection.astro';
 import { readingStats } from '../lib/reading-time.ts';
 
 export async function getStaticPaths() {
@@ -52,7 +52,7 @@ const stats = readingStats(entry.body ?? '');
 
   <RelatedEntries currentSlug={entry.id} currentTags={data.tags} currentDanger={data.danger} />
 
-  <GiscusComments />
+  <CommentSection slug={entry.id} />
 </FieldManual>
 
 <style>

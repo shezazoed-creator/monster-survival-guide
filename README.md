@@ -77,3 +77,65 @@ Update `src/config/site.ts` for:
 
 If you change the production URL, also update `astro.config.mjs` — actually, no:
 `astro.config.mjs` reads from `src/config/site.ts`, so just the one edit.
+
+## Comments (Cloudflare Pages Function + D1)
+
+Each monster page renders a comment form backed by a Cloudflare Pages Function
+at `functions/api/posts/[slug]/comments.ts`, storing comments in a D1 SQLite
+database. No third-party widget, no GitHub login.
+
+### One-time setup
+
+```sh
+# 1. Sign in.
+npx wrangler login
+
+# 2. Create the D1 database. Note the `database_id` it prints — you'll bind it
+#    in the Cloudflare dashboard in step 4.
+npx wrangler d1 create monster-survival-guide-comments
+
+# 3. Apply the schema to the production database.
+npx wrangler d1 execute monster-survival-guide-comments \
+  --file=migrations/0001_init.sql --remote
+```
+
+4. In the Cloudflare dashboard → **Pages** → your project → **Settings** →
+   **Bindings** → **Add D1 database**:
+   - Variable name: `COMMENTS_DB`
+   - D1 database: `monster-survival-guide-comments`
+5. (Optional) In the same dashboard, add an environment variable
+   `COMMENTS_REQUIRE_APPROVAL=1` to gate every comment behind moderation.
+   Comments stay invisible until you flip `approved=1` in D1.
+6. Push — the next deploy includes the Pages Function.
+
+### Local dev
+
+```sh
+# Apply schema to your local D1.
+npx wrangler d1 execute monster-survival-guide-comments \
+  --file=migrations/0001_init.sql --local
+
+# Run the static site + Pages Functions together.
+npm run build && npx wrangler pages dev dist
+```
+
+### Moderation
+
+Comments are stored in the D1 `comments` table. To list pending or remove abusive
+ones:
+
+```sh
+# List all comments awaiting approval (when COMMENTS_REQUIRE_APPROVAL=1).
+npx wrangler d1 execute monster-survival-guide-comments --remote \
+  --command "SELECT id, post_slug, author, body FROM comments WHERE approved = 0;"
+
+# Approve one.
+npx wrangler d1 execute monster-survival-guide-comments --remote \
+  --command "UPDATE comments SET approved = 1 WHERE id = 42;"
+
+# Delete one.
+npx wrangler d1 execute monster-survival-guide-comments --remote \
+  --command "DELETE FROM comments WHERE id = 42;"
+```
+
+A small admin UI is the natural next step if moderation volume grows.

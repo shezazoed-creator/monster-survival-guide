@@ -55,29 +55,10 @@ export type NewsletterConfig =
 export const newsletter: NewsletterConfig | null = null;
 
 /**
- * Giscus comments — GitHub Discussions powered. Fill these in after running
- * the configurator at https://giscus.app/ and enabling Discussions on the
- * repo. Set to `null` to hide the comment widget.
+ * Comments are now powered by a Cloudflare Pages Function backed by D1
+ * (see functions/api/posts/[slug]/comments.ts and migrations/0001_init.sql).
+ * No third-party widget, no GitHub login required.
  */
-export type GiscusConfig = {
-  repo: `${string}/${string}`;
-  repoId: string;
-  category: string;
-  categoryId: string;
-  mapping?: 'pathname' | 'url' | 'title' | 'og:title';
-  reactionsEnabled?: '0' | '1';
-  theme?: string;
-};
-
-export const giscus: GiscusConfig | null = {
-  repo: 'shezazoed-creator/monster-survival-guide',
-  repoId: 'R_kgDOSUxqyQ',
-  category: 'General',
-  categoryId: 'DIC_kwDOSUxqyc4C8u9S',
-  mapping: 'pathname',
-  reactionsEnabled: '1',
-  theme: 'preferred_color_scheme',
-};
 
 /**
  * Social links shown in the footer. Set a real URL to render the icon;
