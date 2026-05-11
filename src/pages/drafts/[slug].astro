@@ -1,0 +1,55 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import FieldManual from '../../layouts/FieldManual.astro';
+import BackLink from '../../components/BackLink.astro';
+
+export async function getStaticPaths() {
+  // Only drafts — published entries already render at /<slug>/.
+  const drafts = await getCollection('monsters', ({ data }) => data.status === 'draft');
+  return drafts.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'monsters'>;
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const data = entry.data;
+---
+
+<FieldManual
+  title={`DRAFT — ${data.title}`}
+  description={`Internal draft preview: ${data.description}`}
+  classification={`draft preview  —  ${data.title.toLowerCase()}  —  not published`}
+  bottomBar="monster survival guide  ·  draft preview  ·  not for public distribution"
+  status="Draft"
+  noindex
+>
+  <BackLink href="/drafts/" label="Back to drafts queue" />
+
+  <div class="draft-banner" role="alert">
+    <strong>DRAFT — not published.</strong>
+    This entry has scaffolded structure and frontmatter only. Body prose, six rules, and encounter cards
+    are placeholder. Filtered out of every public page (menu, sightings map, RSS, sitemap, seasons). Not
+    indexed.
+  </div>
+
+  <Content />
+</FieldManual>
+
+<style>
+  .draft-banner {
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--warn);
+    background: color-mix(in srgb, var(--warn) 6%, transparent);
+    border: 1px solid color-mix(in srgb, var(--warn) 30%, transparent);
+    border-left-width: 4px;
+    padding: 14px 18px;
+    margin-bottom: 32px;
+  }
+</style>

@@ -39,6 +39,11 @@ interface Props {
    * site-wide Person + WebSite graph). Pass on monster entry pages.
    */
   article?: Pick<ArticleSchemaInput, 'datePublished' | 'dateModified'>;
+  /**
+   * When true, emits a noindex/nofollow robots meta and drops the canonical
+   * link — used by the editorial /drafts/ preview routes.
+   */
+  noindex?: boolean;
 }
 
 const {
@@ -50,6 +55,7 @@ const {
   pathname,
   ogImage = site.defaultOgImage,
   article,
+  noindex = false,
 } = Astro.props;
 
 const bottomText = bottomBar ?? classification;
@@ -75,7 +81,13 @@ const jsonLd = article
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {
+      noindex ? (
+        <meta name="robots" content="noindex,nofollow" />
+      ) : (
+        <link rel="canonical" href={canonical} />
+      )
+    }
     <meta name="generator" content={Astro.generator} />
 
     {/* Open Graph */}

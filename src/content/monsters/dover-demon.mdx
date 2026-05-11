@@ -1,0 +1,177 @@
+---
+number: '26'
+entryClass: 'Three-Night Encounter'
+region: 'Dover, Massachusetts · 1977'
+title: 'The Dover Demon'
+description: 'In a 25-hour window in April 1977, three groups of teenagers in Dover, Massachusetts independently described seeing the same creature in different places. They were interviewed separately. The sketches matched.'
+tags: ['1977', 'Three independent witness groups', 'New England']
+danger: 5
+bandColor: '#a08038'
+classification: 'monster survival guide  —  the dover demon'
+entryStatus: 'Active Entry'
+status: 'draft'
+season: 1
+sightings:
+  - {
+      name: 'Farm Street, Dover, MA',
+      lat: 42.24,
+      lon: -71.27,
+      year: 1977,
+      label: 'Bill Bartlett sighting · ~10:30pm April 21',
+    }
+  - {
+      name: 'Miller Hill Road, Dover, MA',
+      lat: 42.24,
+      lon: -71.28,
+      year: 1977,
+      label: 'John Baxter sighting · ~12:30am April 22 (independent witness)',
+    }
+  - {
+      name: 'Springdale Avenue, Dover, MA',
+      lat: 42.25,
+      lon: -71.27,
+      year: 1977,
+      label: 'Will Taintor and Abby Brabham sighting · ~12am April 22',
+    }
+---
+
+import StampRow from '../../components/StampRow.astro';
+import DocMeta from '../../components/DocMeta.astro';
+import DocTitle from '../../components/DocTitle.astro';
+import DangerMeter from '../../components/DangerMeter.astro';
+import Section from '../../components/Section.astro';
+import StatRow from '../../components/StatRow.astro';
+import SixRules from '../../components/SixRules.astro';
+import EncounterCard from '../../components/EncounterCard.astro';
+import Outro from '../../components/Outro.astro';
+import MonsterMap from '../../components/MonsterMap.astro';
+import '../../styles/pages/_draft.css';
+
+export const rules = [
+  {
+    title: 'TODO — rule 1',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 2',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 3',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 4',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 5',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 6',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+];
+
+{/\*
+──────────────────────────────────────────────────────────────────────
+DRAFT — NOT PUBLISHED. Visible only at /drafts/.
+
+BEFORE PROMOTING TO `status: 'published'`: 1. Write the prose for every Section below (replace TODO comments). 2. Replace the six placeholder rules above with specific,
+evidence-derived survival rules. 3. Fill the two EncounterCards with real, verifiable encounter
+accounts. Each card needs: id, title, meta, verdict, verdictLabel,
+references (with non-Wikipedia source URLs). 4. Verify every `sourceUrl` in the frontmatter resolves to the
+specific article cited. 5. Sanity-check coordinates against atlases.
+──────────────────────────────────────────────────────────────────────
+\*/}
+
+<StampRow red="1977" faded="Dover, MA" blue="Three Witnesses" />
+<DocMeta
+  rows={[
+    { label: 'ENTITY', value: 'The Dover Demon' },
+    { label: 'ORIGIN', value: 'Dover, Massachusetts · 1977' },
+    { label: 'THREAT GUIDE TYPE', value: 'Identification · Behaviour · Survival Protocol' },
+    { label: 'STATUS', value: 'Draft — awaiting research' },
+  ]}
+/>
+<DocTitle subtitle={frontmatter.description}>The Dover Demon</DocTitle>
+<DangerMeter
+  danger={frontmatter.danger}
+  label="BRIEF"
+  description="5/10 — Three sightings in 25 hours, all by different witnesses, in a 2-mile radius. No further appearances in 49 years."
+/>
+
+<Section heading="If You're Reading This">
+  <p>
+    TODO — cold open. Place the reader at the scene of the encounter. Establish atmosphere. Earn
+    attention before asking for trust.
+  </p>
+</Section>
+
+<Section heading="Where It Comes From">
+  <p>
+    TODO — origin section. Cultural / historical / geographic context. A creature without context is
+    a horror story; a creature with context is something a reader can understand.
+  </p>
+</Section>
+
+<Section heading="What You Are Looking At">
+  <p>
+    TODO — physical description and identifying features. What witnesses agree on. What varies. What
+    to look for before you know what you are looking at.
+  </p>
+</Section>
+
+<Section heading="How It Operates">
+  <p>
+    TODO — behaviour pattern. How it hunts / haunts / appears. What comes first, next, and after.
+  </p>
+</Section>
+
+<Section heading="An Honest Assessment of Its Weaknesses">
+  <p>
+    TODO — what the accumulated evidence suggests works against it. Be honest when this section is
+    thin.
+  </p>
+</Section>
+
+<Section heading="Six Rules That May Save Your Life">
+  <p>TODO — short intro paragraph framing the rules.</p>
+  <SixRules rules={rules} />
+</Section>
+
+<Section heading="Two Cases on the Record">
+  <p>TODO — intro paragraph for the encounter section.</p>
+  <EncounterCard
+    id="Encounter 01 · TODO · TODO date"
+    title="TODO — encounter title"
+    meta="TODO — encounter witness / context"
+    verdict="documented"
+    verdictLabel="TODO Classification"
+    references={[{ text: 'TODO — primary source', href: 'https://example.com/' }]}
+  >
+    <p>TODO — encounter prose. Real, cited account.</p>
+  </EncounterCard>
+  <EncounterCard
+    id="Encounter 02 · TODO · TODO date"
+    title="TODO — second encounter title"
+    meta="TODO — second encounter witness / context"
+    verdict="documented"
+    verdictLabel="TODO Classification"
+    references={[{ text: 'TODO — primary source', href: 'https://example.com/' }]}
+  >
+    <p>TODO — second encounter prose.</p>
+  </EncounterCard>
+</Section>
+
+<MonsterMap title={frontmatter.title} sightings={frontmatter.sightings} />
+
+<Section heading="Before You Go">
+  <Outro>
+    <p>
+      TODO — closing outro. Echo the cold open. Land the rules. Give the reader a parting
+      instruction.
+    </p>
+  </Outro>
+</Section>

@@ -1,0 +1,184 @@
+---
+number: '11'
+entryClass: 'High-Altitude Apex'
+region: 'Himalayas, Nepal & Tibet'
+title: 'The Yeti'
+description: 'The Sherpa knew. They had three names for it before any European saw a single track. The cryptozoology came late and called it something else.'
+tags: ['Himalayan tradition', 'Sherpa lore', 'Pre-Mallory']
+danger: 7
+bandColor: '#5a7a98'
+classification: 'monster survival guide  —  the yeti'
+entryStatus: 'Active Entry'
+status: 'draft'
+season: 1
+sightings:
+  - {
+      name: 'Menlung Glacier, Nepal',
+      lat: 27.95,
+      lon: 86.93,
+      year: 1951,
+      label: 'Shipton tracks — the photograph that launched modern Yeti research',
+    }
+  - {
+      name: 'Khumbu Valley, Nepal',
+      lat: 27.95,
+      lon: 86.83,
+      label: 'Sherpa cultural homeland · centuries of oral tradition (meh-teh, dzu-teh, mi-go)',
+    }
+  - {
+      name: 'Pangboche Monastery, Nepal',
+      lat: 27.85,
+      lon: 86.8,
+      label: 'The Pangboche relics (hand + scalp) — examined by international expeditions',
+    }
+  - {
+      name: 'Annapurna massif, Nepal',
+      lat: 28.6,
+      lon: 83.9,
+      year: 1925,
+      label: 'A. N. Tombazi Royal Geographical Society sighting',
+    }
+---
+
+import StampRow from '../../components/StampRow.astro';
+import DocMeta from '../../components/DocMeta.astro';
+import DocTitle from '../../components/DocTitle.astro';
+import DangerMeter from '../../components/DangerMeter.astro';
+import Section from '../../components/Section.astro';
+import StatRow from '../../components/StatRow.astro';
+import SixRules from '../../components/SixRules.astro';
+import EncounterCard from '../../components/EncounterCard.astro';
+import Outro from '../../components/Outro.astro';
+import MonsterMap from '../../components/MonsterMap.astro';
+import '../../styles/pages/_draft.css';
+
+export const rules = [
+  {
+    title: 'TODO — rule 1',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 2',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 3',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 4',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 5',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 6',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+];
+
+{/\*
+──────────────────────────────────────────────────────────────────────
+DRAFT — NOT PUBLISHED. Visible only at /drafts/.
+
+BEFORE PROMOTING TO `status: 'published'`: 1. Write the prose for every Section below (replace TODO comments). 2. Replace the six placeholder rules above with specific,
+evidence-derived survival rules. 3. Fill the two EncounterCards with real, verifiable encounter
+accounts. Each card needs: id, title, meta, verdict, verdictLabel,
+references (with non-Wikipedia source URLs). 4. Verify every `sourceUrl` in the frontmatter resolves to the
+specific article cited. 5. Sanity-check coordinates against atlases.
+CULTURAL SENSITIVITY NOTE — Sherpa traditions long predate Western cryptozoology. Three Tibetan-language names (meh-teh, dzu-teh, mi-go) describe distinct beings; 'Yeti' collapses them. Lead with the tradition's naming, not the Anglophone version.
+
+──────────────────────────────────────────────────────────────────────
+\*/}
+
+<StampRow red="Alpine Apex" faded="Sherpa Lore" blue="Himalayan" />
+<DocMeta
+  rows={[
+    { label: 'ENTITY', value: 'The Yeti' },
+    { label: 'ORIGIN', value: 'Himalayas, Nepal & Tibet' },
+    { label: 'THREAT GUIDE TYPE', value: 'Identification · Behaviour · Survival Protocol' },
+    { label: 'STATUS', value: 'Draft — awaiting research' },
+  ]}
+/>
+<DocTitle subtitle={frontmatter.description}>The Yeti</DocTitle>
+<DangerMeter
+  danger={frontmatter.danger}
+  label="ALPINE"
+  description="7/10 — Reports of attacks on livestock; rare on humans. The altitude is more dangerous than the creature."
+/>
+
+<Section heading="If You're Reading This">
+  <p>
+    TODO — cold open. Place the reader at the scene of the encounter. Establish atmosphere. Earn
+    attention before asking for trust.
+  </p>
+</Section>
+
+<Section heading="Where It Comes From">
+  <p>
+    TODO — origin section. Cultural / historical / geographic context. A creature without context is
+    a horror story; a creature with context is something a reader can understand.
+  </p>
+</Section>
+
+<Section heading="What You Are Looking At">
+  <p>
+    TODO — physical description and identifying features. What witnesses agree on. What varies. What
+    to look for before you know what you are looking at.
+  </p>
+</Section>
+
+<Section heading="How It Operates">
+  <p>
+    TODO — behaviour pattern. How it hunts / haunts / appears. What comes first, next, and after.
+  </p>
+</Section>
+
+<Section heading="An Honest Assessment of Its Weaknesses">
+  <p>
+    TODO — what the accumulated evidence suggests works against it. Be honest when this section is
+    thin.
+  </p>
+</Section>
+
+<Section heading="Six Rules That May Save Your Life">
+  <p>TODO — short intro paragraph framing the rules.</p>
+  <SixRules rules={rules} />
+</Section>
+
+<Section heading="Two Cases on the Record">
+  <p>TODO — intro paragraph for the encounter section.</p>
+  <EncounterCard
+    id="Encounter 01 · TODO · TODO date"
+    title="TODO — encounter title"
+    meta="TODO — encounter witness / context"
+    verdict="documented"
+    verdictLabel="TODO Classification"
+    references={[{ text: 'TODO — primary source', href: 'https://example.com/' }]}
+  >
+    <p>TODO — encounter prose. Real, cited account.</p>
+  </EncounterCard>
+  <EncounterCard
+    id="Encounter 02 · TODO · TODO date"
+    title="TODO — second encounter title"
+    meta="TODO — second encounter witness / context"
+    verdict="documented"
+    verdictLabel="TODO Classification"
+    references={[{ text: 'TODO — primary source', href: 'https://example.com/' }]}
+  >
+    <p>TODO — second encounter prose.</p>
+  </EncounterCard>
+</Section>
+
+<MonsterMap title={frontmatter.title} sightings={frontmatter.sightings} />
+
+<Section heading="Before You Go">
+  <Outro>
+    <p>
+      TODO — closing outro. Echo the cold open. Land the rules. Give the reader a parting
+      instruction.
+    </p>
+  </Outro>
+</Section>

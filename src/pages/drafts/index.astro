@@ -1,0 +1,155 @@
+---
+import { getCollection } from 'astro:content';
+import FieldManual from '../../layouts/FieldManual.astro';
+import StampRow from '../../components/StampRow.astro';
+import DocMeta from '../../components/DocMeta.astro';
+import DocTitle from '../../components/DocTitle.astro';
+import Section from '../../components/Section.astro';
+import '../../styles/pages/_draft.css';
+
+// Drafts only. The public collection consumers all filter status === 'published'.
+const drafts = (await getCollection('monsters', ({ data }) => data.status === 'draft')).sort(
+  (a, b) => parseInt(a.data.number, 10) - parseInt(b.data.number, 10),
+);
+---
+
+<FieldManual
+  title="Drafts (Internal)"
+  description="Internal drafts queue. Not linked anywhere. Not indexed."
+  classification="monster survival guide  —  drafts  —  internal"
+  bottomBar="monster survival guide  ·  internal drafts queue  ·  not for public distribution"
+  noindex
+>
+  <StampRow red="Internal" faded="Drafts" blue="Not Public" />
+  <DocMeta
+    rows={[
+      { label: 'DOCUMENT TYPE', value: 'Editorial Drafts Queue (Internal)' },
+      { label: 'COUNT', value: `${drafts.length} entries awaiting research` },
+      { label: 'VISIBILITY', value: 'Hidden — noindex + nofollow + robots.txt disallow' },
+      { label: 'STATUS', value: 'Author preview only · do not link from public pages' },
+    ]}
+  />
+  <DocTitle
+    subtitle="Twenty scaffolded entries with researched frontmatter (real coordinates, classes, danger ratings) and TODO prose. Click any row to preview the full entry."
+  >
+    Drafts
+  </DocTitle>
+
+  <Section heading="How this page works">
+    <div class="field-note">
+      <p>
+        Every entry below has Zod-valid frontmatter — real coordinates, region, entry class, danger
+        rating, classification, tags, and bandColor — plus a body scaffold with the same section
+        structure the published entries use. The prose, the six rules, and the encounter cards are
+        all <code>TODO</code> placeholders.
+      </p>
+      <p>
+        These drafts are <strong>not</strong> on the live menu, sightings map, RSS feed, sitemap, or seasons
+        index. They are filtered out everywhere by the <code>status === 'published'</code>
+        check. The only way to reach them is this page or the per-draft preview URLs below. Robots are
+        blocked via <code>noindex,nofollow</code> on every draft page plus a <code
+          >Disallow: /drafts/</code
+        >
+        line in <code>robots.txt</code>.
+      </p>
+      <p>
+        To <strong>publish</strong> a draft: edit its frontmatter, set <code
+          >status: 'published'</code
+        >
+        (and optionally a future <code>publishDate:</code>), fill in the body prose, and commit. The
+        public menu / sightings / RSS / OG-image route all pick it up on the next deploy.
+      </p>
+    </div>
+  </Section>
+
+  <Section heading="All drafts (sorted by entry number)">
+    <table class="format-table drafts-table">
+      <thead>
+        <tr>
+          <th scope="col">No.</th>
+          <th scope="col">Title</th>
+          <th scope="col">Class</th>
+          <th scope="col">Region</th>
+          <th scope="col">Danger</th>
+          <th scope="col">Pins</th>
+          <th scope="col">Preview</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          drafts.map((d) => (
+            <tr>
+              <td>
+                <code>{d.data.number}</code>
+              </td>
+              <td>
+                <strong>{d.data.title}</strong>
+                <div class="drafts-hook">{d.data.description}</div>
+              </td>
+              <td>{d.data.entryClass}</td>
+              <td>{d.data.region}</td>
+              <td>
+                <span class="drafts-danger" data-danger={d.data.danger}>
+                  {d.data.danger}/10
+                </span>
+              </td>
+              <td>{d.data.sightings.length}</td>
+              <td>
+                <a class="drafts-preview-link" href={`/drafts/${d.id}/`}>
+                  Preview →
+                </a>
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </Section>
+</FieldManual>
+
+<style>
+  .drafts-table th,
+  .drafts-table td {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    vertical-align: top;
+  }
+
+  .drafts-hook {
+    font-family: 'Sorts Mill Goudy', Georgia, serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--faded);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  .drafts-danger {
+    font-family: 'Anonymous Pro', monospace;
+    font-weight: 700;
+    color: var(--warn);
+  }
+
+  .drafts-preview-link {
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+
+  .drafts-preview-link:hover,
+  .drafts-preview-link:focus-visible {
+    border-color: var(--accent);
+  }
+
+  code {
+    font-family: 'Anonymous Pro', monospace;
+    font-size: 0.85em;
+    background: color-mix(in srgb, var(--ink) 5%, transparent);
+    padding: 1px 4px;
+  }
+</style>

@@ -1,0 +1,183 @@
+---
+number: '09'
+entryClass: 'Lake Cryptid'
+region: 'Loch Ness, Scotland'
+title: 'The Loch Ness Monster'
+description: 'A 23-mile freshwater loch, 230 metres deep, with a century of consistent witness reports. Nothing about the geography rules her out — the geography is exactly what would hide her.'
+tags: ['Aquatic cryptid', '1,000+ sightings', 'Scottish folklore']
+danger: 3
+bandColor: '#1a4060'
+classification: 'monster survival guide  —  the loch ness monster'
+entryStatus: 'Active Entry'
+status: 'draft'
+season: 1
+sightings:
+  - {
+      name: 'Inverfarigaig, Loch Ness',
+      lat: 57.31,
+      lon: -4.45,
+      year: 1933,
+      label: 'Spicer roadside sighting — the modern Loch Ness phenomenon begins',
+    }
+  - {
+      name: 'Urquhart Bay, Loch Ness',
+      lat: 57.32,
+      lon: -4.49,
+      year: 1934,
+      label: "'Surgeon's Photograph' — most famous Nessie image, later contested",
+    }
+  - {
+      name: 'Foyers, Loch Ness',
+      lat: 57.25,
+      lon: -4.49,
+      year: 1972,
+      label: 'Rines underwater photographs · Academy of Applied Science expedition',
+    }
+  - {
+      name: 'Dores, Loch Ness',
+      lat: 57.39,
+      lon: -4.32,
+      label: 'Centre of long-term volunteer watch (Steve Feltham, 1991–present)',
+    }
+---
+
+import StampRow from '../../components/StampRow.astro';
+import DocMeta from '../../components/DocMeta.astro';
+import DocTitle from '../../components/DocTitle.astro';
+import DangerMeter from '../../components/DangerMeter.astro';
+import Section from '../../components/Section.astro';
+import StatRow from '../../components/StatRow.astro';
+import SixRules from '../../components/SixRules.astro';
+import EncounterCard from '../../components/EncounterCard.astro';
+import Outro from '../../components/Outro.astro';
+import MonsterMap from '../../components/MonsterMap.astro';
+import '../../styles/pages/_draft.css';
+
+export const rules = [
+  {
+    title: 'TODO — rule 1',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 2',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 3',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 4',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 5',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 6',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+];
+
+{/\*
+──────────────────────────────────────────────────────────────────────
+DRAFT — NOT PUBLISHED. Visible only at /drafts/.
+
+BEFORE PROMOTING TO `status: 'published'`: 1. Write the prose for every Section below (replace TODO comments). 2. Replace the six placeholder rules above with specific,
+evidence-derived survival rules. 3. Fill the two EncounterCards with real, verifiable encounter
+accounts. Each card needs: id, title, meta, verdict, verdictLabel,
+references (with non-Wikipedia source URLs). 4. Verify every `sourceUrl` in the frontmatter resolves to the
+specific article cited. 5. Sanity-check coordinates against atlases.
+──────────────────────────────────────────────────────────────────────
+\*/}
+
+<StampRow red="Aquatic Threat" faded="Loch Ness" blue="Scottish Folklore" />
+<DocMeta
+  rows={[
+    { label: 'ENTITY', value: 'The Loch Ness Monster' },
+    { label: 'ORIGIN', value: 'Loch Ness, Scotland' },
+    { label: 'THREAT GUIDE TYPE', value: 'Identification · Behaviour · Survival Protocol' },
+    { label: 'STATUS', value: 'Draft — awaiting research' },
+  ]}
+/>
+<DocTitle subtitle={frontmatter.description}>The Loch Ness Monster</DocTitle>
+<DangerMeter
+  danger={frontmatter.danger}
+  label="AQUATIC"
+  description="3/10 — Mostly sightings, not attacks. Avoidance is trivial: stay out of the loch."
+/>
+
+<Section heading="If You're Reading This">
+  <p>
+    TODO — cold open. Place the reader at the scene of the encounter. Establish atmosphere. Earn
+    attention before asking for trust.
+  </p>
+</Section>
+
+<Section heading="Where It Comes From">
+  <p>
+    TODO — origin section. Cultural / historical / geographic context. A creature without context is
+    a horror story; a creature with context is something a reader can understand.
+  </p>
+</Section>
+
+<Section heading="What You Are Looking At">
+  <p>
+    TODO — physical description and identifying features. What witnesses agree on. What varies. What
+    to look for before you know what you are looking at.
+  </p>
+</Section>
+
+<Section heading="How It Operates">
+  <p>
+    TODO — behaviour pattern. How it hunts / haunts / appears. What comes first, next, and after.
+  </p>
+</Section>
+
+<Section heading="An Honest Assessment of Its Weaknesses">
+  <p>
+    TODO — what the accumulated evidence suggests works against it. Be honest when this section is
+    thin.
+  </p>
+</Section>
+
+<Section heading="Six Rules That May Save Your Life">
+  <p>TODO — short intro paragraph framing the rules.</p>
+  <SixRules rules={rules} />
+</Section>
+
+<Section heading="Two Cases on the Record">
+  <p>TODO — intro paragraph for the encounter section.</p>
+  <EncounterCard
+    id="Encounter 01 · TODO · TODO date"
+    title="TODO — encounter title"
+    meta="TODO — encounter witness / context"
+    verdict="documented"
+    verdictLabel="TODO Classification"
+    references={[{ text: 'TODO — primary source', href: 'https://example.com/' }]}
+  >
+    <p>TODO — encounter prose. Real, cited account.</p>
+  </EncounterCard>
+  <EncounterCard
+    id="Encounter 02 · TODO · TODO date"
+    title="TODO — second encounter title"
+    meta="TODO — second encounter witness / context"
+    verdict="documented"
+    verdictLabel="TODO Classification"
+    references={[{ text: 'TODO — primary source', href: 'https://example.com/' }]}
+  >
+    <p>TODO — second encounter prose.</p>
+  </EncounterCard>
+</Section>
+
+<MonsterMap title={frontmatter.title} sightings={frontmatter.sightings} />
+
+<Section heading="Before You Go">
+  <Outro>
+    <p>
+      TODO — closing outro. Echo the cold open. Land the rules. Give the reader a parting
+      instruction.
+    </p>
+  </Outro>
+</Section>

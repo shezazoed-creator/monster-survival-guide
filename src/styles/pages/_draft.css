@@ -1,0 +1,15 @@
+/* Theme tokens shared by every draft preview. Hand-edit per entry
+   when promoting to published (and split into a dedicated `<slug>.css`). */
+:root {
+  --paper: #ece6d6;
+  --aged: #ddd5c0;
+  --ink: #1a1810;
+  --faded: #4a4030;
+  --stamp-red: #8b1a0a;
+  --stamp-blue: #2a4a3a;
+  --accent: #6a4018;
+  --redact: #100c08;
+  --margin: #5a4a30;
+  --rule: rgba(26, 24, 16, 0.12);
+  --warn: #8b1a0a;
+}

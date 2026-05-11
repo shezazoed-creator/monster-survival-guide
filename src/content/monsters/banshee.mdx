@@ -1,0 +1,182 @@
+---
+number: '16'
+entryClass: 'Death Omen'
+region: 'Ireland · ancestral lands'
+title: 'The Banshee'
+description: 'Five families in Ireland have a Banshee. She does not choose them; she is born to them, and she keens for them, and the keening is heard before anyone in the household knows what it means.'
+tags: ['Celtic tradition', 'Family-bound', 'Pre-Christian lineage']
+danger: 4
+bandColor: '#2a4830'
+classification: 'monster survival guide  —  the banshee'
+entryStatus: 'Active Entry'
+status: 'draft'
+season: 1
+sightings:
+  - {
+      name: 'Munster province, Ireland',
+      lat: 52.5,
+      lon: -8.5,
+      label: "Five families of Munster historically said to have a Banshee (O'Briens, O'Neills, O'Connors, O'Gradys, Kavanaghs)",
+    }
+  - {
+      name: 'Connacht province, Ireland',
+      lat: 53.5,
+      lon: -9.0,
+      label: "Connacht traditions of the bean sídhe / the 'fair-haired sídhe'",
+    }
+  - {
+      name: 'Co. Wexford, Leinster',
+      lat: 52.34,
+      lon: -6.46,
+      label: 'Documented historical sightings tied to the Kavanagh family',
+    }
+  - {
+      name: 'Killarney, Co. Kerry',
+      lat: 52.06,
+      lon: -9.51,
+      label: "O'Connor Kerry tradition · 19th-century folkloric record",
+    }
+---
+
+import StampRow from '../../components/StampRow.astro';
+import DocMeta from '../../components/DocMeta.astro';
+import DocTitle from '../../components/DocTitle.astro';
+import DangerMeter from '../../components/DangerMeter.astro';
+import Section from '../../components/Section.astro';
+import StatRow from '../../components/StatRow.astro';
+import SixRules from '../../components/SixRules.astro';
+import EncounterCard from '../../components/EncounterCard.astro';
+import Outro from '../../components/Outro.astro';
+import MonsterMap from '../../components/MonsterMap.astro';
+import '../../styles/pages/_draft.css';
+
+export const rules = [
+  {
+    title: 'TODO — rule 1',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 2',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 3',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 4',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 5',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+  {
+    title: 'TODO — rule 6',
+    body: 'Replace with a specific, actionable rule derived from the encounter record.',
+  },
+];
+
+{/\*
+──────────────────────────────────────────────────────────────────────
+DRAFT — NOT PUBLISHED. Visible only at /drafts/.
+
+BEFORE PROMOTING TO `status: 'published'`: 1. Write the prose for every Section below (replace TODO comments). 2. Replace the six placeholder rules above with specific,
+evidence-derived survival rules. 3. Fill the two EncounterCards with real, verifiable encounter
+accounts. Each card needs: id, title, meta, verdict, verdictLabel,
+references (with non-Wikipedia source URLs). 4. Verify every `sourceUrl` in the frontmatter resolves to the
+specific article cited. 5. Sanity-check coordinates against atlases.
+CULTURAL SENSITIVITY NOTE — Banshee tradition is family-line specific in the original Irish telling. Avoid the generic 'ghost-woman' flattening; she is bean sídhe, of the sídhe, and the lineage matters.
+
+──────────────────────────────────────────────────────────────────────
+\*/}
+
+<StampRow red="Celtic Omen" faded="Ireland" blue="Family Lineage" />
+<DocMeta
+  rows={[
+    { label: 'ENTITY', value: 'The Banshee' },
+    { label: 'ORIGIN', value: 'Ireland · ancestral lands' },
+    { label: 'THREAT GUIDE TYPE', value: 'Identification · Behaviour · Survival Protocol' },
+    { label: 'STATUS', value: 'Draft — awaiting research' },
+  ]}
+/>
+<DocTitle subtitle={frontmatter.description}>The Banshee</DocTitle>
+<DangerMeter
+  danger={frontmatter.danger}
+  label="OMEN"
+  description="4/10 — Does not strike. Heralds. The danger is what follows, not the herald."
+/>
+
+<Section heading="If You're Reading This">
+  <p>
+    TODO — cold open. Place the reader at the scene of the encounter. Establish atmosphere. Earn
+    attention before asking for trust.
+  </p>
+</Section>
+
+<Section heading="Where It Comes From">
+  <p>
+    TODO — origin section. Cultural / historical / geographic context. A creature without context is
+    a horror story; a creature with context is something a reader can understand.
+  </p>
+</Section>
+
+<Section heading="What You Are Looking At">
+  <p>
+    TODO — physical description and identifying features. What witnesses agree on. What varies. What
+    to look for before you know what you are looking at.
+  </p>
+</Section>
+
+<Section heading="How It Operates">
+  <p>
+    TODO — behaviour pattern. How it hunts / haunts / appears. What comes first, next, and after.
+  </p>
+</Section>
+
+<Section heading="An Honest Assessment of Its Weaknesses">
+  <p>
+    TODO — what the accumulated evidence suggests works against it. Be honest when this section is
+    thin.
+  </p>
+</Section>
+
+<Section heading="Six Rules That May Save Your Life">
+  <p>TODO — short intro paragraph framing the rules.</p>
+  <SixRules rules={rules} />
+</Section>
+
+<Section heading="Two Cases on the Record">
+  <p>TODO — intro paragraph for the encounter section.</p>
+  <EncounterCard
+    id="Encounter 01 · TODO · TODO date"
+    title="TODO — encounter title"
+    meta="TODO — encounter witness / context"
+    verdict="documented"
+    verdictLabel="TODO Classification"
+    references={[{ text: 'TODO — primary source', href: 'https://example.com/' }]}
+  >
+    <p>TODO — encounter prose. Real, cited account.</p>
+  </EncounterCard>
+  <EncounterCard
+    id="Encounter 02 · TODO · TODO date"
+    title="TODO — second encounter title"
+    meta="TODO — second encounter witness / context"
+    verdict="documented"
+    verdictLabel="TODO Classification"
+    references={[{ text: 'TODO — primary source', href: 'https://example.com/' }]}
+  >
+    <p>TODO — second encounter prose.</p>
+  </EncounterCard>
+</Section>
+
+<MonsterMap title={frontmatter.title} sightings={frontmatter.sightings} />
+
+<Section heading="Before You Go">
+  <Outro>
+    <p>
+      TODO — closing outro. Echo the cold open. Land the rules. Give the reader a parting
+      instruction.
+    </p>
+  </Outro>
+</Section>
